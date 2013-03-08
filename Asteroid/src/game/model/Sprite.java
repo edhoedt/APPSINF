@@ -2,18 +2,21 @@ package game.model;
 
 import java.io.IOException;
 
+import game.model.entity.Entity;
 import game.util.Texture;
 import game.util.TextureLoader;
 
 import static org.lwjgl.opengl.GL11.*;
 
 public class Sprite {
+	private Entity entity;
 	private Texture texture;
 	private int width;
 	private int height;
 	
-	public Sprite(TextureLoader loader, String ref){
+	public Sprite(Entity entity, TextureLoader loader, String ref){
 		try{
+			this.entity = entity;
 			texture = loader.getTexture(ref);
 			width = texture.getWidth();
 			height = texture.getHeight();
@@ -35,7 +38,9 @@ public class Sprite {
 	}
 	
 	// Dessine le sprite à la localisation précisée
-	public void draw(int x, int y){
+	public void draw(){
+		int x = entity.getX();
+		int y = entity.getY();
 		
 		// Stocke la matrice actuelle
 		glPushMatrix();
@@ -65,5 +70,10 @@ public class Sprite {
 		
 		// Restore le modèle de vue de la matrice
 		glPopMatrix();
+	}
+	
+	//TODO
+	public void rotate(){
+		
 	}
 }
