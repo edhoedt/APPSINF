@@ -14,8 +14,7 @@ public abstract class Entity {
 	protected Rectangle collisionBox;
 	protected Sprite sprite;
 	
-	protected Entity(Sprite sprite, float x, float y){
-		this.sprite = sprite;
+	protected Entity(int x, int y){
 		this.x = x;
 		this.y = y;
 	}
@@ -36,13 +35,13 @@ public abstract class Entity {
 	}
 	
 	//TODO
-	public float getX(){
-		return x;
+	public int getX(){
+		return (int) x;
 	}
 	
 	//TODO
-	public float getY(){
-		return y;
+	public int getY(){
+		return (int) y;
 	}
 	
 	//TODO
