@@ -1,5 +1,5 @@
 
-public class main {
+public class lololo {
 
 	/**
 	 * @param args
