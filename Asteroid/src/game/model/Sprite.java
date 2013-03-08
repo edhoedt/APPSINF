@@ -1,5 +1,6 @@
 package game.model;
 
+import game.util.Texture;
 import game.util.TextureLoader;
 
 public class Sprite {
