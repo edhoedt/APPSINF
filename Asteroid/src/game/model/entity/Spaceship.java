@@ -1,6 +1,5 @@
 package game.model.entity;
 
-import game.model.Sprite;
 import game.model.Vector2D;
 
 public class Spaceship extends Entity {
@@ -8,13 +7,13 @@ public class Spaceship extends Entity {
 	private long lastFired;
 	
 	//TODO
-	public Spaceship(float x, float y, Sprite sprite, String playerName, Vector2D velocity, int momentum){
-		super(sprite, x, y);
+	public Spaceship(float x, float y, String playerName, Vector2D velocity, int momentum){
+		super(x, y);
 	}
 	
 	//TODO
-	public Spaceship(float x, float y, Sprite sprite, String playerName){
-		super(sprite, x, y);
+	public Spaceship(float x, float y, String playerName){
+		super(x, y);
 	}
 	
 	//TODO

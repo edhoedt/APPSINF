@@ -7,12 +7,12 @@ public class Asteroid extends Entity{
 	private int size;
 	
 	//TODO
-	public Asteroid(Sprite sprite, float x, float y, Vector2D velocity, int momentum) {
-		super(sprite, x, y);
+	public Asteroid(float x, float y, Vector2D velocity, int momentum) {
+		super(x, y);
 	}
 
 	//TODO
-		public Asteroid(Sprite sprite, float x, float y) {
-			super(sprite, x, y);
+		public Asteroid(float x, float y) {
+			super(x, y);
 		}
 }
