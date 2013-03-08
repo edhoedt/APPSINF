@@ -1,23 +1,69 @@
 package game.model;
 
+import java.io.IOException;
+
 import game.util.Texture;
 import game.util.TextureLoader;
+
+import static org.lwjgl.opengl.GL11.*;
 
 public class Sprite {
 	private Texture texture;
 	private int width;
-	private int heigth;
+	private int height;
 	
-	//TODO
 	public Sprite(TextureLoader loader, String ref){
-		
+		try{
+			texture = loader.getTexture(ref);
+			width = texture.getWidth();
+			height = texture.getHeight();
+		}
+		catch(IOException e){
+			e.printStackTrace();
+			System.exit(-1);
+		}
 	}
 
+	// Valeur de retour en pixels
 	public int getWidth() {
-		return width;
+		return texture.getWidth();
 	}
 
+	// Valeur de retour en pixels
 	public int getHeigth() {
-		return heigth;
+		return texture.getHeight();
+	}
+	
+	// Dessine le sprite à la localisation précisée
+	public void draw(int x, int y){
+		
+		// Stocke la matrice actuelle
+		glPushMatrix();
+		
+		// Lien vers la texture appropriée de ce sprite
+		texture.bind();
+		
+		// Translation sur la bonne localisation
+		glTranslatef(x, y, 0);
+		
+		// Dessine un carré de texture qui correspond au sprite
+		glBegin(GL_QUADS);
+		{
+			glTexCoord2f(0,0);
+			glVertex2f(0,0);
+			
+			glTexCoord2f(0, texture.getTexHeight()); // TODO Vérifier si pas getHeight au lieu de getTexHeight
+			glVertex2f(0, height);
+			
+			glTexCoord2f(texture.getTexWidth(), texture.getTexHeight()); // TODO Vérifier si pas getHeight au lieu de getTexHeight
+			glVertex2f(width, height);
+			
+			glTexCoord2f(texture.getTexWidth(), 0); // TODO Vérifier si pas getWidth au lieu de getTexWidth
+			glVertex2f(width, 0);
+		}
+		glEnd();
+		
+		// Restore le modèle de vue de la matrice
+		glPopMatrix();
 	}
 }
