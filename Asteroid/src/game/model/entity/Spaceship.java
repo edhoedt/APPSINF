@@ -1,6 +1,6 @@
 package game.model.entity;
 
-import game.model.Vector2D;
+import game.util.Vector2D;
 
 public class Spaceship extends Entity {
 	private String playerName;
