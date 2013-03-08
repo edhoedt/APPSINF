@@ -1,6 +1,5 @@
 package game.model.entity;
 
-import game.model.Sprite;
 import game.model.Vector2D;
 
 public class Asteroid extends Entity{
