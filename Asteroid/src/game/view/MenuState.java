@@ -9,12 +9,15 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class MenuState extends BasicGameState implements ComponentListener
 {
@@ -26,6 +29,7 @@ public class MenuState extends BasicGameState implements ComponentListener
 	private GameContainer gc;
 	private StateBasedGame game;
     private Options option;
+    private Music music;
 	
 	public void init(GameContainer gc, StateBasedGame game) throws SlickException 
 	{
@@ -33,6 +37,8 @@ public class MenuState extends BasicGameState implements ComponentListener
 		this.gc = gc;
 		
 		background = new Image("res/loadingbg.png");
+		music = new Music("res/Glory.wav");
+		music.play();
 		
 		Image singlePlayerImage = new Image("res/singlePlayer.gif");
 		singlePlayer = new MouseOverArea(gc,singlePlayerImage, gc.getWidth()/2 - singlePlayerImage.getWidth()/2, gc.getHeight()/4,this);
@@ -55,14 +61,15 @@ public class MenuState extends BasicGameState implements ComponentListener
 		options.setMouseOverColor(new Color(0.9f,0.9f,0.9f,1f));
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        option = new Options(screenSize.getWidth(),screenSize.getHeight());
+        option = new Options(screenSize.getWidth(),screenSize.getHeight(), (int)music.getVolume());
 	}
 	
 	public void update(GameContainer gc, StateBasedGame game, int delta) throws SlickException 
 	{
-		gc.setFullscreen(option.isFullscreen());
+		Field.FULLSCREEN = option.isFullscreen();
 		gc.setVSync(option.isVSync());
 		gc.setShowFPS(option.isShowFPS());
+		music.setVolume(option.getVolume());
 	}
 	
 	public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException 
@@ -84,13 +91,13 @@ public class MenuState extends BasicGameState implements ComponentListener
 	{
 		if (source == singlePlayer) 
 		{
-			game.enterState(Field.BEFOREPLAY);
+			game.enterState(Field.BEFOREPLAY, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
 		}
 		if (source == multiPlayer) 
 		{
-			game.enterState(Field.BEFOREPLAY);
+			game.enterState(Field.BEFOREPLAY, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
 		}
-		if (source == exit) 
+		if (source == exit)
 		{
 			gc.exit();
 		}

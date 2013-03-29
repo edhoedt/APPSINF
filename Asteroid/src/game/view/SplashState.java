@@ -24,8 +24,8 @@ public class SplashState extends BasicGameState
 	private boolean loadOnce;
 	private Resolution resolution;
 	private Resolution monitorResolution;
-	private static Image splashSlick;
-	private static Image splashTrunks;
+	private static Image splashEdouard;
+	private static Image splashLudovic;
 	private static Image title;
 	private static Image loading;
 	private static Image loadingSpin;
@@ -96,13 +96,13 @@ public class SplashState extends BasicGameState
       if (this.menuTimer < 500.0F) alpha = this.menuTimer / 500.0F;
       else if (this.menuTimer < 1500.0F) alpha = 1.0F;
       else if (this.menuTimer < 2000.0F) alpha = 1.0F - (this.menuTimer - 1500.0F) / 500.0F;
-      DrawHelper.drawImageCentered(splashSlick, DataHelper.getCenterX(), DataHelper.getCenterY(), alpha, 0.5F);
+      DrawHelper.drawImageCentered(splashEdouard, DataHelper.getCenterX(), DataHelper.getCenterY(), alpha, 0.5F);
     }
     else if (this.menuTimer < 4000.0F) {
       if (this.menuTimer < 2500.0F) alpha = (this.menuTimer - 2000.0F) / 500.0F;
       else if (this.menuTimer < 3500.0F) alpha = 1.0F;
       else if (this.menuTimer < 4000.0F) alpha = 1.0F - (this.menuTimer - 3500.0F) / 500.0F;
-      DrawHelper.drawImageCentered(splashTrunks, DataHelper.getCenterX(), DataHelper.getCenterY(), alpha, 1.0F);
+      DrawHelper.drawImageCentered(splashLudovic, DataHelper.getCenterX(), DataHelper.getCenterY(), alpha, 1.0F);
     }
   }
 
@@ -125,8 +125,8 @@ public class SplashState extends BasicGameState
     if (this.debug) System.out.println("Old State: " + getGameState() + " New State: " + newState);
 
     if (isGameState(GameState.splashscreen)) {
-      splashSlick = null;
-      splashTrunks = null;
+      splashEdouard = null;
+      splashLudovic = null;
       this.menuTimer = 0.0F;
     }
 
@@ -148,8 +148,8 @@ public class SplashState extends BasicGameState
   }
 
   public void loadOnce() throws SlickException {
-    splashSlick = new Image("res/edouard.png");
-    splashTrunks = new Image("res/ludovic.png");
+    splashEdouard = new Image("res/edouard.png");
+    splashLudovic = new Image("res/ludovic.png");
     title = new Image("res/splashTitle.png");
     loading = new Image("res/loading.png");
     loadingSpin = new Image("res/loadingspin.png");

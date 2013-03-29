@@ -10,7 +10,7 @@ public class Field {
 	public static final int GAME = 4;
 	
 	// CONFIG
-	public static final boolean FULLSCREEN = false;
-	public static final boolean VSYNC = false;
+	public static boolean FULLSCREEN = false;
+	public static final boolean VSYNC = true;
 	public static final boolean SHOWFPS = false;
 }

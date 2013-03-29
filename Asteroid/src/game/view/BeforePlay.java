@@ -17,6 +17,8 @@ import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class BeforePlay extends BasicGameState implements ComponentListener{
 
@@ -60,7 +62,7 @@ public class BeforePlay extends BasicGameState implements ComponentListener{
     {
     	// Retour Menu
     	if(gc.getInput().isKeyDown(Input.KEY_ESCAPE))
-    		game.enterState(Field.MENU);
+    		game.enterState(Field.MENU, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
     }
     
     public void render(GameContainer gc, StateBasedGame game, Graphics g) throws SlickException 
@@ -97,6 +99,6 @@ public class BeforePlay extends BasicGameState implements ComponentListener{
 		}
 		
 		if(source == play)
-			game.enterState(Field.GAME);
+			game.enterState(Field.GAME, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
 	}
 }

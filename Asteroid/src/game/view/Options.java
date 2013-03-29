@@ -25,6 +25,7 @@ public class Options extends JFrame implements ActionListener {
 	
 	double width;
 	double height;
+	int levelVolume;
 	
 	JPanel panel;
 	JPanel panelCommands;
@@ -60,10 +61,11 @@ public class Options extends JFrame implements ActionListener {
 	JTextField textPlayer1;
 	JTextField textPlayer2;
 	
-	public Options(double width, double height){
+	public Options(double width, double height, int levelVolume){
 		super("Options");
 		this.width = width;
 		this.height = height;
+		this.levelVolume = levelVolume;
 		this.setVisible(false);
 		// Panels
 		panel = new JPanel(new GridLayout(9,1));
@@ -184,6 +186,10 @@ public class Options extends JFrame implements ActionListener {
 	
 	public boolean isShowFPS(){
 		return checkFPS.isSelected();
+	}
+	
+	public float getVolume(){
+		return (float)volume.getValue();
 	}
 	
 	public void setLocationCenter(){
