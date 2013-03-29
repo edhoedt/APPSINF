@@ -2,78 +2,104 @@ package game.model.entity;
 
 import game.util.Vector2D;
 public abstract class Entity {
-	private final static int SPEED_DECREASE_RATE = 10;//in px/s
-	private final static int MOMENTUM_INCREASE_RATE = 10;//in px/s^2
-	private final static int MOMENTUM_DECREASE_RATE = MOMENTUM_INCREASE_RATE;//in px/s^2
-	private final static float ANGULAR_VELOCITY = (float) 2; //in rad/s
+	protected float SPEED_WEAROFF_RATE = -.02f;//in units/ms
+	protected float MOMENTUM_INCREASE_RATE = .03f;//in units/ms^2
+	protected float DEFAULT_MOMENTUM = .3f;
+	protected float ANGULAR_VELOCITY = .002f; //in rad/ms
 	private boolean destroyed = false; 
-	protected float x; //in px
-	protected float y; //in px
-	protected float orientation; //in rad
-	protected Vector2D velocity; //vector representing velocity
-	protected float momentum;//represents a speed increase rate
+	private int x; //position on X-axis
+	private int y; //position on Y-axis
+	private Vector2D momentum = new Vector2D(0,0); //vector representing momentum (always the same orientation as the entity)
+	private Vector2D velocity = new Vector2D(0,0); //vector representing velocity
+	private boolean backward=false;
 	
-	protected Entity(float x, float y){
+	protected Entity(int x, int y){
 		this.x = x;
 		this.y = y;
 	}
+	protected Entity(int x, int y, Vector2D velocity){
+		this.x = x;
+		this.y = y;
+		this.velocity=velocity;
+	}
+	protected Entity(int x, int y, Vector2D velocity, Vector2D momentum){
+		this.x = x;
+		this.y = y;
+		this.velocity=velocity;
+		this.momentum=momentum;
+	}
+	
+	protected Vector2D getMomentum(){return momentum;}
+	protected Vector2D getVelocity(){return velocity;}
+	public float getOrientation(){
+		float momentumDirection = getMomentum().getT();
+		if(backward)
+			momentumDirection+=Math.PI;
+		while(momentumDirection>=2*Math.PI){
+			momentumDirection-=2*Math.PI;
+		}
+		while(momentumDirection<0){
+			momentumDirection+=2*Math.PI;
+		}
+		return momentumDirection;
+	}		
+	public int getX(){return x;}
+	public int getY(){return y;}
+	public void destroy(){
+		destroyed=true; 
+		this.onDestroy();
+	}
+	public boolean isDestroyed(){return destroyed;}
 	
 	/** moves the entity according to it's current speed vector and the time delta*/
-	public void move(long delta){
-		x+=velocity.x*delta;
-		y+=velocity.y*delta;
+	public void updatePosition(long delta){
+		x+=delta*getVelocity().getX();
+		y+=delta*getVelocity().getY();
 	}
 	
-	/** flags the entity for destruction*/
-	public void destroy(){
-		destroyed=true;
+	/** updates the speed according to acceleration, velocity decay and time delta*/
+	public void updateSpeed(long delta){
+		//decreases velocity
+		velocity.lengthen(delta*SPEED_WEAROFF_RATE);
+		//adds momentum to velocity
+		velocity.add(Vector2D.toScale(momentum, delta));
+		resetMomentum(); // TODO delete this line when variable momentum system is fixed
 	}
-	
-	/** true if the entity is flagged for destruction*/
-	public boolean isDestroyed(){
-		return destroyed;
-	}
-	
-	/**sets a speed vector*/
-	public void setMovement(Vector2D speed){
-		velocity=speed;
-	}
-	
-	/**returns the speed vector*/
-	public Vector2D getMovement(){
-		return velocity;
-	}
-	
-	/** returns rounded x position*/
-	public int getX(){
-		return (int) x;
-	}
-	
-	/** returns rounded y position*/
-	public int getY(){
-		return (int) y;
-	}
-	
-	/**decreases the velocity vector according to time delta and fixed rate*/
-	public void decreaseVelocity(long delta){
-		velocity.addToVector(-delta*SPEED_DECREASE_RATE);
-	}
-	
-	/**increases the momentum according to time delta and fixed rate*/
+
+	public void increaseMomentum(long delta, boolean backward){
+		/*if(!backward)
+			momentum.lengthen(MOMENTUM_INCREASE_RATE*delta);
+		else
+			momentum.lengthen(-MOMENTUM_INCREASE_RATE*delta);
+		this.backward=backward;
+		*/
+		if(!backward)
+			momentum.setR(DEFAULT_MOMENTUM); //TODO variable momentum? - adapt anyway
+		else
+			momentum.setR(-DEFAULT_MOMENTUM);
+		this.backward=backward;
+	}	
 	public void increaseMomentum(long delta){
-		momentum+=delta*MOMENTUM_INCREASE_RATE;
+		this.increaseMomentum(delta, false);
 	}
 	
-	/**decreases the momentum according to time delta and fixed rate*/
-	public void decreaseMomentum(long delta){
-		momentum-=delta*MOMENTUM_DECREASE_RATE;
+	public void resetMomentum(){
+		momentum.scale(0);
 	}
 	
 	/**adds to the orientation of the entity according to time delta and fixed rate - keeps it in [0,2Pi[*/
 	public void rotate(long delta, boolean counterClockwise){
-		if(counterClockwise)orientation+=delta*ANGULAR_VELOCITY;
-		else orientation-=delta*ANGULAR_VELOCITY;
-		if(orientation<0)orientation+=2*Math.PI; 
-		else if (orientation>=2*Math.PI)orientation -= 2*Math.PI;
+		if(counterClockwise){
+			momentum.rotate(delta*this.ANGULAR_VELOCITY);
+		}
+		else{
+			momentum.rotate(-delta*this.ANGULAR_VELOCITY);
+		}
 	}
+	public void setOrientation(float angle){
+		momentum.rotate(momentum.getT()+angle);
+	}
+	
+	public abstract void onDestroy();
+	public abstract void onCollision(Entity otherEntity);
 }

@@ -1,17 +1,45 @@
 package game.model.entity;
 
-import game.util.Vector2D;
-
 public class Asteroid extends Entity{
-	private int size;
+
+	public static enum Size{
+		SMALL, BIG, NORMAL;
+	}
+	
+	private Size size;
+	private int hp;
 	
 	//TODO
-	public Asteroid(float x, float y, Vector2D velocity, int momentum) {
-		super(x, y);
+	public Asteroid(int x, int y, Size size) {
+		super(x,y);
+		this.size=size;
+		switch(this.size){
+			case SMALL:hp=2;
+			case NORMAL:hp=3;
+			case BIG:hp=7;
+		}
+		this.setOrientation(getVelocity().getT());
 	}
 
 	//TODO
-		public Asteroid(float x, float y) {
-			super(x, y);
-		}
+	public Asteroid(int x, int y) {
+		this(x, y, Size.NORMAL);
+	}
+	
+	public Size getSize(){
+		return this.size;
+	}
+
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onCollision(Entity otherEntity) {
+		hp--;
+		if(hp==0)
+			this.destroy();
+	}
 }

@@ -1,33 +1,48 @@
 package game.model.entity;
 
-import game.util.Vector2D;
-
 public class Spaceship extends Entity {
 	private String playerName;
+	
 	private long lastFired;
-	
-	//TODO
-	public Spaceship(float x, float y, String playerName, Vector2D velocity, int momentum){
+	private int  FIRE_COOLDOWN;//in ms
+
+	public Spaceship(int x, int y, String playerName){
 		super(x, y);
+		this.playerName=playerName;
+		lastFired=0;
+		FIRE_COOLDOWN=2000;
 	}
 	
-	//TODO
-	public Spaceship(float x, float y, String playerName){
-		super(x, y);
+	@Override
+	public boolean equals(Object o){
+		return (o.getClass() == Spaceship.class && this.getPlayerName()== ((Spaceship) o).getPlayerName());
 	}
 	
-	//TODO
-	public boolean collision(Entity other){
-		return false;
+	public String getPlayerName(){
+		return playerName;
 	}
 	
-	//TODO
-	public void lastFired(){
+	public boolean canFire(long currentTime){
+		if(currentTime-lastFired>=FIRE_COOLDOWN){
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	public void updateFireTime(long time){
+		this.lastFired=time;
+	}
+
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
 		
 	}
-	
-	//TODO
-	public boolean canFire(){
-		return false;
+
+	@Override
+	public void onCollision(Entity otherEntity) {
+		// TODO Auto-generated method stub
+		
 	}
 }
