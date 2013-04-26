@@ -49,7 +49,7 @@ public class MenuView extends JFrame implements ActionListener {
 	private CoolButton exit;
 	
 	public MenuView(){
-		super("Asteroid");
+		super("Asteroids");
 		
 		background = Toolkit.getDefaultToolkit().getImage("res/background.jpg");
 		try
@@ -106,6 +106,9 @@ public class MenuView extends JFrame implements ActionListener {
 		singleplayer.setPreferredSize(new Dimension(100, 50));
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		view = new GameState(this);
+		view.joinGame("Pedro");
+		view.init();
 	}
 	
 	public void setVolume(boolean volume){
@@ -130,9 +133,10 @@ public class MenuView extends JFrame implements ActionListener {
 			options.setVisible(true);
 		}
 		if(b == singleplayer){
-			view = new GameState();
-			view.joinGame("Pedro");
-			view.init();
+			view.setRunning();
+			view.setLocationRelativeTo(null);
+			view.setVisible(true);
+			this.setVisible(false);
 		}
 	}
 
