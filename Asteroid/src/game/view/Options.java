@@ -1,6 +1,7 @@
 package game.view;
 
 import game.Field;
+import game.Settings;
 
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -9,6 +10,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,52 +20,52 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-public class Options extends JFrame implements ActionListener {
+public class Options extends JFrame implements ActionListener{
 	
-	double width;
-	double height;
-	int levelVolume;
+	private MenuView menu;
 	
-	JPanel panel;
-	JPanel panelCommands;
-	JPanel panelVSync;
-	JPanel panelSound;
-	JPanel panelLang1;
-	JPanel panelLang2;
-	JPanel panelFS;
-	JPanel panelFPS;
-	JPanel panelPlayer1;
-	JPanel panelPlayer2;
-	JPanel panelReturn;
+	private Commands commandsView;
 	
-	JButton commands;
-	JButton fr;
-	JButton en;
-	JButton returnMenu;
+	private JPanel panel;
+	private JPanel panelCommands;
+	private JPanel panelVSync;
+	private JPanel panelSound;
+	private JPanel panelLang1;
+	private JPanel panelLang2;
+	private JPanel panelFS;
+	private JPanel panelFPS;
+	private JPanel panelPlayer1;
+	private JPanel panelPlayer2;
+	private JPanel panelReturn;
 	
-	JLabel vSync;
-	JLabel sound;
-	JLabel language;
-	JLabel fullScreen;
-	JLabel fps;
-	JLabel player1;
-	JLabel player2;
+	private JButton commands;
+	private JButton fr;
+	private JButton en;
+	private JButton returnMenu;
 	
-	JCheckBox checkVSync;
-	JCheckBox checkFS;
-	JCheckBox checkFPS;
+	private JLabel vSync;
+	private JLabel sound;
+	private JLabel language;
+	private JLabel fullScreen;
+	private JLabel fps;
+	private JLabel player1;
+	private JLabel player2;
 	
-	JSlider volume;
+	private JCheckBox checkVSync;
+	private JCheckBox checkFS;
+	private JCheckBox checkFPS;
+	private JCheckBox volume;
 	
-	JTextField textPlayer1;
-	JTextField textPlayer2;
+	private JTextField textPlayer1;
+	private JTextField textPlayer2;
 	
-	public Options(double width, double height, int levelVolume){
+	public Options(MenuView menu, Commands commandsView){
 		super("Options");
-		this.width = width;
-		this.height = height;
-		this.levelVolume = levelVolume;
+		this.menu = menu;
+		this.commandsView = commandsView;
 		this.setVisible(false);
 		// Panels
 		panel = new JPanel(new GridLayout(9,1));
@@ -86,7 +88,9 @@ public class Options extends JFrame implements ActionListener {
 		checkVSync.setSelected(Field.VSYNC);
 		// SOUND
 		sound = new JLabel(" Sound");
-		volume = new JSlider();
+		volume = new JCheckBox();
+		volume.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+		volume.setSelected(Settings.VOLUME);
 		// LANGUAGE
 		language = new JLabel(" Language");
 		fr = new JButton("FR");
@@ -143,6 +147,7 @@ public class Options extends JFrame implements ActionListener {
 		panelReturn.add(new JLabel(""));
 		panel.add(panelReturn);
 		this.add(panel);
+		volume.addActionListener(this);
 		commands.addActionListener(this);
 		fr.addActionListener(this);
 		en.addActionListener(this);
@@ -170,8 +175,8 @@ public class Options extends JFrame implements ActionListener {
 			}
 		}
 		pack();
-		this.setLocation((int)(width/2 - this.getSize().getWidth()/2), (int)(height/2 - this.getSize().getHeight()/2));
 		this.setResizable(false);
+		this.setLocationRelativeTo(null);
 	}
 
 	public boolean isFullscreen(){
@@ -186,22 +191,21 @@ public class Options extends JFrame implements ActionListener {
 		return checkFPS.isSelected();
 	}
 	
-	public float getVolume(){
-		return (float)volume.getValue();
-	}
-	
-	public void setLocationCenter(){
-		this.setLocation((int)(width/2 - this.getSize().getWidth()/2), (int)(height/2 - this.getSize().getHeight()/2));
+	public boolean getVolume(){
+		return volume.isSelected();
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		JButton b = (JButton)e.getSource();
+		JComponent b = (JComponent)e.getSource();
 		
 		if(b == returnMenu){
 			this.setVisible(false);
 		}
 		
-		if(b == commands) System.out.println("hello");
+		if(b == commands){
+			commandsView.setLocationRelativeTo(null);
+			commandsView.setVisible(true);
+		}
 		
 		if(b == fr){
 			fr.setBackground(Color.GREEN);
@@ -211,6 +215,10 @@ public class Options extends JFrame implements ActionListener {
 		if(b == en){
 			fr.setBackground(Color.RED);
 			en.setBackground(Color.GREEN);
+		}
+		
+		if(b == volume){ 
+			menu.setVolume(volume.isSelected());
 		}
 	}
 }
