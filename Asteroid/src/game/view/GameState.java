@@ -5,9 +5,12 @@ import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Properties;
 
 import javax.swing.JFrame;
 
@@ -106,7 +109,7 @@ public class GameState extends JFrame{
 	private void renderLoop(){
 		while(game!=null && !Display.isCloseRequested()){
 			while(!running){
-				System.out.println("Pause");
+				System.out.print("");
 			}
 			game.updateTime(this.getTime());
 			game.gameLoop();
@@ -174,11 +177,19 @@ public class GameState extends JFrame{
 	
 	public void joinGame(String playerName){
 		game.addPlayer(playerName);
-		controls.bind(game.getShip(playerName), Keyboard.KEY_W, Command.GO_FORWARD);
-		controls.bind(game.getShip(playerName), Keyboard.KEY_S, Command.GO_BACKWARD);
-		controls.bind(game.getShip(playerName), Keyboard.KEY_A, Command.TURN_LEFT);
-		controls.bind(game.getShip(playerName), Keyboard.KEY_D, Command.TURN_RIGHT);
-		controls.bind(game.getShip(playerName), Keyboard.KEY_SPACE, Command.FIRE);
+		Properties prop = new Properties();
+		try {
+    		prop.load(new FileInputStream("config/controls.properties"));
+ 
+    		controls.bind(game.getShip(playerName), Keyboard.getKeyIndex(prop.getProperty("forwardP1")), Command.GO_FORWARD);
+    		controls.bind(game.getShip(playerName), Keyboard.getKeyIndex(prop.getProperty("backwardP1")), Command.GO_BACKWARD);
+    		controls.bind(game.getShip(playerName), Keyboard.getKeyIndex(prop.getProperty("turnLeftP1")), Command.TURN_LEFT);
+    		controls.bind(game.getShip(playerName), Keyboard.getKeyIndex(prop.getProperty("turnRightP1")), Command.TURN_RIGHT);
+    		controls.bind(game.getShip(playerName), Keyboard.getKeyIndex(prop.getProperty("fireP1")), Command.FIRE);
+ 
+    	} catch (IOException ex) {
+    		ex.printStackTrace();
+        }
 	}
 	
 }

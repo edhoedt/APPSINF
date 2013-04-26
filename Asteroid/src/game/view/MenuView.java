@@ -32,6 +32,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 public class MenuView extends JFrame implements ActionListener {
 	
 	private GameState view;
+	private GameState viewMulti;
 	
 	private Image background;
 	
@@ -137,6 +138,9 @@ public class MenuView extends JFrame implements ActionListener {
 			view.setLocationRelativeTo(null);
 			view.setVisible(true);
 			this.setVisible(false);
+		}
+		if(b == multiplayer){
+			
 		}
 	}
 
