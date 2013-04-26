@@ -25,6 +25,7 @@ import game.Settings;
 import game.model.entity.Spaceship;
 import game.Command;
 import game.util.ControlsStore;
+import game.util.KeyToLwjgl;
 import game.util.Polygon;
 import game.util.VertexDrawer;
 
@@ -111,6 +112,11 @@ public class GameState extends JFrame{
 			while(!running){
 				System.out.print("");
 			}
+			if(Keyboard.isKeyDown(Keyboard.KEY_P)){
+				i = 0;
+				j = 0;
+				reinitRocks();
+			}
 			game.updateTime(this.getTime());
 			game.gameLoop();
 			i = i+j+1;
@@ -142,6 +148,20 @@ public class GameState extends JFrame{
 		}
 		Display.destroy();
 		this.dispose();
+	}
+	
+	public void reinitRocks(){
+		rocks.removeAll(rocks);
+		for(int i = 0; i < 10; i++){
+
+			int randomStartXPos = (int) (Math.random() * (800 - 40) + 1);
+			int randomStartYPos = (int) (Math.random() * (600 - 40) + 1);
+			
+			rocks.add(new RockTest(RockTest.getpolyXArray(randomStartXPos), RockTest.getpolyYArray(randomStartYPos), 13, 35, 31, randomStartXPos, randomStartYPos));
+
+			RockTest.rocks = rocks;
+
+		}
 	}
 	
 	public long getTime() {
@@ -181,11 +201,11 @@ public class GameState extends JFrame{
 		try {
     		prop.load(new FileInputStream("config/controls.properties"));
  
-    		controls.bind(game.getShip(playerName), Keyboard.getKeyIndex(prop.getProperty("forwardP1")), Command.GO_FORWARD);
-    		controls.bind(game.getShip(playerName), Keyboard.getKeyIndex(prop.getProperty("backwardP1")), Command.GO_BACKWARD);
-    		controls.bind(game.getShip(playerName), Keyboard.getKeyIndex(prop.getProperty("turnLeftP1")), Command.TURN_LEFT);
-    		controls.bind(game.getShip(playerName), Keyboard.getKeyIndex(prop.getProperty("turnRightP1")), Command.TURN_RIGHT);
-    		controls.bind(game.getShip(playerName), Keyboard.getKeyIndex(prop.getProperty("fireP1")), Command.FIRE);
+    		controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("forwardP1")), Command.GO_FORWARD);
+    		controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("backwardP1")), Command.GO_BACKWARD);
+    		controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("turnLeftP1")), Command.TURN_LEFT);
+    		controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("turnRightP1")), Command.TURN_RIGHT);
+    		controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("fireP1")), Command.FIRE);
  
     	} catch (IOException ex) {
     		ex.printStackTrace();
