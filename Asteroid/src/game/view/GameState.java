@@ -62,6 +62,7 @@ public class GameState extends JFrame{
 	        public void windowClosing(WindowEvent e)
 	        { 
 	        	running = false;
+	        	menuView.setLocationRelativeTo(null);
 	        	menuView.setVisible(true);
 	        }
 	     });

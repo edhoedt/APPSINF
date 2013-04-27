@@ -351,7 +351,7 @@ public class Commands extends JFrame implements ActionListener {
 		this.setLocationRelativeTo(null);
 	}
 	
-	public void getControls(){
+	private void getControls(){
 		Properties prop = new Properties();
 		 
     	try {
@@ -407,6 +407,7 @@ public class Commands extends JFrame implements ActionListener {
 		
 		if(b == returnButton){
 			this.setVisible(false);
+			getControls();
 		}
 	}
 
