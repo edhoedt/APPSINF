@@ -7,8 +7,8 @@ public class Spaceship extends Entity {
 	
 	private long lastFired;
 	private int  FIRE_COOLDOWN;//in ms
-	private int[] SPACESHIP_X = {30,50};//{-13,14,-13,-5,-13};
-	private int[] SPACESHIP_Y = {30,30};//{-15,0,15,0,-15};
+	private int[] SPACESHIP_X = {0,27,0,8,0};//{-13,14,-13,-5,-13};
+	private int[] SPACESHIP_Y = {0,15,30,15,0};//{-15,0,15,0,-15};
 
 	public Spaceship(int x, int y, String playerName){
 		super(x, y);

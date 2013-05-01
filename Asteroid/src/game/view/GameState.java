@@ -40,13 +40,12 @@ public class GameState {
 	
 	private void renderLoop(){
 		VertexDrawer.initGL(Settings.WIDTH, Settings.HEIGHT);
-		while(game!=null && running){
+		while(game!=null && running && !Display.isCloseRequested()){
 			game.updateTime(this.getTime());
 			game.gameLoop();
 			VertexDrawer.clear();
 			VertexDrawer.setColor(.0f, 1.0f, .0f);
 			for(Entity e : this.game.getEntities()){
-				if(e.getX()>=0 && e.getY()>=0)//TODO remove negatives
 					//VertexDrawer.drawPolygonTo(e.getCollisionBox(), 1, e.getX()+1, e.getY()+1, e.getOrientation());
 					VertexDrawer.drawPolygon(e.getCollisionBox(), 1);
 			}
@@ -58,8 +57,9 @@ public class GameState {
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} 
+			}
 		}
+		Display.destroy();
 	}
 	
 	public long getTime() {
@@ -95,9 +95,9 @@ public class GameState {
 	
 	public void joinGame(String playerName){
 		game.addPlayer(playerName);
-		controls.bind(game.getShip(playerName), Keyboard.KEY_W, Command.GO_FORWARD);
+		controls.bind(game.getShip(playerName), Keyboard.KEY_Z, Command.GO_FORWARD);
 		controls.bind(game.getShip(playerName), Keyboard.KEY_S, Command.GO_BACKWARD);
-		controls.bind(game.getShip(playerName), Keyboard.KEY_A, Command.TURN_LEFT);
+		controls.bind(game.getShip(playerName), Keyboard.KEY_Q, Command.TURN_LEFT);
 		controls.bind(game.getShip(playerName), Keyboard.KEY_D, Command.TURN_RIGHT);
 		controls.bind(game.getShip(playerName), Keyboard.KEY_SPACE, Command.FIRE);
 	}

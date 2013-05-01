@@ -109,13 +109,13 @@ public abstract class Entity {
 		float angle=delta*this.ANGULAR_VELOCITY;
 		if(counterClockwise){
 			momentum.rotate(angle);
-			collisionBox.rotate(angle);
+			collisionBox.rotate(this.getOrientation());
 		}
 		else{
 			momentum.rotate(-angle);
-			collisionBox.rotate(-angle);
+			collisionBox.rotate(this.getOrientation());
 		}
-		System.out.println(this.getOrientation());
+		/*System.out.println(this.getOrientation());
 		if(this.getOrientation()>=0 && this.getOrientation()<Math.PI/2){
 			System.out.println("Q1");
 		}
@@ -127,7 +127,7 @@ public abstract class Entity {
 		}
 		else{
 			System.out.println("Q4");
-		}
+		}*/
 	}
 	
 	public void setOrientation(float angle){

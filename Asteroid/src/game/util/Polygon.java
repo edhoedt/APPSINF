@@ -1,13 +1,23 @@
 package game.util;
 
+
+import java.awt.Point;
+import java.awt.geom.AffineTransform;
+
 public class Polygon {
 	
 	//private final int[] defaultXpoints;
 	//private final int[] defaultYpoints;
 	private int[] xpoints;
 	private int[] ypoints;
+	Point center;
 	private int centerX=20;
 	private int centerY=20;
+	double angleP;
+	Point[] currentPoints;
+	int[] originalXPoints;
+	int[] originalYPoints;
+	int xLocation, yLocation;
 	
 	/*
 	 * Crée un polygone avec xpoints points en X,
@@ -18,8 +28,23 @@ public class Polygon {
 		//this.defaultYpoints = ypoints;
 		this.xpoints=xpoints.clone();
 		this.ypoints=ypoints.clone();
+		this.originalXPoints = xpoints.clone();
+		this.originalYPoints = ypoints.clone();
+		center = new Point(7,12);
+		angleP = 0;
+		xLocation = 0;
+		yLocation = 0;
+		currentPoints = getOriginalPoints();
 	}
 	
+	private Point[] getOriginalPoints() {
+		Point[] originalPoints = new Point[getNpoints()];
+		for(int i = 0 ; i<originalPoints.length ; i++){
+			originalPoints[i] = new Point(originalXPoints[i],originalYPoints[i]);
+		}
+		return originalPoints;
+	}
+
 	public boolean intersects(Polygon other){
 		System.out.println("("+this.getLowestX() + ","+this.getLowestY()+")");
 		System.out.println("("+other.getLowestX() + ","+other.getLowestY()+")");
@@ -49,25 +74,48 @@ public class Polygon {
 	
 	public void moveTo(int x, int y){
 		for(int i=0;i<getNpoints();i++){
-			xpoints[i]+=x-centerX;
-			ypoints[i]+=y-centerY;
-		}
-		centerX=x;
-		centerY=y;
+			     xpoints[i]+=x-centerX;
+			     ypoints[i]+=y-centerY;
+			   }
+			   centerX=x;
+			   centerY=y;
+		xLocation = x;
+		yLocation = y;
+	}
+	
+	public double getAngleP(){
+		return angleP;
 	}
 	
 	public void rotate(float angle){
-		double sin = Math.sin((double)angle);
-		double cos = Math.cos((double)angle);
-		/*int centerX=(int) ((this.getWidth()/2)+.5);
-		int centerY=(int) ((this.getWidth()/2)+.5);*/
-		for(int i=0;i<this.getNpoints();i++){
-			int dx=xpoints[i]-centerX;
-			int dy=ypoints[i]-centerY;
-			this.xpoints[i]=(int) (centerX+dx*cos-dy*sin);
-			this.ypoints[i]=(int) (centerY+dx*sin+dy*cos);
-		}
+		System.out.println(angle);
+		rotatePointMatrix(getOriginalPoints(),(double)angle,currentPoints);
+		updatePolygon(currentPoints);
+		//System.out.println(angleP);
 	}
+	
+	public void rotatePointMatrix(Point[] origPoints, double angle, Point[] storeTo){
+
+        /* We ge the original points of the polygon we wish to rotate
+         *  and rotate them with affine transform to the given angle. 
+         *  After the opeariont is complete the points are stored to the 
+         *  array given to the method.
+        */
+        AffineTransform.getRotateInstance
+        (angle, center.x, center.y)
+                .transform(origPoints,0,storeTo,0,5);
+
+
+    }
+	
+	public void updatePolygon(Point[] polyPoints){
+
+        for(int  i=0; i < polyPoints.length; i++){
+        	setXpoint(i,polyPoints[i].x+xLocation);
+        	setYpoint(i,polyPoints[i].y+yLocation);
+        }
+
+    }
 	
 	public int getHeight(){
 		int min=Integer.MAX_VALUE;
