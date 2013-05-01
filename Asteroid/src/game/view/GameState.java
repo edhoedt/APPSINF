@@ -8,12 +8,15 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
 
 import game.Game;
 import game.Settings;
+import game.model.entity.Entity;
 import game.model.entity.Spaceship;
 import game.Command;
 import game.util.ControlsStore;
+import game.util.VertexDrawer;
 
 public class GameState {
 	
@@ -25,6 +28,8 @@ public class GameState {
 		controls = ControlsStore.getInstance();
 		this.game=new Game(Settings.HEIGHT,Settings.WIDTH);
 		try {
+			Display.setDisplayMode(new DisplayMode(Settings.WIDTH,Settings.HEIGHT));
+			Display.setVSyncEnabled(false);//TODO Hsync
 			Display.create();
 			Keyboard.create();
 		} catch (LWJGLException e) {
@@ -34,17 +39,26 @@ public class GameState {
 	}
 	
 	private void renderLoop(){
+		VertexDrawer.initGL(Settings.WIDTH, Settings.HEIGHT);
 		while(game!=null && running){
 			game.updateTime(this.getTime());
 			game.gameLoop();
+			VertexDrawer.clear();
+			VertexDrawer.setColor(.0f, 1.0f, .0f);
+			for(Entity e : this.game.getEntities()){
+				if(e.getX()>=0 && e.getY()>=0)//TODO remove negatives
+					//VertexDrawer.drawPolygonTo(e.getCollisionBox(), 1, e.getX()+1, e.getY()+1, e.getOrientation());
+					VertexDrawer.drawPolygon(e.getCollisionBox(), 1);
+			}
 			Display.update();
+			
 			processInputs();
 			try {
 				Thread.sleep((10 * 1000) / Sys.getTimerResolution());
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			} 
 		}
 	}
 	

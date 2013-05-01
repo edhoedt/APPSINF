@@ -1,16 +1,21 @@
 package game.model.entity;
 
+import game.util.Polygon;
+
 public class Spaceship extends Entity {
 	private String playerName;
 	
 	private long lastFired;
 	private int  FIRE_COOLDOWN;//in ms
+	private int[] SPACESHIP_X = {30,50};//{-13,14,-13,-5,-13};
+	private int[] SPACESHIP_Y = {30,30};//{-15,0,15,0,-15};
 
 	public Spaceship(int x, int y, String playerName){
 		super(x, y);
 		this.playerName=playerName;
 		lastFired=0;
 		FIRE_COOLDOWN=2000;
+		this.setCollisionBox(new Polygon(SPACESHIP_X, SPACESHIP_Y));
 	}
 	
 	@Override
