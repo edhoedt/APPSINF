@@ -3,6 +3,7 @@ package game.view;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.FileInputStream;
@@ -12,7 +13,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Properties;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
@@ -35,6 +40,11 @@ public class GameState extends JFrame{
 	private boolean running;
 	private ControlsStore controls;
 	private MenuView menuView;
+	private JPanel panel;
+	private JPanel panelLabels;
+	private JLabel timeLabel;
+	private JLabel scoreP1;
+	private JLabel scoreP2;
 	
 	int[] polyXArray = {-13,14,-13,-5,-13};
 	int[] polyYArray = {-15,0,15,0,-15};
@@ -52,6 +62,13 @@ public class GameState extends JFrame{
 		this.menuView = menuView;
 		this.setLayout(new BorderLayout());
 		final Canvas canvas = new Canvas();
+		panel = new JPanel();
+		panelLabels = new JPanel();
+		panelLabels.setLayout(new BoxLayout(panelLabels, BoxLayout.X_AXIS));
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		timeLabel = new JLabel(""+this.getTime());
+		scoreP1 = new JLabel("Score P1                               ");
+		scoreP2 = new JLabel("                               Score P2");
 		
 		this.addWindowFocusListener(new WindowAdapter() {
 	        public void windowGainedFocus(WindowEvent e)
@@ -66,8 +83,12 @@ public class GameState extends JFrame{
 	        	menuView.setVisible(true);
 	        }
 	     });
-		
-		this.add(canvas, BorderLayout.CENTER);
+		panelLabels.add(scoreP1);
+		panelLabels.add(timeLabel);
+		panelLabels.add(scoreP2);
+		panel.add(panelLabels);
+		panel.add(canvas, BorderLayout.CENTER);
+		this.add(panel);
 		
 		for(int i = 0; i < 10; i++){
 			
@@ -126,6 +147,7 @@ public class GameState extends JFrame{
 			VertexDrawer.setColor(1.0f, 1.0f, 1.0f);
 
 			VertexDrawer.drawPolygonTo(ship, thickness, i, 300);
+			timeLabel.setText("Position du vaisseau : "+i);
 			if(i > 800)
 			{
 				i = 0;

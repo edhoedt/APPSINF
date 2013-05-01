@@ -21,7 +21,7 @@ public class RockTest extends Polygon {
 	int yDirection = 1;
 	int uLeftXPos, uLeftYPos;
 	
-	static ArrayList<RockTest> rocks = new ArrayList<RockTest>();
+	public static ArrayList<RockTest> rocks = new ArrayList<RockTest>();
 	
 	public RockTest(int[] xpoints, int[] ypoints, int npoints, int width,
 			int height, int randomStartXPos, int randomStartYPos) {
