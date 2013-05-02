@@ -1,10 +1,12 @@
 package game.model.entity;
 
+import game.util.Polygon;
 import game.util.Vector2D;
+
 public abstract class Entity {
-	protected float SPEED_WEAROFF_RATE = -.02f;//in units/ms
-	protected float MOMENTUM_INCREASE_RATE = .03f;//in units/ms^2
-	protected float DEFAULT_MOMENTUM = .3f;
+	protected float SPEED_WEAROFF_RATE = .0002f;//in units/ms
+	//protected float MOMENTUM_INCREASE_RATE = .0005f;//in units/ms^2
+	protected float DEFAULT_MOMENTUM = .0004f;
 	protected float ANGULAR_VELOCITY = .002f; //in rad/ms
 	private boolean destroyed = false; 
 	private int x; //position on X-axis
@@ -12,7 +14,8 @@ public abstract class Entity {
 	private Vector2D momentum = new Vector2D(0,0); //vector representing momentum (always the same orientation as the entity)
 	private Vector2D velocity = new Vector2D(0,0); //vector representing velocity
 	private boolean backward=false;
-	
+	private Polygon collisionBox;
+
 	protected Entity(int x, int y){
 		this.x = x;
 		this.y = y;
@@ -28,7 +31,7 @@ public abstract class Entity {
 		this.velocity=velocity;
 		this.momentum=momentum;
 	}
-	
+
 	protected Vector2D getMomentum(){return momentum;}
 	protected Vector2D getVelocity(){return velocity;}
 	public float getOrientation(){
@@ -49,21 +52,32 @@ public abstract class Entity {
 		destroyed=true; 
 		this.onDestroy();
 	}
+	public Polygon getCollisionBox(){return this.collisionBox;}
 	public boolean isDestroyed(){return destroyed;}
-	
+	public boolean collides(Entity other){
+		return collisionBox.intersects(other.getCollisionBox());
+	}
+	public void setCollisionBox(Polygon box){
+		this.collisionBox=box;
+	}
+
 	/** moves the entity according to it's current speed vector and the time delta*/
 	public void updatePosition(long delta){
 		x+=delta*getVelocity().getX();
 		y+=delta*getVelocity().getY();
+		this.collisionBox.moveTo(x, y);
 	}
-	
+
 	/** updates the speed according to acceleration, velocity decay and time delta*/
 	public void updateSpeed(long delta){
 		//decreases velocity
-		velocity.lengthen(delta*SPEED_WEAROFF_RATE);
+		if(delta*SPEED_WEAROFF_RATE<=velocity.getR())
+			velocity.lengthen(-delta*SPEED_WEAROFF_RATE);
+		else
+			velocity.setR(0);
 		//adds momentum to velocity
 		velocity.add(Vector2D.toScale(momentum, delta));
-		resetMomentum(); // TODO delete this line when variable momentum system is fixed
+		this.resetMomentum();
 	}
 
 	public void increaseMomentum(long delta, boolean backward){
@@ -75,31 +89,56 @@ public abstract class Entity {
 		*/
 		if(!backward)
 			momentum.setR(DEFAULT_MOMENTUM); //TODO variable momentum? - adapt anyway
-		else
-			momentum.setR(-DEFAULT_MOMENTUM);
+		else{
+			momentum.setT((float) (momentum.getT()+Math.PI));
+			momentum.setR(DEFAULT_MOMENTUM);
+		}
 		this.backward=backward;
-	}	
+	}
+
 	public void increaseMomentum(long delta){
 		this.increaseMomentum(delta, false);
 	}
-	
+
 	public void resetMomentum(){
-		momentum.scale(0);
+		momentum.setR(0);
 	}
-	
+
 	/**adds to the orientation of the entity according to time delta and fixed rate - keeps it in [0,2Pi[*/
 	public void rotate(long delta, boolean counterClockwise){
+		float angle=delta*this.ANGULAR_VELOCITY;
 		if(counterClockwise){
-			momentum.rotate(delta*this.ANGULAR_VELOCITY);
+			momentum.rotate(angle);
+			collisionBox.rotate(this.getOrientation());
 		}
 		else{
-			momentum.rotate(-delta*this.ANGULAR_VELOCITY);
+			momentum.rotate(-angle);
+			collisionBox.rotate(this.getOrientation());
 		}
+		/*System.out.println(this.getOrientation());
+		if(this.getOrientation()>=0 && this.getOrientation()<Math.PI/2){
+			System.out.println("Q1");
+		}
+		else if(this.getOrientation()>=Math.PI/2 && this.getOrientation()<Math.PI){
+			System.out.println("Q2");
+		}
+		else if(this.getOrientation()>=Math.PI && this.getOrientation()<3*Math.PI/2){
+			System.out.println("Q3");
+		}
+		else{
+			System.out.println("Q4");
+		}*/
 	}
+
 	public void setOrientation(float angle){
-		momentum.rotate(momentum.getT()+angle);
+		momentum.setT(angle);
+		//collisionBox.setOrientation(angle);
 	}
-	
+
+	public void setSpeed(int speed){
+		this.velocity.setR(speed);
+	}
+
 	public abstract void onDestroy();
 	public abstract void onCollision(Entity otherEntity);
 }

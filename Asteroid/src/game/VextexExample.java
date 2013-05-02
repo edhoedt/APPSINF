@@ -26,10 +26,10 @@ public class VextexExample {
 	private int i = 0;
 	private int j = 0;
 	int thickness = 1;
-	Polygon ship = new Polygon(polyXArray, polyYArray, 5, 27, 30);
+	Polygon ship = new Polygon(polyXArray, polyYArray);
 	private int[] sPolyXArray = {10,17,26,34,27,36,26,14,8,1,5,1,10};
 	private int[] sPolyYArray = {0,5,1,8,13,20,31,28,31,22,16,7,0};
-	Polygon rock = new Polygon(sPolyXArray, sPolyYArray, 13, 26, 31);
+	Polygon rock = new Polygon(sPolyXArray, sPolyYArray);
 	public static ArrayList<RockTest> rocks = new ArrayList<RockTest>();
 	
 	

@@ -11,7 +11,7 @@ public class Bullet extends Entity {
 	public Bullet(Spaceship thrower) {
 		super(thrower.getX(), thrower.getY(), new Vector2D(thrower.getOrientation(),BULLET_SPEED)); //TODO faire apparaitre le bullet devant le lanceur et pas SUR le lanceur
 		this.setOrientation(thrower.getOrientation());
-		super.MOMENTUM_INCREASE_RATE=0;
+		//super.MOMENTUM_INCREASE_RATE=0;
 		super.SPEED_WEAROFF_RATE=0;
 		this.thrower = thrower;
 	}

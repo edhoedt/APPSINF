@@ -25,7 +25,7 @@ public class RockTest extends Polygon {
 	
 	public RockTest(int[] xpoints, int[] ypoints, int npoints, int width,
 			int height, int randomStartXPos, int randomStartYPos) {
-		super(xpoints, ypoints, npoints, width, height);
+		super(xpoints, ypoints);
 		
 		this.xDirection = (int) (Math.random() * 4 + 1);
 		this.yDirection = (int) (Math.random() * 4 + 1);

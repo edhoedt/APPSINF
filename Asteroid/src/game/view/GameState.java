@@ -27,6 +27,7 @@ import org.lwjgl.opengl.Display;
 import game.Game;
 import game.RockTest;
 import game.Settings;
+import game.model.entity.Entity;
 import game.model.entity.Spaceship;
 import game.Command;
 import game.util.ControlsStore;
@@ -45,17 +46,6 @@ public class GameState extends JFrame{
 	private JLabel timeLabel;
 	private JLabel scoreP1;
 	private JLabel scoreP2;
-	
-	int[] polyXArray = {-13,14,-13,-5,-13};
-	int[] polyYArray = {-15,0,15,0,-15};
-	int i = 0;
-	int j = 0;
-	int thickness = 1;
-	Polygon ship = new Polygon(polyXArray, polyYArray, 5, 27, 30);
-	private int[] sPolyXArray = {10,17,26,34,27,36,26,14,8,1,5,1,10};
-	private int[] sPolyYArray = {0,5,1,8,13,20,31,28,31,22,16,7,0};
-	Polygon rock = new Polygon(sPolyXArray, sPolyYArray, 13, 26, 31);
-	public static ArrayList<RockTest> rocks = new ArrayList<RockTest>();
 	
 	public GameState(final MenuView menuView){
 		super("Asteroids");
@@ -90,17 +80,6 @@ public class GameState extends JFrame{
 		panel.add(canvas, BorderLayout.CENTER);
 		this.add(panel);
 		
-		for(int i = 0; i < 10; i++){
-			
-			int randomStartXPos = (int) (Math.random() * (800 - 40) + 1);
-			int randomStartYPos = (int) (Math.random() * (600 - 40) + 1);
-			
-			rocks.add(new RockTest(RockTest.getpolyXArray(randomStartXPos), RockTest.getpolyYArray(randomStartYPos), 13, 35, 31, randomStartXPos, randomStartYPos));
-			
-			RockTest.rocks = rocks;
-			
-		}
-		
 		controls = ControlsStore.getInstance();
 		this.game=new Game(Settings.HEIGHT,Settings.WIDTH);
 		try {
@@ -134,57 +113,27 @@ public class GameState extends JFrame{
 			while(!running){
 				System.out.print("");
 			}
-			if(Keyboard.isKeyDown(Keyboard.KEY_P)){
-				i = 0;
-				j = 0;
-				reinitRocks();
-			}
 			game.updateTime(this.getTime());
 			game.gameLoop();
-			i = i+j+1;
+
 			VertexDrawer.clear();
-
-			VertexDrawer.setColor(1.0f, 1.0f, 1.0f);
-
-			VertexDrawer.drawPolygonTo(ship, thickness, i, 300);
-			timeLabel.setText("Position du vaisseau : "+i);
-			if(i > 800)
-			{
-				i = 0;
-				j++;
+			VertexDrawer.setColor(.0f, 1.0f, .0f);
+			for(Entity e : this.game.getEntities()){
+					//VertexDrawer.drawPolygonTo(e.getCollisionBox(), 1, e.getX()+1, e.getY()+1, e.getOrientation());
+					VertexDrawer.drawPolygon(e.getCollisionBox(), 1);
 			}
-			for(RockTest rock : rocks){
-				
-				rock.move(); 
-				
-				VertexDrawer.drawPolygon(rock, thickness);
-				
-			}
-			
 			Display.update();
+
 			processInputs();
 			try {
 				Thread.sleep((10 * 1000) / Sys.getTimerResolution());
 			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		Display.destroy();
 		this.dispose();
-	}
-	
-	public void reinitRocks(){
-		rocks.removeAll(rocks);
-		for(int i = 0; i < 10; i++){
-
-			int randomStartXPos = (int) (Math.random() * (800 - 40) + 1);
-			int randomStartYPos = (int) (Math.random() * (600 - 40) + 1);
-			
-			rocks.add(new RockTest(RockTest.getpolyXArray(randomStartXPos), RockTest.getpolyYArray(randomStartYPos), 13, 35, 31, randomStartXPos, randomStartYPos));
-
-			RockTest.rocks = rocks;
-
-		}
 	}
 	
 	public long getTime() {
@@ -225,10 +174,10 @@ public class GameState extends JFrame{
     		prop.load(new FileInputStream("config/controls.properties"));
  
     		controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("forwardP1")), Command.GO_FORWARD);
-    		controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("backwardP1")), Command.GO_BACKWARD);
+    		//controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("backwardP1")), Command.GO_BACKWARD);
     		controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("turnLeftP1")), Command.TURN_LEFT);
     		controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("turnRightP1")), Command.TURN_RIGHT);
-    		controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("fireP1")), Command.FIRE);
+    		//controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("fireP1")), Command.FIRE);
  
     	} catch (IOException ex) {
     		ex.printStackTrace();
