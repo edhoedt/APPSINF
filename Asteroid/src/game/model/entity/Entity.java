@@ -1,5 +1,6 @@
 package game.model.entity;
 
+import game.Settings;
 import game.util.Polygon;
 import game.util.Vector2D;
 
@@ -65,6 +66,10 @@ public abstract class Entity {
 	public void updatePosition(long delta){
 		x+=delta*getVelocity().getX();
 		y+=delta*getVelocity().getY();
+		if(x > Settings.WIDTH+15) x = 0;
+		else if(x < 0-15) x = Settings.WIDTH;
+		if(y > Settings.HEIGHT+15) y = 0;
+		else if(y < 0-15) y = Settings.HEIGHT;
 		this.collisionBox.moveTo(x, y);
 	}
 

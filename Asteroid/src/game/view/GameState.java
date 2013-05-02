@@ -23,6 +23,7 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
 
 import game.Game;
 import game.RockTest;
@@ -82,6 +83,8 @@ public class GameState extends JFrame{
 		this.game=new Game(Settings.HEIGHT,Settings.WIDTH);
 		try {
 			Display.setParent(canvas);
+			Display.setDisplayMode(new DisplayMode(Settings.WIDTH,Settings.HEIGHT));
+			Display.setVSyncEnabled(Settings.VSYNC);
 			this.setPreferredSize(new Dimension(Settings.WIDTH, Settings.HEIGHT));
 			this.setMinimumSize(new Dimension(Settings.WIDTH, Settings.HEIGHT));
 			this.setLocationRelativeTo(null);
