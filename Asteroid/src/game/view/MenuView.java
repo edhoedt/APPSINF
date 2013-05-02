@@ -1,6 +1,7 @@
 package game.view;
 
 import game.Settings;
+import game.util.ConfigMaker;
 import game.util.CoolButton;
 
 import java.applet.Applet;
@@ -32,7 +33,6 @@ import javax.swing.UIManager.LookAndFeelInfo;
 public class MenuView extends JFrame implements ActionListener {
 	
 	private GameState view;
-	private GameState viewMulti;
 	
 	private Image background;
 	
@@ -51,6 +51,8 @@ public class MenuView extends JFrame implements ActionListener {
 	
 	public MenuView(){
 		super("Asteroids");
+		
+		ConfigMaker.getProperties();
 		
 		background = Toolkit.getDefaultToolkit().getImage("res/background.jpg");
 		try
@@ -108,7 +110,7 @@ public class MenuView extends JFrame implements ActionListener {
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		view = new GameState(this);
-		view.joinGame("Pedro");
+		view.joinGame(Settings.PLAYER1);
 		view.init();
 	}
 	

@@ -36,20 +36,18 @@ import game.util.Polygon;
 import game.util.VertexDrawer;
 
 public class GameState extends JFrame{
-	
+
 	private Game game;
 	private boolean running;
 	private ControlsStore controls;
-	private MenuView menuView;
 	private JPanel panel;
 	private JPanel panelLabels;
 	private JLabel timeLabel;
 	private JLabel scoreP1;
 	private JLabel scoreP2;
-	
+
 	public GameState(final MenuView menuView){
 		super("Asteroids");
-		this.menuView = menuView;
 		this.setLayout(new BorderLayout());
 		final Canvas canvas = new Canvas();
 		panel = new JPanel();
@@ -57,57 +55,56 @@ public class GameState extends JFrame{
 		panelLabels.setLayout(new BoxLayout(panelLabels, BoxLayout.X_AXIS));
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		timeLabel = new JLabel(""+this.getTime());
-		scoreP1 = new JLabel("Score P1                               ");
-		scoreP2 = new JLabel("                               Score P2");
-		
+		scoreP1 = new JLabel("Score "+Settings.PLAYER1+"                               ");
+		scoreP2 = new JLabel("                               Score "+Settings.PLAYER2);
+
 		this.addWindowFocusListener(new WindowAdapter() {
-	        public void windowGainedFocus(WindowEvent e)
-	        { canvas.requestFocusInWindow(); }
-	     });
-		
+			public void windowGainedFocus(WindowEvent e)
+			{ canvas.requestFocusInWindow(); }
+		});
+
 		this.addWindowListener(new WindowAdapter() {
-	        public void windowClosing(WindowEvent e)
-	        { 
-	        	running = false;
-	        	menuView.setLocationRelativeTo(null);
-	        	menuView.setVisible(true);
-	        }
-	     });
+			public void windowClosing(WindowEvent e)
+			{ 
+				running = false;
+				menuView.setLocationRelativeTo(null);
+				menuView.setVisible(true);
+			}
+		});
 		panelLabels.add(scoreP1);
 		panelLabels.add(timeLabel);
 		panelLabels.add(scoreP2);
 		panel.add(panelLabels);
 		panel.add(canvas, BorderLayout.CENTER);
 		this.add(panel);
-		
+
 		controls = ControlsStore.getInstance();
 		this.game=new Game(Settings.HEIGHT,Settings.WIDTH);
 		try {
 			Display.setParent(canvas);
-	        Display.setVSyncEnabled(true);
-	        this.setPreferredSize(new Dimension(800, 600));
-	        this.setMinimumSize(new Dimension(800, 600));
-	        this.setLocationRelativeTo(null);
-	        this.pack();
-	        this.setResizable(false);
-	        this.setVisible(true);
-	        Display.create();
-	        this.setVisible(false);
-	        VertexDrawer.initGL(Settings.WIDTH,Settings.HEIGHT);
-	        Keyboard.create();
+			this.setPreferredSize(new Dimension(Settings.WIDTH, Settings.HEIGHT));
+			this.setMinimumSize(new Dimension(Settings.WIDTH, Settings.HEIGHT));
+			this.setLocationRelativeTo(null);
+			this.pack();
+			this.setResizable(false);
+			this.setVisible(true);
+			Display.create();
+			this.setVisible(false);
+			VertexDrawer.initGL(Settings.WIDTH,Settings.HEIGHT);
+			Keyboard.create();
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void setRunning(){
 		running = true;
 	}
-	
+
 	public boolean getRunning(){
 		return running;
 	}
-	
+
 	private void renderLoop(){
 		while(game!=null && !Display.isCloseRequested()){
 			while(!running){
@@ -115,12 +112,17 @@ public class GameState extends JFrame{
 			}
 			game.updateTime(this.getTime());
 			game.gameLoop();
+			timeLabel.setText(""+this.getTime());
+
+			// Update des noms des players
+			scoreP1.setText("Score "+Settings.PLAYER1+"                               ");
+			scoreP2.setText("                               Score "+Settings.PLAYER2);
 
 			VertexDrawer.clear();
-			VertexDrawer.setColor(.0f, 1.0f, .0f);
+			VertexDrawer.setColor(0.0f, 1.0f, 0.0f);
 			for(Entity e : this.game.getEntities()){
-					//VertexDrawer.drawPolygonTo(e.getCollisionBox(), 1, e.getX()+1, e.getY()+1, e.getOrientation());
-					VertexDrawer.drawPolygon(e.getCollisionBox(), 1);
+				//VertexDrawer.drawPolygonTo(e.getCollisionBox(), 1, e.getX()+1, e.getY()+1, e.getOrientation());
+				VertexDrawer.drawPolygon(e.getCollisionBox(), 1);
 			}
 			Display.update();
 
@@ -128,24 +130,23 @@ public class GameState extends JFrame{
 			try {
 				Thread.sleep((10 * 1000) / Sys.getTimerResolution());
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		Display.destroy();
 		this.dispose();
 	}
-	
+
 	public long getTime() {
-	    return (Sys.getTime() * 1000) / Sys.getTimerResolution();
+		return (Sys.getTime() * 1000) / Sys.getTimerResolution();
 	}
-	
+
 	public void init(){
 		this.running=false;
 		game.updateTime(getTime());
 		this.renderLoop();
 	}
-	
+
 	private void processInputs(){ //TODO improve this to be less resources-intensive //async multithread is probably the best idea
 		ArrayList<Spaceship> movingShips = new ArrayList<Spaceship>();
 		Iterator<Integer> keysIterator = controls.getKeys().iterator();
@@ -166,22 +167,22 @@ public class GameState extends JFrame{
 			}
 		}
 	}
-	
+
 	public void joinGame(String playerName){
 		game.addPlayer(playerName);
 		Properties prop = new Properties();
 		try {
-    		prop.load(new FileInputStream("config/controls.properties"));
- 
-    		controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("forwardP1")), Command.GO_FORWARD);
-    		//controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("backwardP1")), Command.GO_BACKWARD);
-    		controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("turnLeftP1")), Command.TURN_LEFT);
-    		controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("turnRightP1")), Command.TURN_RIGHT);
-    		//controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("fireP1")), Command.FIRE);
- 
-    	} catch (IOException ex) {
-    		ex.printStackTrace();
-        }
+			prop.load(new FileInputStream("config/controls.properties"));
+
+			controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("forwardP1")), Command.GO_FORWARD);
+			//controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("backwardP1")), Command.GO_BACKWARD);
+			controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("turnLeftP1")), Command.TURN_LEFT);
+			controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("turnRightP1")), Command.TURN_RIGHT);
+			//controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("fireP1")), Command.FIRE);
+
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
 	}
-	
+
 }

@@ -30,11 +30,20 @@ public class Polygon {
 		this.ypoints=ypoints.clone();
 		this.originalXPoints = xpoints.clone();
 		this.originalYPoints = ypoints.clone();
-		center = new Point(7,12);
+		center = getCenter();
 		angleP = 0;
 		xLocation = 0;
 		yLocation = 0;
 		currentPoints = getOriginalPoints();
+	}
+	
+	private Point getCenter(){
+		int centerX = 0, centerY = 0 ;
+		for(int i = 0 ; i<getNpoints() ; i++){
+			centerX += this.getXpoint(i);
+			centerY += this.getYpoint(i);
+		}
+		return new Point(centerX/getNpoints(),centerY/getNpoints());
 	}
 
 	private Point[] getOriginalPoints() {
