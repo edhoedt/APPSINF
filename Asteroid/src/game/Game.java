@@ -79,7 +79,6 @@ public class Game {
 		for(int i=0;i<entities.size();i++){
 			for(int j=i+1;j<entities.size();j++){
 				if(entities.get(i).collides(entities.get(j))){
-					System.out.println(entities.get(i) + " and "+ entities.get(j)+" collided");
 					entities.get(i).onCollision(entities.get(j));
 					entities.get(j).onCollision(entities.get(i));
 				}

@@ -8,7 +8,7 @@ public abstract class Entity {
 	protected float SPEED_WEAROFF_RATE = .0002f;//in units/ms
 	//protected float MOMENTUM_INCREASE_RATE = .0005f;//in units/ms^2
 	protected float DEFAULT_MOMENTUM = .0004f;
-	protected float ANGULAR_VELOCITY = .002f; //in rad/ms
+	protected float ANGULAR_VELOCITY = .004f; //in rad/ms
 	private boolean destroyed = false; 
 	private int x; //position on X-axis
 	private int y; //position on Y-axis
@@ -152,8 +152,12 @@ public abstract class Entity {
 		//collisionBox.setOrientation(angle);
 	}
 
-	public void setSpeed(int speed){
+	public void setSpeed(float speed){
 		this.velocity.setR(speed);
+	}
+	public void setSpeed(float angle, float speed){
+		this.velocity.setT(angle);
+		this.setSpeed(speed);
 	}
 
 	public abstract void onDestroy();
