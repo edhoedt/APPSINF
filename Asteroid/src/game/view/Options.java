@@ -51,6 +51,8 @@ public class Options extends JFrame implements ActionListener{
 
 	private JTextField textPlayer1;
 	private JTextField textPlayer2;
+	
+	private String lastResolution;
 
 	public Options(MenuView menu, Commands commandsView){
 		super("Options");
@@ -79,6 +81,7 @@ public class Options extends JFrame implements ActionListener{
 		resolutions = new JSpinner(resSpinnerListModel);
 		((JSpinner.DefaultEditor) resolutions.getEditor()).getTextField().setEditable(false);
 		resLabel = new JLabel(" Résolutions");
+		lastResolution = (String) resolutions.getValue();
 		// COMMANDS
 		commands = new JButton("COMMANDS");
 		// SOUND
@@ -172,23 +175,35 @@ public class Options extends JFrame implements ActionListener{
 					ConfigMaker.setProperties(1280,800,getVolume(),textPlayer1.getText(),textPlayer2.getText());
 					setPlayers();
 					this.setVisible(false);
+					if(!lastResolution.equals("1280x800")){
+						JOptionPane.showMessageDialog(null, "Restart the game to see the changes resolutions", "Information", JOptionPane.INFORMATION_MESSAGE);
+						lastResolution = "1280x800";
+					}
 				}
 				else
-					JOptionPane.showMessageDialog(null, "Your screen doesn't support the "+resolutions.getValue()+" resolution", "Binding Error", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Your screen doesn't support the "+resolutions.getValue()+" resolution", "Resolution Error", JOptionPane.WARNING_MESSAGE);
 			}
 			else if("2000x4000".equals(resolutions.getValue())){
 				if(java.awt.Toolkit.getDefaultToolkit().getScreenSize().width >= 2000 && java.awt.Toolkit.getDefaultToolkit().getScreenSize().height >= 4000){
 					ConfigMaker.setProperties(2000,4000,getVolume(),textPlayer1.getText(),textPlayer2.getText());
 					setPlayers();
 					this.setVisible(false);
+					if(!lastResolution.equals("2000x4000")){
+						JOptionPane.showMessageDialog(null, "Restart the game to see the changes resolutions", "Information", JOptionPane.INFORMATION_MESSAGE);
+						lastResolution = "2000x4000";
+					}
 				}
 				else
-					JOptionPane.showMessageDialog(null, "Your screen doesn't support the "+resolutions.getValue()+" resolution", "Binding Error", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Your screen doesn't support the "+resolutions.getValue()+" resolution", "Resolution Error", JOptionPane.WARNING_MESSAGE);
 			}
 			else{
 				ConfigMaker.setProperties(800,600,getVolume(),textPlayer1.getText(),textPlayer2.getText());
 				setPlayers();
 				this.setVisible(false);
+				if(!lastResolution.equals("800x600")){
+					JOptionPane.showMessageDialog(null, "Restart the game to see the changes resolutions", "Information", JOptionPane.INFORMATION_MESSAGE);
+					lastResolution = "800x600";
+				}
 			}
 		}
 
