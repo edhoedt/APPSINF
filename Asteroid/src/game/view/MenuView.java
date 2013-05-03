@@ -110,7 +110,6 @@ public class MenuView extends JFrame implements ActionListener {
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		view = new GameState(this);
-		view.joinGame(Settings.PLAYER1);
 		view.init();
 	}
 	
@@ -136,13 +135,21 @@ public class MenuView extends JFrame implements ActionListener {
 			options.setVisible(true);
 		}
 		if(b == singleplayer){
+			view.getGame().reset();
+			view.joinGame(Settings.PLAYER1);
 			view.setRunning();
 			view.setLocationRelativeTo(null);
 			view.setVisible(true);
 			this.setVisible(false);
 		}
 		if(b == multiplayer){
-			
+			view.getGame().reset();
+			view.joinGame(Settings.PLAYER1);
+			view.joinGame(Settings.PLAYER2);
+			view.setRunning();
+			view.setLocationRelativeTo(null);
+			view.setVisible(true);
+			this.setVisible(false);
 		}
 	}
 

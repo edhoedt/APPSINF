@@ -177,15 +177,28 @@ public class GameState extends JFrame{
 		try {
 			prop.load(new FileInputStream("config/controls.properties"));
 
-			controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("forwardP1")), Command.GO_FORWARD);
-			//controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("backwardP1")), Command.GO_BACKWARD);
-			controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("turnLeftP1")), Command.TURN_LEFT);
-			controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("turnRightP1")), Command.TURN_RIGHT);
-			//controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("fireP1")), Command.FIRE);
+			if(playerName.equals(Settings.PLAYER1)){
+				controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("forwardP1")), Command.GO_FORWARD);
+				//controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("backwardP1")), Command.GO_BACKWARD);
+				controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("turnLeftP1")), Command.TURN_LEFT);
+				controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("turnRightP1")), Command.TURN_RIGHT);
+				//controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("fireP1")), Command.FIRE);
+			}
+			else if(playerName.equals(Settings.PLAYER2)){
+				controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("forwardP2")), Command.GO_FORWARD);
+				//controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("backwardP2")), Command.GO_BACKWARD);
+				controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("turnLeftP2")), Command.TURN_LEFT);
+				controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("turnRightP2")), Command.TURN_RIGHT);
+				//controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("fireP2")), Command.FIRE);
+			}
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
+	}
+
+	public Game getGame() {
+		return game;
 	}
 
 }
