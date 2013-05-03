@@ -37,7 +37,7 @@ public class Polygon {
 		currentPoints = getOriginalPoints();
 	}
 	
-	private Point getCenter(){
+	private Point getCenter(){ //TODO check
 		int centerX = 0, centerY = 0 ;
 		for(int i = 0 ; i<getNpoints() ; i++){
 			centerX += this.getXpoint(i);

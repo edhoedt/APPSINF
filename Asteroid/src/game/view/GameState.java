@@ -122,9 +122,9 @@ public class GameState extends JFrame{
 			scoreP2.setText("                               Score "+Settings.PLAYER2);
 
 			VertexDrawer.clear();
-			VertexDrawer.setColor(0.0f, 1.0f, 0.0f);
 			for(Entity e : this.game.getEntities()){
 				//VertexDrawer.drawPolygonTo(e.getCollisionBox(), 1, e.getX()+1, e.getY()+1, e.getOrientation());
+				VertexDrawer.setColor(e.getColor()[0], e.getColor()[1], e.getColor()[2]);
 				VertexDrawer.drawPolygon(e.getCollisionBox(), 1);
 			}
 			Display.update();

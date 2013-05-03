@@ -16,6 +16,7 @@ public abstract class Entity {
 	private Vector2D velocity = new Vector2D(0,0); //vector representing velocity
 	private boolean backward=false;
 	private Polygon collisionBox;
+	private float colorR=.0f, colorG=1.0f, colorB=.0f;
 
 	protected Entity(int x, int y){
 		this.x = x;
@@ -31,6 +32,17 @@ public abstract class Entity {
 		this.y = y;
 		this.velocity=velocity;
 		this.momentum=momentum;
+	}
+	
+	public void setColor(float r, float g, float b){
+		this.colorR=r;
+		this.colorG=g;
+		this.colorB=b;
+	}
+	
+	public float[] getColor(){
+		float[] color = {this.colorR,this.colorG,this.colorB};
+		return color;
 	}
 
 	protected Vector2D getMomentum(){return momentum;}

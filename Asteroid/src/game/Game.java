@@ -131,7 +131,13 @@ public class Game {
 	}
 
 	public void addPlayer(String id){
-		this.spaceships.add(new Spaceship(0,0,id));
+		Spaceship player =new Spaceship(0,0,id);
+		if(id.equals(Settings.PLAYER1)){
+			player.setColor(.8f, .0f, .0f);
+		}else if(id.equals(Settings.PLAYER2)){
+			player.setColor(.0f, .0f, .8f);
+		}
+		this.spaceships.add(player);
 	}
 
 }
