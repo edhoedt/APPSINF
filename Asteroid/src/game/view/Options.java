@@ -3,6 +3,7 @@ package game.view;
 import game.Settings;
 import game.util.ConfigMaker;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -91,7 +92,9 @@ public class Options extends JFrame implements ActionListener{
 		volume.setSelected(Settings.VOLUME);
 		// PLAYERS
 		player1 = new JLabel(" Player 1");
+		player1.setForeground(new Color(1.0f, 0.0f, 0.0f));
 		player2 = new JLabel(" Player 2");
+		player2.setForeground(new Color(0.2f, 1.0f, 1.0f));
 		textPlayer1 = new JTextField(Settings.PLAYER1);
 		textPlayer2 = new JTextField(Settings.PLAYER2);
 		// RETURN
