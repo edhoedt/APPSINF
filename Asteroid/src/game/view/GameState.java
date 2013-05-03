@@ -99,7 +99,7 @@ public class GameState extends JFrame{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void clear(){
 		this.controls.clear();
 		this.game.clear();
