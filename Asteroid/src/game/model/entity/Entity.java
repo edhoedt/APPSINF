@@ -9,7 +9,7 @@ public abstract class Entity {
 	//protected float MOMENTUM_INCREASE_RATE = .0005f;//in units/ms^2
 	protected float DEFAULT_MOMENTUM = .0004f;
 	protected float ANGULAR_VELOCITY = .004f; //in rad/ms
-	private boolean destroyed = false; 
+	protected boolean destroyed = false; 
 	private int x; //position on X-axis
 	private int y; //position on Y-axis
 	private Vector2D momentum = new Vector2D(0,0); //vector representing momentum (always the same orientation as the entity)

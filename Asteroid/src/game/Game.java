@@ -67,8 +67,14 @@ public class Game {
 	public void gameLoop(){
 		for(int i=0;i<getEntities().size();i++){
 			Entity current = getEntities().get(i);
-			current.updatePosition(getDelta());
-			current.updateSpeed(getDelta());
+			if(!current.isDestroyed()){
+				current.updatePosition(getDelta());
+				current.updateSpeed(getDelta());
+			}else{
+				spaceships.remove(current);
+				asteroids.remove(current);
+				bullets.remove(current);
+			}
 		}
 		processCollisions();
 		asteroidsWave(time);
@@ -85,6 +91,7 @@ public class Game {
 			}
 		}
 	}
+	
 
 	public void executeCommand(Command com, Entity entity){
 		switch(com){

@@ -7,8 +7,8 @@ public class Bullet extends Entity {
 	
 	public Spaceship thrower;
 	public static float BULLET_SPEED = .3f;
-	public static int[] BULLET_X={0,5};
-	public static int[] BULLET_Y={0,0};
+	public static int[] BULLET_X={0,5,5,0,0};
+	public static int[] BULLET_Y={0,0,1,1,0};
 	
 	public Bullet(Spaceship thrower) {
 		super(thrower.getX(), thrower.getY(), new Vector2D(thrower.getOrientation(),BULLET_SPEED)); //TODO faire apparaitre le bullet devant le lanceur et pas SUR le lanceur
@@ -20,6 +20,7 @@ public class Bullet extends Entity {
 		this.setCollisionBox(new Polygon(BULLET_X, BULLET_Y));
 		this.getMomentum().setT(thrower.getOrientation());
 		this.getCollisionBox().rotate(this.getOrientation());
+		System.out.println(this.getX() + " "+this.getY());
 	}
 
 	@Override
@@ -29,7 +30,8 @@ public class Bullet extends Entity {
 
 	@Override
 	public void onCollision(Entity otherEntity) {
-		this.destroy();
+		if(!(otherEntity instanceof Spaceship))
+			this.destroy();
 	}
 
 }

@@ -14,7 +14,7 @@ public class Spaceship extends Entity {
 		super(x, y);
 		this.playerName=playerName;
 		lastFired=0;
-		FIRE_COOLDOWN=2000;
+		FIRE_COOLDOWN=000;
 		this.setCollisionBox(new Polygon(SPACESHIP_X, SPACESHIP_Y));
 	}
 

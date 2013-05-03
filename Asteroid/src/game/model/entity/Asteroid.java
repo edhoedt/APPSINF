@@ -20,9 +20,9 @@ public class Asteroid extends Entity{
 		super(x,y);
 		this.size=size;
 		switch(this.size){
-			case SMALL:hp=2;
-			case NORMAL:hp=3;
-			case BIG:hp=7;
+			case SMALL:hp=1;
+			case NORMAL:hp=1;
+			case BIG:hp=1;
 		}
 		//this.setOrientation(getVelocity().getT());
 		this.setCollisionBox(new Polygon(ASTEROID_NORMAL_X, ASTEROID_NORMAL_Y));
@@ -42,15 +42,14 @@ public class Asteroid extends Entity{
 
 	@Override
 	public void onDestroy() {
-		// TODO Auto-generated method stub
-
+		//TODO
 	}
 
 	@Override
 	public void onCollision(Entity otherEntity) {
 		if(!(otherEntity instanceof Asteroid)){
 			hp--;
-			if(hp==0)
+			if(hp<=0)
 				this.destroy();
 		}else{
 			//System.out.print(this.getVelocity().getX()+" -> ");
@@ -60,5 +59,6 @@ public class Asteroid extends Entity{
 			this.setSpeed(tempT, tempR);
 			//System.out.println(this.getVelocity().getX());
 		}
+		
 	}
 }
