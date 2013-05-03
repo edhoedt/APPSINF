@@ -52,6 +52,13 @@ public class Asteroid extends Entity{
 			hp--;
 			if(hp==0)
 				this.destroy();
+		}else{
+			//System.out.print(this.getVelocity().getX()+" -> ");
+			float tempT=otherEntity.getVelocity().getT();
+			float tempR=otherEntity.getVelocity().getR();
+			otherEntity.setSpeed(this.getVelocity().getT(), this.getVelocity().getR());
+			this.setSpeed(tempT, tempR);
+			//System.out.println(this.getVelocity().getX());
 		}
 	}
 }

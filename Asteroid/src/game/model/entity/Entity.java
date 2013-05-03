@@ -147,10 +147,11 @@ public abstract class Entity {
 		}*/
 	}
 
-	public void setOrientation(float angle){
+	/*public void setOrientation(float angle){
 		momentum.setT(angle);
+		collisionBox.rotate(angle);
 		//collisionBox.setOrientation(angle);
-	}
+	}*/
 
 	public void setSpeed(float speed){
 		this.velocity.setR(speed);

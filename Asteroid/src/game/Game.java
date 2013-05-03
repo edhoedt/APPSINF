@@ -12,7 +12,7 @@ public class Game {
 	private static final int MIN_TIME_BETWEEN_WAVES=5000;
 	private static final int MAX_ASTEROIDS_PER_WAVE = 3;
 	private static final int MIN_ASTEROIDS_PER_WAVE = 1;
-	private static final int ASTEROIDS_CAP=3;
+	private static final int ASTEROIDS_CAP=20;
 	private long time=0;
 	private long lastTime=0;
 
@@ -105,13 +105,10 @@ public class Game {
 				entity.rotate(getDelta(), false);
 				break;
 			case FIRE:
-				System.out.println("firing");
-				if(entity.getClass()==Spaceship.class){
-					Spaceship player= (Spaceship) entity;
-					if(player.canFire(time)){
-						player.updateFireTime(time);
-						this.bullets.add(new Bullet(player));
-					}
+				Spaceship player= (Spaceship) entity;
+				if(player.canFire(time)){
+					player.updateFireTime(time);
+					this.bullets.add(new Bullet(player));
 				}
 				break;
 		}
