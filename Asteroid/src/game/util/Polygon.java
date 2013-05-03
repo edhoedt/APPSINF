@@ -11,8 +11,8 @@ public class Polygon {
 	private int[] xpoints;
 	private int[] ypoints;
 	Point center;
-	private int centerX=20;
-	private int centerY=20;
+	private int centerX=0;
+	private int centerY=0;
 	double angleP;
 	Point[] currentPoints;
 	int[] originalXPoints;
