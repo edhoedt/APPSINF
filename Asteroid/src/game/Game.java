@@ -30,6 +30,12 @@ public class Game {
 		this.height=height;
 		this.width=width;
 	}
+	
+	public void reset(){
+		this.spaceships.clear();
+		this.asteroids.clear();
+		this.bullets.clear();
+	}
 
 	public Spaceship getShip(String playerName){
 		for(int i=0; i<spaceships.size();i++){
