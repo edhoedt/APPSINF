@@ -106,7 +106,7 @@ public class Polygon {
         */
         AffineTransform.getRotateInstance
         (angle, center.x, center.y)
-                .transform(origPoints,0,storeTo,0,5);
+                .transform(origPoints,0,storeTo,0,getNpoints());
 
 
     }

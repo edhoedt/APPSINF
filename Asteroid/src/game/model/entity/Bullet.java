@@ -7,12 +7,12 @@ public class Bullet extends Entity {
 	
 	public Spaceship thrower;
 	public static float BULLET_SPEED = .3f;
-	public static int[] BULLET_X={0,0,15,15,0};//{0,10, 0,0};
-	public static int[] BULLET_Y={0,3,3,0,0};//{-3,0,3,-3};
+	public static int[] BULLET_X={0,5};
+	public static int[] BULLET_Y={0,0};
 	
 	public Bullet(Spaceship thrower) {
 		super(thrower.getX(), thrower.getY(), new Vector2D(thrower.getOrientation(),BULLET_SPEED)); //TODO faire apparaitre le bullet devant le lanceur et pas SUR le lanceur
-		this.setColor(this.getColor()[0], this.getColor()[1], this.getColor()[2]);
+		this.setColor(1.0f, 1.0f, 0.0f);
 		//this.setOrientation(thrower.getOrientation());
 		//super.MOMENTUM_INCREASE_RATE=0;
 		super.SPEED_WEAROFF_RATE=0;
