@@ -21,7 +21,6 @@ public class Bullet extends Entity {
 		this.setCollisionBox(new Polygon(BULLET_X, BULLET_Y));
 		this.getMomentum().setT(thrower.getOrientation());
 		this.getCollisionBox().rotate(this.getOrientation());
-		System.out.println(this.getX() + " "+this.getY());
 	}
 
 	@Override

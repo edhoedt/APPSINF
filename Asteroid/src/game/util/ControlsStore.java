@@ -22,6 +22,16 @@ public class ControlsStore {
 		return store;
 	}
 	
+	public void clear(){
+		if(controls != null){
+			controls.clear();
+		}
+	}
+	
+	public void clearPlayer(Spaceship player){
+		controls.remove(player);
+	}
+	
 	public void bind(Spaceship player, int key, Command action){
 		if(controls.containsKey(key))
 			controls.get(key).put(player, action);

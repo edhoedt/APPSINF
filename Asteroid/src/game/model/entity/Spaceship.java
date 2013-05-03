@@ -47,7 +47,6 @@ public class Spaceship extends Entity {
 
 	@Override
 	public void onCollision(Entity otherEntity) {
-		// TODO Auto-generated method stub
-
+		this.destroy();
 	}
 }

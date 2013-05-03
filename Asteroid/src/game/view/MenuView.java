@@ -135,7 +135,7 @@ public class MenuView extends JFrame implements ActionListener {
 			options.setVisible(true);
 		}
 		if(b == singleplayer){
-			view.getGame().reset();
+			view.clear();
 			view.joinGame(Settings.PLAYER1);
 			view.setRunning();
 			view.setLocationRelativeTo(null);
@@ -143,7 +143,7 @@ public class MenuView extends JFrame implements ActionListener {
 			this.setVisible(false);
 		}
 		if(b == multiplayer){
-			view.getGame().reset();
+			view.clear();
 			view.joinGame(Settings.PLAYER1);
 			view.joinGame(Settings.PLAYER2);
 			view.setRunning();

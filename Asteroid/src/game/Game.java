@@ -31,10 +31,10 @@ public class Game {
 		this.width=width;
 	}
 	
-	public void reset(){
-		this.spaceships.clear();
-		this.asteroids.clear();
-		this.bullets.clear();
+	public void clear(){
+		this.spaceships=new ArrayList<Spaceship>();
+		this.asteroids=new ArrayList<Asteroid>();
+		this.bullets=new ArrayList<Bullet>();
 	}
 
 	public Spaceship getShip(String playerName){
@@ -67,6 +67,10 @@ public class Game {
 	public void gameLoop(){
 		for(int i=0;i<getEntities().size();i++){
 			Entity current = getEntities().get(i);
+			if(current instanceof Bullet){
+				if(current.getX() <= 0 || current.getY() <= 0 || current.getX() >= Settings.WIDTH || current.getY() >= Settings.HEIGHT)
+					current.destroy();
+			}
 			if(!current.isDestroyed()){
 				current.updatePosition(getDelta());
 				current.updateSpeed(getDelta());
