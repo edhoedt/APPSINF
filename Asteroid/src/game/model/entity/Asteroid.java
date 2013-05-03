@@ -1,6 +1,7 @@
 package game.model.entity;
 
 import game.util.Polygon;
+import game.util.Vector2D;
 
 public class Asteroid extends Entity{
 
@@ -25,6 +26,8 @@ public class Asteroid extends Entity{
 		}
 		//this.setOrientation(getVelocity().getT());
 		this.setCollisionBox(new Polygon(ASTEROID_NORMAL_X, ASTEROID_NORMAL_Y));
+		this.setSpeed((float) (Math.random()*2*Math.PI), (float)Math.random()/10+.1f);
+		super.SPEED_WEAROFF_RATE=0;
 	}
 
 	//TODO
