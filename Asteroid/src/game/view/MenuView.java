@@ -14,10 +14,14 @@ import java.awt.MediaTracker;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.Properties;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -46,6 +50,7 @@ public class MenuView extends JFrame implements ActionListener {
 	
 	private CoolButton singleplayer;
 	private CoolButton multiplayer;
+	private CoolButton scores;
 	private CoolButton optionsButton;
 	private CoolButton exit;
 	
@@ -78,12 +83,13 @@ public class MenuView extends JFrame implements ActionListener {
 		commandsView = new Commands();
 		options = new Options(this, commandsView);
 		
-		panel = new JPanel(new GridLayout(9,1));
+		panel = new JPanel(new GridLayout(10,1));
 		panel.setOpaque(false);
 		exitOptions = new JPanel(new GridLayout(1,3));
 		exitOptions.setOpaque(false);
 		singleplayer = new CoolButton("SINGLEPLAYER");
 		multiplayer = new CoolButton("MULTIPLAYER");
+		scores = new CoolButton("SCORES");
 		optionsButton = new CoolButton("OPTIONS");
 		exit = new CoolButton("EXIT");
 		
@@ -95,6 +101,7 @@ public class MenuView extends JFrame implements ActionListener {
 		panel.add(new JLabel(""));
 		panel.add(singleplayer);
 		panel.add(multiplayer);
+		panel.add(scores);
 		exitOptions.add(exit);
 		exitOptions.add(new JLabel(""));
 		exitOptions.add(optionsButton);
@@ -102,6 +109,7 @@ public class MenuView extends JFrame implements ActionListener {
 		panel.add(exitOptions);
 		singleplayer.addActionListener(this);
 		multiplayer.addActionListener(this);
+		scores.addActionListener(this);
 		exit.addActionListener(this);
 		optionsButton.addActionListener(this);
 		pack();
@@ -140,8 +148,46 @@ public class MenuView extends JFrame implements ActionListener {
 		if(b == multiplayer){
 			beforeStart(true);
 		}
+		if(b == scores){
+			showScores();
+		}
 	}
 	
+	private void showScores() {
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+		JPanel headerPanel = new JPanel(new GridLayout(2,3));
+		JPanel scorePanel = new JPanel(new GridLayout(10,5));
+		headerPanel.add(new JLabel("Singleplayer"));
+		headerPanel.add(new JLabel(""));
+		headerPanel.add(new JLabel("Multiplayer"));
+		headerPanel.add(new JLabel(""));
+		headerPanel.add(new JLabel(""));
+		headerPanel.add(new JLabel(""));
+		Properties prop = new Properties();
+		 
+    	try {
+            //load a properties file
+    		prop.load(new FileInputStream("config/scores.properties"));
+ 
+            //get the property value and print it out
+    		for(int j = 1 ; j < 11 ; j++){
+    			scorePanel.add(new JLabel(prop.getProperty("single"+j+"Name")+" : "));
+	    		scorePanel.add(new JLabel(prop.getProperty("single"+j+"Score")));
+	    		scorePanel.add(new JLabel(""));
+	    		scorePanel.add(new JLabel(prop.getProperty("multi"+j+"Name")+" : "));
+	    		scorePanel.add(new JLabel(prop.getProperty("multi"+j+"Score")));
+    		}
+ 
+    	} catch (IOException ex) {
+    		ex.printStackTrace();
+        }
+    	mainPanel.add(headerPanel);
+    	mainPanel.add(scorePanel);
+		JOptionPane.showMessageDialog(null, mainPanel);
+		
+	}
+
 	private void beforeStart(boolean isMultiplayer){
 		SpinnerNumberModel sModel = new SpinnerNumberModel(5, 1, 20, 1);
 		JSpinner spinner = new JSpinner(sModel);
