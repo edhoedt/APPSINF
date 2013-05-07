@@ -17,7 +17,6 @@ public class Spaceship extends Entity {
 		lastFired=0;
 		FIRE_COOLDOWN=200;
 		this.setCollisionBox(new Polygon(SPACESHIP_X, SPACESHIP_Y));
-		System.out.println("hello!");
 	}
 
 	@Override
