@@ -93,6 +93,7 @@ public class MenuView extends JFrame implements ActionListener {
 		optionsButton = new CoolButton("OPTIONS");
 		exit = new CoolButton("EXIT");
 		
+		
 		this.add(panel);
 		panel.add(new JLabel(""));
 		panel.add(new JLabel(""));

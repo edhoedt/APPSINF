@@ -16,11 +16,12 @@ public class Bullet extends Entity {
 		//super(thrower.getCollisionBox().getXpoint(1), thrower.getCollisionBox().getYpoint(1), Vector2D.getSum(new Vector2D(thrower.getOrientation(),BULLET_SPEED), thrower.getVelocity()));
 		super(thrower.getCollisionBox().getXpoint(1), thrower.getCollisionBox().getYpoint(1), new Vector2D(thrower.getOrientation(),BULLET_SPEED+thrower.getVelocity().getR()));
 
-		this.setColor(1.0f, 1.0f, 0.0f);
+		//this.setColor(1.0f, 1.0f, 0.0f);
+		this.setColor(thrower.getColor()[0], thrower.getColor()[1], thrower.getColor()[2]);
 		//this.setOrientation(thrower.getOrientation());
 		//super.MOMENTUM_INCREASE_RATE=0;
 		super.SPEED_WEAROFF_RATE=0;
-		this.thrower = thrower;
+		this.thrower = thrower; 
 		this.setCollisionBox(new Polygon(BULLET_X, BULLET_Y));
 		this.getMomentum().setT(thrower.getOrientation());
 		this.getCollisionBox().rotate(this.getOrientation());
