@@ -46,6 +46,7 @@ public class GameState extends JFrame{
 	private JLabel timeLabel;
 	private JLabel scoreP1;
 	private JLabel scoreP2;
+	private long startTime;
 
 	public GameState(final MenuView menuView){
 		super("Asteroids");
@@ -129,8 +130,13 @@ public class GameState extends JFrame{
 			VertexDrawer.clear();
 			for(Entity e : this.game.getEntities()){
 				//VertexDrawer.drawPolygonTo(e.getCollisionBox(), 1, e.getX()+1, e.getY()+1, e.getOrientation());
-				VertexDrawer.setColor(e.getColor()[0], e.getColor()[1], e.getColor()[2]);
-				VertexDrawer.drawPolygon(e.getCollisionBox(), 1);
+				if(e.hasPoped()){
+					VertexDrawer.setColor(e.getColor()[0], e.getColor()[1], e.getColor()[2]);
+					VertexDrawer.drawPolygon(e.getCollisionBox(), 1);
+				}else{
+					VertexDrawer.setColor(.54f, .54f, .54f);
+					VertexDrawer.drawPolygon(e.getCollisionBox(), 1);
+				}
 			}
 			Display.update();
 
@@ -168,7 +174,7 @@ public class GameState extends JFrame{
 				Spaceship player;
 				while(playersIterator.hasNext()){
 					player=playersIterator.next();
-					if(actions.get(player)==Command.GO_BACKWARD || actions.get(player)==Command.GO_BACKWARD)
+					if(actions.get(player)==Command.GO_FORWARD || actions.get(player)==Command.GO_BACKWARD)
 						movingShips.add(player);
 					game.executeCommand(actions.get(player), player);
 				}

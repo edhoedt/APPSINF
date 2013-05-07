@@ -15,6 +15,7 @@ public abstract class Entity {
 	private Vector2D momentum = new Vector2D(0,0); //vector representing momentum (always the same orientation as the entity)
 	private Vector2D velocity = new Vector2D(0,0); //vector representing velocity
 	private boolean backward=false;
+	private boolean poped=false; //
 	private Polygon collisionBox;
 	private float colorR=.0f, colorG=1.0f, colorB=.0f;
 
@@ -32,6 +33,13 @@ public abstract class Entity {
 		this.y = y;
 		this.velocity=velocity;
 		this.momentum=momentum;
+	}
+	
+	public void pop(){
+		this.poped=true;
+	}
+	public boolean hasPoped(){
+		return this.poped;
 	}
 	
 	public void setColor(float r, float g, float b){
