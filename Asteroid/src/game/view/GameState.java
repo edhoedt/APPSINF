@@ -141,9 +141,9 @@ public class GameState extends JFrame{
 			timeLabel.setText("Time "+(((this.getTime() - startTime)/60000))+":"+(((this.getTime() - startTime)/1000)%60));
 
 			// Update des noms des players
-			scoreP1.setText("Score "+Settings.PLAYER1+" : "+game.getShip(Settings.PLAYER1).getScore());
+			scoreP1.setText("Score "+Settings.PLAYER1+" : "+((float)game.getShip(Settings.PLAYER1).getScore())/Settings.TIMEOUT);
 			if(game.getShip(Settings.PLAYER2) != null)
-				scoreP2.setText("Score "+Settings.PLAYER2+" : "+game.getShip(Settings.PLAYER2).getScore());
+				scoreP2.setText("Score "+Settings.PLAYER2+" : "+((float)game.getShip(Settings.PLAYER2).getScore())/Settings.TIMEOUT);
 
 			VertexDrawer.clear();
 			for(Entity e : this.game.getEntities()){
@@ -204,9 +204,9 @@ public class GameState extends JFrame{
 		Properties prop = new Properties();
 		
 		String nomsSingle[] = new String[10];
-		int scoresSingle[] = new int[10];
+		float scoresSingle[] = new float[10];
 		String nomsMulti[] = new String[10];
-		int scoresMulti[] = new int[10];
+		float scoresMulti[] = new float[10];
 		
 		try {
             //load a properties file
@@ -215,9 +215,9 @@ public class GameState extends JFrame{
             //get the property value and print it out
     		for(int j = 1 ; j < 11 ; j++){
     			nomsSingle[j-1] = prop.getProperty("single"+j+"Name");
-    			scoresSingle[j-1] = Integer.parseInt(prop.getProperty("single"+j+"Score"));
+    			scoresSingle[j-1] = Float.parseFloat(prop.getProperty("single"+j+"Score"));
     			nomsMulti[j-1] = prop.getProperty("multi"+j+"Name");
-    			scoresMulti[j-1] = Integer.parseInt(prop.getProperty("multi"+j+"Score"));
+    			scoresMulti[j-1] = Float.parseFloat(prop.getProperty("multi"+j+"Score"));
     		}
  
     	} catch (IOException ex) {
@@ -232,9 +232,9 @@ public class GameState extends JFrame{
     		//Boucle pour joueur 1
     		for(int j = 1 ; j < 11 ; j++){
     			if(game.getShip(Settings.PLAYER2)==null){
-    				if(game.getShip(Settings.PLAYER1).getScore() > scoresSingle[j-1] && !joueur1Ok){
+    				if((float)game.getShip(Settings.PLAYER1).getScore() > scoresSingle[j-1] && !joueur1Ok){
     					prop2.setProperty("single"+j+"Name", Settings.PLAYER1);
-    					prop2.setProperty("single"+j+"Score", ""+game.getShip(Settings.PLAYER1).getScore());
+    					prop2.setProperty("single"+j+"Score", ""+((float)game.getShip(Settings.PLAYER1).getScore())/Settings.TIMEOUT);
     					joueur1Ok = true;
     				}
     				if(joueur1Ok && (j+1)<11){
@@ -245,9 +245,9 @@ public class GameState extends JFrame{
 					prop2.setProperty("multi"+j+"Score", ""+scoresMulti[j-1]);
     			}
     			else{
-    				if(game.getShip(Settings.PLAYER1).getScore() > scoresMulti[j-1] && !joueur1Ok){
+    				if((float)game.getShip(Settings.PLAYER1).getScore() > scoresMulti[j-1] && !joueur1Ok){
     					prop2.setProperty("multi"+j+"Name", Settings.PLAYER1);
-    					prop2.setProperty("multi"+j+"Score", ""+game.getShip(Settings.PLAYER1).getScore());
+    					prop2.setProperty("multi"+j+"Score", ""+((float)game.getShip(Settings.PLAYER1).getScore())/Settings.TIMEOUT);
     					joueur1Ok = true;
     				}
     				if(joueur1Ok && (j+1)<11){
@@ -261,9 +261,9 @@ public class GameState extends JFrame{
     		//Boucle pour joueur 2
     		for(int j = 1 ; j < 11 ; j++){
     			if(game.getShip(Settings.PLAYER2)!=null){
-    				if(game.getShip(Settings.PLAYER2).getScore() > scoresMulti[j-1] && !joueur2Ok){
+    				if((float)game.getShip(Settings.PLAYER2).getScore() > scoresMulti[j-1] && !joueur2Ok){
     					prop2.setProperty("multi"+j+"Name", Settings.PLAYER2);
-    					prop2.setProperty("multi"+j+"Score", ""+game.getShip(Settings.PLAYER2).getScore());
+    					prop2.setProperty("multi"+j+"Score", ""+((float)game.getShip(Settings.PLAYER2).getScore())/Settings.TIMEOUT);
     					joueur1Ok = true;
     				}
     				if(joueur2Ok && (j+1)<11){
