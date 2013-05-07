@@ -114,9 +114,9 @@ public class MenuView extends JFrame implements ActionListener {
 		exit.addActionListener(this);
 		optionsButton.addActionListener(this);
 		pack();
+		this.setResizable(false);
 		this.setSize(800, 600);
 		singleplayer.setPreferredSize(new Dimension(100, 50));
-		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		view = new GameState(this);
 		view.init();

@@ -43,8 +43,14 @@ public class Bullet extends Entity {
 
 	@Override
 	public void onCollision(Entity otherEntity) {
-		if(!(otherEntity instanceof Bullet) && !(otherEntity instanceof Spaceship) && !this.thrower.equals(otherEntity))
+		if(!(otherEntity instanceof Bullet) && !(otherEntity instanceof Spaceship) && !this.thrower.equals(otherEntity)){
+			if(otherEntity instanceof Asteroid){
+				this.thrower.score(1);
+			}else if(otherEntity instanceof Spaceship){
+				this.thrower.score(10);
+			}
 			this.destroy();
+		}
 	}
 
 }

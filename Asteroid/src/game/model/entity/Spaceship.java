@@ -5,7 +5,7 @@ import game.util.Vector2D;
 
 public class Spaceship extends Entity {
 	private String playerName;
-
+	private int score=0;
 	private long lastFired;
 	private int  FIRE_COOLDOWN;//in ms
 	private int[] SPACESHIP_X = {0,27,0,8,0};//{-13,14,-13,-5,-13};
@@ -26,6 +26,14 @@ public class Spaceship extends Entity {
 
 	public String getPlayerName(){
 		return playerName;
+	}
+	
+	public int getScore(){
+		return score;
+	}
+	
+	public void score(int points){
+		score+=points;
 	}
 
 	public boolean canFire(long currentTime){
@@ -53,6 +61,7 @@ public class Spaceship extends Entity {
 		}
 		else{
 			//this.destroy();
+			this.score(-10);
 			lastFired=0;
 			super.reset();
 			this.setCollisionBox(new Polygon(SPACESHIP_X, SPACESHIP_Y));
