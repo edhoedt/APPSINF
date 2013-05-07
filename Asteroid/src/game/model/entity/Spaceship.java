@@ -47,6 +47,11 @@ public class Spaceship extends Entity {
 
 	@Override
 	public void onCollision(Entity otherEntity) {
-		this.destroy();
+		if(otherEntity instanceof Bullet && ((Bullet) otherEntity).thrower.equals(this)){
+			
+		}
+		else{
+			this.destroy();
+		}
 	}
 }
