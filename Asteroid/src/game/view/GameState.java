@@ -3,7 +3,6 @@ package game.view;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.FileInputStream;
@@ -17,7 +16,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
@@ -26,19 +24,18 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
 import game.Game;
-import game.RockTest;
 import game.Settings;
 import game.model.entity.Entity;
 import game.model.entity.Spaceship;
 import game.Command;
 import game.util.ControlsStore;
 import game.util.KeyToLwjgl;
-import game.util.Polygon;
 import game.util.VertexDrawer;
 
 public class GameState extends JFrame{
 
 	private Game game;
+	private long startTime;
 	private boolean running;
 	private ControlsStore controls;
 	private JPanel panel;
@@ -78,6 +75,8 @@ public class GameState extends JFrame{
 		panel.add(panelLabels);
 		panel.add(canvas, BorderLayout.CENTER);
 		this.add(panel);
+		
+		startTime = this.getTime();
 
 		controls = ControlsStore.getInstance();
 		this.game=new Game(Settings.HEIGHT,Settings.WIDTH);
@@ -101,6 +100,7 @@ public class GameState extends JFrame{
 	}
 
 	public void clear(){
+		this.startTime = getTime();
 		this.controls.clear();
 		this.game.clear();
 	}
@@ -120,7 +120,7 @@ public class GameState extends JFrame{
 			}
 			game.updateTime(this.getTime());
 			game.gameLoop();
-			timeLabel.setText(""+this.getTime());
+			timeLabel.setText("Time "+(((this.getTime() - startTime)/60000))+":"+(((this.getTime() - startTime)/1000)%60));
 
 			// Update des noms des players
 			scoreP1.setText("Score "+Settings.PLAYER1+"                               ");
