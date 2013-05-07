@@ -12,10 +12,9 @@ public class Game {
 	private static final int MIN_TIME_BETWEEN_WAVES=5000;
 	private static final int MAX_ASTEROIDS_PER_WAVE = 3;
 	private static final int MIN_ASTEROIDS_PER_WAVE = 1;
-	private static final int ASTEROIDS_CAP=10;
+	private static final int ASTEROIDS_CAP=0;
 	private long time=0;
 	private long lastTime=0;
-
 	private ArrayList<Spaceship> spaceships;
 	private ArrayList<Asteroid> asteroids;
 	private ArrayList<Bullet> bullets;
@@ -72,8 +71,10 @@ public class Game {
 					current.destroy();
 			}
 			if(!current.isDestroyed()){
-				current.updatePosition(getDelta());
-				current.updateSpeed(getDelta());
+				if(current.hasPoped()){
+					current.updatePosition(getDelta());
+					current.updateSpeed(getDelta());
+				}
 			}else{
 				spaceships.remove(current);
 				asteroids.remove(current);
@@ -87,11 +88,18 @@ public class Game {
 	private void processCollisions(){
 		ArrayList<Entity> entities= this.getEntities();
 		for(int i=0;i<entities.size();i++){
+			boolean collided=false;
 			for(int j=i+1;j<entities.size();j++){
 				if(entities.get(i).collides(entities.get(j))){
-					entities.get(i).onCollision(entities.get(j));
-					entities.get(j).onCollision(entities.get(i));
+					collided=true;
+					if(entities.get(i).hasPoped() && entities.get(j).hasPoped()){
+						entities.get(i).onCollision(entities.get(j));
+						entities.get(j).onCollision(entities.get(i));
+					}
 				}
+			}
+			if(!collided){
+				entities.get(i).pop();
 			}
 		}
 	}
@@ -136,7 +144,6 @@ public class Game {
 			nextWave=(long)(currentTime+MIN_TIME_BETWEEN_WAVES+Math.random()*(MAX_TIME_BETWEEN_WAVES-MIN_TIME_BETWEEN_WAVES));
 		}
 	}
-
 	public void addPlayer(String id){
 		Spaceship player = new Spaceship(100,100,id);
 		if(id.equals(Settings.PLAYER1)){
@@ -148,5 +155,4 @@ public class Game {
 		}
 		this.spaceships.add(player);
 	}
-
 }
