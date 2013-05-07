@@ -1,6 +1,7 @@
 package game.model.entity;
 
 import game.util.Polygon;
+import game.util.Vector2D;
 
 public class Spaceship extends Entity {
 	private String playerName;
@@ -51,7 +52,10 @@ public class Spaceship extends Entity {
 			
 		}
 		else{
-			this.destroy();
+			//this.destroy();
+			lastFired=0;
+			super.reset();
+			this.setCollisionBox(new Polygon(SPACESHIP_X, SPACESHIP_Y));
 		}
 	}
 }

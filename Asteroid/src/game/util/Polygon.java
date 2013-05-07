@@ -45,6 +45,16 @@ public class Polygon {
 		}
 		return new Point(centerX/getNpoints(),centerY/getNpoints());
 	}
+	
+	public void reset(){
+		this.xpoints=originalXPoints.clone();
+		this.ypoints=originalYPoints.clone();
+		center = getCenter();
+		angleP = 0;
+		xLocation = 0;
+		yLocation = 0;
+		currentPoints = getOriginalPoints();
+	}
 
 	private Point[] getOriginalPoints() {
 		Point[] originalPoints = new Point[getNpoints()];

@@ -44,6 +44,14 @@ public abstract class Entity {
 		float[] color = {this.colorR,this.colorG,this.colorB};
 		return color;
 	}
+	
+	public void reset(){
+		this.velocity=new Vector2D(0,0);
+		this.momentum=new Vector2D(0,0);
+		this.x=0;
+		this.y=0;
+		this.destroyed=false;
+	}
 
 	protected Vector2D getMomentum(){return momentum;}
 	protected Vector2D getVelocity(){return velocity;}
