@@ -15,17 +15,17 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.util.Dictionary;
+import java.util.Hashtable;
 
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.JSlider;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 /*
  * Classe de l'interface graphique : Menu
@@ -135,17 +135,47 @@ public class MenuView extends JFrame implements ActionListener {
 			options.setVisible(true);
 		}
 		if(b == singleplayer){
-			view.clear();
-			view.joinGame(Settings.PLAYER1);
-			view.setRunning();
-			view.setLocationRelativeTo(null);
-			view.setVisible(true);
-			this.setVisible(false);
+			beforeStart(false);
 		}
 		if(b == multiplayer){
+			beforeStart(true);
+		}
+	}
+	
+	private void beforeStart(boolean isMultiplayer){
+		SpinnerNumberModel sModel = new SpinnerNumberModel(5, 1, 20, 1);
+		JSpinner spinner = new JSpinner(sModel);
+		JPanel panelOptions = new JPanel(new GridLayout(2,2));
+		JSlider difficulty = new JSlider();
+		difficulty.setMaximum(3);
+		Dictionary<Integer, JLabel> dict = new Hashtable<Integer, JLabel>();
+		dict.put(0, new JLabel("Pussy"));
+		dict.put(1, new JLabel(" Ok "));
+		dict.put(2, new JLabel("Man mode"));
+		dict.put(3, new JLabel("Insane"));
+		difficulty.setLabelTable(dict);
+		difficulty.setMinorTickSpacing(1);
+		difficulty.setMajorTickSpacing(4);
+		difficulty.setValue(1);
+		difficulty.setPaintLabels(true);
+		difficulty.setPaintTicks(true);
+		difficulty.setSnapToTicks(true);
+		panelOptions.add(new JLabel(" Game time (min) "));
+		panelOptions.add(spinner);
+		panelOptions.add(new JLabel(" Difficulty "));
+		panelOptions.add(difficulty);
+		int option = JOptionPane.showOptionDialog(null, panelOptions, " Enter game options ", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+		if (option == JOptionPane.CANCEL_OPTION)
+		{
+		    // user hit cancel -> simply return
+		} else if (option == JOptionPane.OK_OPTION)
+		{
+			Settings.TIMEOUT = (long)(Integer)spinner.getValue();
+			Settings.DIFFICULTY = difficulty.getValue();
 			view.clear();
 			view.joinGame(Settings.PLAYER1);
-			view.joinGame(Settings.PLAYER2);
+			if(isMultiplayer)
+				view.joinGame(Settings.PLAYER2);
 			view.setRunning();
 			view.setLocationRelativeTo(null);
 			view.setVisible(true);
