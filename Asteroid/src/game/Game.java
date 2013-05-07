@@ -15,7 +15,6 @@ public class Game {
 	private static final int ASTEROIDS_CAP=10;
 	private long time=0;
 	private long lastTime=0;
-
 	private ArrayList<Spaceship> spaceships;
 	private ArrayList<Asteroid> asteroids;
 	private ArrayList<Bullet> bullets;
