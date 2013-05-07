@@ -43,9 +43,11 @@ public class GameState extends JFrame{
 	private JLabel timeLabel;
 	private JLabel scoreP1;
 	private JLabel scoreP2;
+	private final MenuView menuView;
 
 	public GameState(final MenuView menuView){
 		super("Asteroids");
+		this.menuView= menuView;
 		this.setLayout(new BorderLayout());
 		final Canvas canvas = new Canvas();
 		panel = new JPanel();
@@ -117,6 +119,12 @@ public class GameState extends JFrame{
 		while(game!=null && !Display.isCloseRequested()){
 			while(!running){
 				System.out.print("");
+			}
+			if(this.getTime()-this.startTime>Settings.TIMEOUT*60000){
+				running = false;
+				menuView.setLocationRelativeTo(null);
+				menuView.setVisible(true);
+				break;
 			}
 			game.updateTime(this.getTime());
 			game.gameLoop();

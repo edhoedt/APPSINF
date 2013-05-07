@@ -12,7 +12,7 @@ public class Game {
 	private static final int MIN_TIME_BETWEEN_WAVES=5000;
 	private static final int MAX_ASTEROIDS_PER_WAVE = 3;
 	private static final int MIN_ASTEROIDS_PER_WAVE = 1;
-	private static final int ASTEROIDS_CAP=10;
+	private static final int ASTEROIDS_CAP=0;
 	private long time=0;
 	private long lastTime=0;
 	private ArrayList<Spaceship> spaceships;
