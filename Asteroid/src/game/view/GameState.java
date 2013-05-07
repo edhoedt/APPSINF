@@ -2,10 +2,12 @@ package game.view;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,12 +53,17 @@ public class GameState extends JFrame{
 		this.setLayout(new BorderLayout());
 		final Canvas canvas = new Canvas();
 		panel = new JPanel();
+		panel.setBackground(Color.BLACK);
 		panelLabels = new JPanel();
 		panelLabels.setLayout(new BoxLayout(panelLabels, BoxLayout.X_AXIS));
+		panelLabels.setBackground(Color.BLACK);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		timeLabel = new JLabel(""+this.getTime());
-		scoreP1 = new JLabel("Score "+Settings.PLAYER1+"                               ");
-		scoreP2 = new JLabel("                               Score "+Settings.PLAYER2);
+		timeLabel.setForeground(Color.WHITE);
+		scoreP1 = new JLabel("Score "+Settings.PLAYER1+" : 0");
+		scoreP1.setForeground(new Color(1.0f, 0.0f, 0.0f));
+		scoreP2 = new JLabel("Score "+Settings.PLAYER2+" : 0");
+		scoreP2.setForeground(new Color(0.2f, 1.0f, 1.0f));
 
 		this.addWindowFocusListener(new WindowAdapter() {
 			public void windowGainedFocus(WindowEvent e)
@@ -72,7 +79,9 @@ public class GameState extends JFrame{
 			}
 		});
 		panelLabels.add(scoreP1);
+		panelLabels.add(new JLabel("                            "));
 		panelLabels.add(timeLabel);
+		panelLabels.add(new JLabel("                            "));
 		panelLabels.add(scoreP2);
 		panel.add(panelLabels);
 		panel.add(canvas, BorderLayout.CENTER);
@@ -124,15 +133,17 @@ public class GameState extends JFrame{
 				running = false;
 				menuView.setLocationRelativeTo(null);
 				menuView.setVisible(true);
-				break;
+				setScores();
+				menuView.showScores();
 			}
 			game.updateTime(this.getTime());
 			game.gameLoop();
 			timeLabel.setText("Time "+(((this.getTime() - startTime)/60000))+":"+(((this.getTime() - startTime)/1000)%60));
 
 			// Update des noms des players
-			scoreP1.setText("Score "+Settings.PLAYER1+"                               ");
-			scoreP2.setText("                               Score "+Settings.PLAYER2);
+			scoreP1.setText("Score "+Settings.PLAYER1+" : "+game.getShip(Settings.PLAYER1).getScore());
+			if(game.getShip(Settings.PLAYER2) != null)
+				scoreP2.setText("Score "+Settings.PLAYER2+" : "+game.getShip(Settings.PLAYER2).getScore());
 
 			VertexDrawer.clear();
 			for(Entity e : this.game.getEntities()){
@@ -187,6 +198,87 @@ public class GameState extends JFrame{
 				}
 			}
 		}
+	}
+	
+	private void setScores(){
+		Properties prop = new Properties();
+		
+		String nomsSingle[] = new String[10];
+		int scoresSingle[] = new int[10];
+		String nomsMulti[] = new String[10];
+		int scoresMulti[] = new int[10];
+		
+		try {
+            //load a properties file
+    		prop.load(new FileInputStream("config/scores.properties"));
+ 
+            //get the property value and print it out
+    		for(int j = 1 ; j < 11 ; j++){
+    			nomsSingle[j-1] = prop.getProperty("single"+j+"Name");
+    			scoresSingle[j-1] = Integer.parseInt(prop.getProperty("single"+j+"Score"));
+    			nomsMulti[j-1] = prop.getProperty("multi"+j+"Name");
+    			scoresMulti[j-1] = Integer.parseInt(prop.getProperty("multi"+j+"Score"));
+    		}
+ 
+    	} catch (IOException ex) {
+    		ex.printStackTrace();
+        }
+		
+		boolean joueur1Ok = false;
+		boolean joueur2Ok = false;
+		Properties prop2 = new Properties();
+		
+    	try {
+    		//Boucle pour joueur 1
+    		for(int j = 1 ; j < 11 ; j++){
+    			if(game.getShip(Settings.PLAYER2)==null){
+    				if(game.getShip(Settings.PLAYER1).getScore() > scoresSingle[j-1] && !joueur1Ok){
+    					prop2.setProperty("single"+j+"Name", Settings.PLAYER1);
+    					prop2.setProperty("single"+j+"Score", ""+game.getShip(Settings.PLAYER1).getScore());
+    					joueur1Ok = true;
+    				}
+    				if(joueur1Ok && (j+1)<11){
+    					prop2.setProperty("single"+(j+1)+"Name", nomsSingle[j-1]);
+    					prop2.setProperty("single"+(j+1)+"Score", ""+scoresSingle[j-1]);
+    				}
+    				prop2.setProperty("multi"+j+"Name", nomsMulti[j-1]);
+					prop2.setProperty("multi"+j+"Score", ""+scoresMulti[j-1]);
+    			}
+    			else{
+    				if(game.getShip(Settings.PLAYER1).getScore() > scoresMulti[j-1] && !joueur1Ok){
+    					prop2.setProperty("multi"+j+"Name", Settings.PLAYER1);
+    					prop2.setProperty("multi"+j+"Score", ""+game.getShip(Settings.PLAYER1).getScore());
+    					joueur1Ok = true;
+    				}
+    				if(joueur1Ok && (j+1)<11){
+    					prop2.setProperty("multi"+(j+1)+"Name", nomsMulti[j-1]);
+    					prop2.setProperty("multi"+(j+1)+"Score", ""+scoresMulti[j-1]);
+    				}
+    				prop2.setProperty("single"+j+"Name", nomsSingle[j-1]);
+					prop2.setProperty("single"+j+"Score", ""+scoresSingle[j-1]);
+    			}
+    		}
+    		//Boucle pour joueur 2
+    		for(int j = 1 ; j < 11 ; j++){
+    			if(game.getShip(Settings.PLAYER2)!=null){
+    				if(game.getShip(Settings.PLAYER2).getScore() > scoresMulti[j-1] && !joueur2Ok){
+    					prop2.setProperty("multi"+j+"Name", Settings.PLAYER2);
+    					prop2.setProperty("multi"+j+"Score", ""+game.getShip(Settings.PLAYER2).getScore());
+    					joueur1Ok = true;
+    				}
+    				if(joueur2Ok && (j+1)<11){
+    					prop2.setProperty("multi"+(j+1)+"Name", nomsMulti[j-1]);
+    					prop2.setProperty("multi"+(j+1)+"Score", ""+scoresMulti[j-1]);
+    				}
+    			}
+    		}
+ 
+    		//save properties to project root folder
+    		prop2.store(new FileOutputStream("config/scores.properties"), null);
+ 
+    	} catch (IOException ex) {
+    		ex.printStackTrace();
+        }
 	}
 
 	public void joinGame(String playerName){

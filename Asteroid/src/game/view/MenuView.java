@@ -154,7 +154,7 @@ public class MenuView extends JFrame implements ActionListener {
 		}
 	}
 	
-	private void showScores() {
+	public void showScores() {
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		JPanel headerPanel = new JPanel(new GridLayout(2,3));
