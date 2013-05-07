@@ -184,7 +184,7 @@ public class MenuView extends JFrame implements ActionListener {
         }
     	mainPanel.add(headerPanel);
     	mainPanel.add(scorePanel);
-		JOptionPane.showMessageDialog(null, mainPanel);
+		JOptionPane.showMessageDialog(null, mainPanel,"Scores", JOptionPane.PLAIN_MESSAGE);
 		
 	}
 
@@ -210,7 +210,7 @@ public class MenuView extends JFrame implements ActionListener {
 		panelOptions.add(spinner);
 		panelOptions.add(new JLabel(" Difficulty "));
 		panelOptions.add(difficulty);
-		int option = JOptionPane.showOptionDialog(null, panelOptions, " Enter game options ", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+		int option = JOptionPane.showOptionDialog(null, panelOptions, " Enter game options ", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
 		if (option == JOptionPane.CANCEL_OPTION)
 		{
 		    // user hit cancel -> simply return
