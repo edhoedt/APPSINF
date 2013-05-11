@@ -10,9 +10,9 @@ import java.util.ArrayList;
 public class Game {
 	private static final int MAX_TIME_BETWEEN_WAVES=10000;//in ms
 	private static final int MIN_TIME_BETWEEN_WAVES=5000;
-	private static final int MAX_ASTEROIDS_PER_WAVE = 3;
+	private static final int MAX_ASTEROIDS_PER_WAVE = 3+Settings.DIFFICULTY;
 	private static final int MIN_ASTEROIDS_PER_WAVE = 1;
-	private static final int ASTEROIDS_CAP=30;
+	private static final int ASTEROIDS_CAP=10*(Settings.DIFFICULTY+1);
 	private long time=0;
 	private long lastTime=0;
 	private ArrayList<Spaceship> spaceships;

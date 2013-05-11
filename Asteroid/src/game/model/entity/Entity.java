@@ -8,7 +8,7 @@ public abstract class Entity {
 	protected float SPEED_WEAROFF_RATE = .0002f;//in units/ms
 	//protected float MOMENTUM_INCREASE_RATE = .0005f;//in units/ms^2
 	protected float DEFAULT_MOMENTUM = .0004f;
-	protected float ANGULAR_VELOCITY = .004f; //in rad/ms
+	protected float ANGULAR_VELOCITY = .005f - 0.001f*Settings.DIFFICULTY; //in rad/ms
 	protected boolean destroyed = false; 
 	private int MAX_BOUNDS = 15;
 	private int x; //position on X-axis
