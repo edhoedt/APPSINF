@@ -61,7 +61,10 @@ public class Spaceship extends Entity {
 		}
 		else{
 			//this.destroy();
-			this.score(-10);
+			if(score >= 10)
+				this.score(-10);
+			else
+				score = 0;
 			lastFired=0;
 			super.reset();
 			this.setCollisionBox(new Polygon(SPACESHIP_X, SPACESHIP_Y));

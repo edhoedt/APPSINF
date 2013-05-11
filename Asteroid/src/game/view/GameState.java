@@ -132,6 +132,7 @@ public class GameState extends JFrame{
 			if(this.getTime()-this.startTime>Settings.TIMEOUT*60000){
 				running = false;
 				menuView.setLocationRelativeTo(null);
+				this.setVisible(false);
 				menuView.setVisible(true);
 				setScores();
 				menuView.showScores();
@@ -200,13 +201,8 @@ public class GameState extends JFrame{
 		}
 	}
 	
-	private void setScores(){
+	private void loadScores(String nomsSingle[],float scoresSingle[],String nomsMulti[],float scoresMulti[]){
 		Properties prop = new Properties();
-		
-		String nomsSingle[] = new String[10];
-		float scoresSingle[] = new float[10];
-		String nomsMulti[] = new String[10];
-		float scoresMulti[] = new float[10];
 		
 		try {
             //load a properties file
@@ -223,6 +219,16 @@ public class GameState extends JFrame{
     	} catch (IOException ex) {
     		ex.printStackTrace();
         }
+	}
+	
+	private void setScores(){
+		
+		String nomsSingle[] = new String[10];
+		float scoresSingle[] = new float[10];
+		String nomsMulti[] = new String[10];
+		float scoresMulti[] = new float[10];
+		
+		loadScores(nomsSingle,scoresSingle,nomsMulti,scoresMulti);
 		
 		boolean joueur1Ok = false;
 		boolean joueur2Ok = false;
@@ -258,13 +264,22 @@ public class GameState extends JFrame{
 					prop2.setProperty("single"+j+"Score", ""+scoresSingle[j-1]);
     			}
     		}
+    		
+    		if(!joueur1Ok && !joueur2Ok){
+    			//Do not update
+    		}
+    		else{
+    			prop2.store(new FileOutputStream("config/scores.properties"), null);
+    			loadScores(nomsSingle,scoresSingle,nomsMulti,scoresMulti);
+    		}
+    		
     		//Boucle pour joueur 2
     		for(int j = 1 ; j < 11 ; j++){
     			if(game.getShip(Settings.PLAYER2)!=null){
     				if((float)game.getShip(Settings.PLAYER2).getScore() > scoresMulti[j-1] && !joueur2Ok){
     					prop2.setProperty("multi"+j+"Name", Settings.PLAYER2);
     					prop2.setProperty("multi"+j+"Score", ""+((float)game.getShip(Settings.PLAYER2).getScore())/Settings.TIMEOUT);
-    					joueur1Ok = true;
+    					joueur2Ok = true;
     				}
     				if(joueur2Ok && (j+1)<11){
     					prop2.setProperty("multi"+(j+1)+"Name", nomsMulti[j-1]);
@@ -274,7 +289,11 @@ public class GameState extends JFrame{
     		}
  
     		//save properties to project root folder
-    		prop2.store(new FileOutputStream("config/scores.properties"), null);
+    		if(!joueur1Ok && !joueur2Ok){
+    			//Do not update
+    		}
+    		else	
+    			prop2.store(new FileOutputStream("config/scores.properties"), null);
  
     	} catch (IOException ex) {
     		ex.printStackTrace();
