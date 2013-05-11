@@ -140,10 +140,20 @@ public class Game {
 			int asteroids=MIN_ASTEROIDS_PER_WAVE+(int)Math.round(Math.random()*(MAX_ASTEROIDS_PER_WAVE-MIN_ASTEROIDS_PER_WAVE));
 			for(int i=0;i<asteroids && ASTEROIDS_CAP>this.asteroids.size();i++){
 				if((int)Math.floor(Math.random()*2) == 1){
-					this.asteroids.add(new Asteroid((int)(Math.random()*this.width),this.height));
+					if((int)Math.floor(Math.random()*2) == 1){
+						this.asteroids.add(new Asteroid((int)(Math.random()*this.width),this.height));
+					}
+					else{
+						this.asteroids.add(new Asteroid((int)(Math.random()*this.width),0));
+					}
 				}
 				else{
-					this.asteroids.add(new Asteroid((int)(Math.random()*this.width),0));
+					if((int)Math.floor(Math.random()*2) == 1){
+						this.asteroids.add(new Asteroid(this.width,(int)(Math.random()*this.height)));
+					}
+					else{
+						this.asteroids.add(new Asteroid(0,(int)(Math.random()*this.height)));
+					}
 				}
 			}
 			nextWave=(long)(currentTime+MIN_TIME_BETWEEN_WAVES+Math.random()*(MAX_TIME_BETWEEN_WAVES-MIN_TIME_BETWEEN_WAVES));
