@@ -23,6 +23,7 @@ import java.util.Properties;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -192,7 +193,7 @@ public class MenuView extends JFrame implements ActionListener {
 	private void beforeStart(boolean isMultiplayer){
 		SpinnerNumberModel sModel = new SpinnerNumberModel(5, 1, 20, 1);
 		JSpinner spinner = new JSpinner(sModel);
-		JPanel panelOptions = new JPanel(new GridLayout(2,2));
+		JPanel panelOptions = new JPanel(new GridLayout(3,2));
 		JSlider difficulty = new JSlider();
 		difficulty.setMaximum(3);
 		Dictionary<Integer, JLabel> dict = new Hashtable<Integer, JLabel>();
@@ -207,10 +208,14 @@ public class MenuView extends JFrame implements ActionListener {
 		difficulty.setPaintLabels(true);
 		difficulty.setPaintTicks(true);
 		difficulty.setSnapToTicks(true);
+		JCheckBox superMode = new JCheckBox();
+		superMode.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		panelOptions.add(new JLabel(" Game time (min) "));
 		panelOptions.add(spinner);
 		panelOptions.add(new JLabel(" Difficulty "));
 		panelOptions.add(difficulty);
+		panelOptions.add(new JLabel(" SuperMode"));
+		panelOptions.add(superMode);
 		int option = JOptionPane.showOptionDialog(null, panelOptions, " Enter game options ", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
 		if (option == JOptionPane.CANCEL_OPTION)
 		{
@@ -219,6 +224,7 @@ public class MenuView extends JFrame implements ActionListener {
 		{
 			Settings.TIMEOUT = (long)(Integer)spinner.getValue();
 			Settings.DIFFICULTY = difficulty.getValue();
+			Settings.SUPERMODE = superMode.isSelected();
 			view.clear();
 			view.joinGame(Settings.PLAYER1);
 			if(isMultiplayer)

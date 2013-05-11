@@ -10,4 +10,5 @@ public class Settings {
 	public static String PLAYER1 = "Player 1";
 	public static String PLAYER2 = "Player 2";
 	public static int DIFFICULTY = 1; // From 0 to 3
+	public static boolean SUPERMODE = false;
 }

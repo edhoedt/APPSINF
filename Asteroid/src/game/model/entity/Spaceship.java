@@ -13,16 +13,37 @@ public class Spaceship extends Entity {
 	private int score=0;
 	private long lastFired;
 	private int  FIRE_COOLDOWN;//in ms
-	private int[] SPACESHIP_X = {0,27,0,8,0};//{-13,14,-13,-5,-13};
-	private int[] SPACESHIP_Y = {0,15,30,15,0};//{-15,0,15,0,-15};
+	private int[] SPACESHIP_X = {0*2,2*2,1*2,3*2,6*2,9*2,6*2,5*2,7*2,9*2,11*2,12*2,15*2,17*2,16*2,17*2,16*2,17*2,15*2,12*2,11*2,9*2,7*2,5*2,6*2,9*2,6*2,3*2,1*2,2*2,0*2};
+	private int[] SPACESHIP_Y = {9*2,6*2,3*2,2*2,0*2,2*2,3*2,6*2,6*2,5*2,6*2,6*2,8*2,7*2,8*2,9*2,10*2,11*2,10*2,12*2,12*2,13*2,12*2,12*2,15*2,16*2,18*2,16*2,15*2,12*2,9*2};
+	private int[] SPACESHIP_BAH_X = {0,27,0,8,0};
+	private int[] SPACESHIP_BAH_Y = {0,15,30,15,0};
 	private AudioClip currentSound;
+	private boolean isSuperMode;
 
-	public Spaceship(int x, int y, String playerName){
+	public Spaceship(int x, int y, String playerName, boolean superMode){
 		super(x, y);
 		this.playerName=playerName;
 		lastFired=0;
 		FIRE_COOLDOWN=200;
-		this.setCollisionBox(new Polygon(SPACESHIP_X, SPACESHIP_Y));
+		this.isSuperMode = superMode;
+		if(superMode){
+			this.setCollisionBox(new Polygon(SPACESHIP_X, SPACESHIP_Y));
+		}
+		else{
+			this.setCollisionBox(new Polygon(SPACESHIP_BAH_X, SPACESHIP_BAH_Y));
+		}
+	}
+	
+	public boolean isSuperMode(){
+		return isSuperMode;
+	}
+	
+	public int firePosition(){
+		if(isSuperMode){
+			return 15;
+		}
+		else
+			return 1;
 	}
 
 	@Override

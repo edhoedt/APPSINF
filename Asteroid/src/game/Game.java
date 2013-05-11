@@ -162,10 +162,10 @@ public class Game {
 	public void addPlayer(String id){
 		Spaceship player=null;
 		if(id.equals(Settings.PLAYER1)){
-			player =new Spaceship(100,100,id);
+			player =new Spaceship(100,100,id,Settings.SUPERMODE);
 			player.setColor(1.0f, .0f, .0f);
 		}else if(id.equals(Settings.PLAYER2)){
-			player =new Spaceship(Settings.WIDTH-100,Settings.HEIGHT-100,id);
+			player =new Spaceship(Settings.WIDTH-100,Settings.HEIGHT-100,id,Settings.SUPERMODE);
 			player.setColor(.2f, 1.0f, 1.0f);
 		}
 		if(player!=null)

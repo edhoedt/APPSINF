@@ -10,6 +10,7 @@ public abstract class Entity {
 	protected float DEFAULT_MOMENTUM = .0004f;
 	protected float ANGULAR_VELOCITY = .004f; //in rad/ms
 	protected boolean destroyed = false; 
+	private int MAX_BOUNDS = 15;
 	private int x; //position on X-axis
 	private int y; //position on Y-axis
 	private Vector2D momentum = new Vector2D(0,0); //vector representing momentum (always the same orientation as the entity)
@@ -92,12 +93,20 @@ public abstract class Entity {
 
 	/** moves the entity according to it's current speed vector and the time delta*/
 	public void updatePosition(long delta){
+		if(x > Settings.WIDTH+MAX_BOUNDS){
+			x = 0+MAX_BOUNDS+5;
+		}
+		else if(x < 0-MAX_BOUNDS){
+			x = Settings.WIDTH-MAX_BOUNDS-5;
+		}
+		if(y > Settings.HEIGHT+MAX_BOUNDS){
+			y = 0+MAX_BOUNDS+5;
+		}
+		else if(y < 0-MAX_BOUNDS){
+			y = Settings.HEIGHT-MAX_BOUNDS-5;
+		}
 		x+=delta*getVelocity().getX();
 		y+=delta*getVelocity().getY();
-		if(x > Settings.WIDTH+15) x = 0;
-		else if(x < 0-15) x = Settings.WIDTH;
-		if(y > Settings.HEIGHT+15) y = 0;
-		else if(y < 0-15) y = Settings.HEIGHT;
 		this.collisionBox.moveTo(x, y);
 	}
 
