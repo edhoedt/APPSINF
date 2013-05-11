@@ -48,7 +48,7 @@ public class Asteroid extends Entity{
 				speed=.01f;
 			break;
 		}
-		this.setSpeed((float) (Math.random()*2*Math.PI), speed);
+		this.setSpeed((float) (Math.random()*2*Math.PI), speed+.05f*Settings.DIFFICULTY);
 		super.SPEED_WEAROFF_RATE=0;
 	}
 
