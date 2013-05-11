@@ -93,17 +93,22 @@ public class Spaceship extends Entity {
 				score = 0;
 			lastFired=0;
 			if(playerName.equals(Settings.PLAYER2)){
-				super.reset(Settings.WIDTH-100,Settings.HEIGHT-100);
+				reset(Settings.WIDTH-100,Settings.HEIGHT-100);
 			}
 			else{
-				super.reset(100,100);
+				reset(100,100);
 			}
 			URL path = getClass().getResource("explosion.wav");
 			try{
 				currentSound = Applet.newAudioClip(path);
 				currentSound.play();
 			}catch(Exception e){e.printStackTrace();}
-			this.setCollisionBox(new Polygon(SPACESHIP_X, SPACESHIP_Y));
+			if(isSuperMode){
+				setCollisionBox(new Polygon(SPACESHIP_X, SPACESHIP_Y));
+			}
+			else{
+				setCollisionBox(new Polygon(SPACESHIP_BAH_X, SPACESHIP_BAH_Y));
+			}
 		}
 	}
 }
