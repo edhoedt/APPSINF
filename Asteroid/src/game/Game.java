@@ -1,6 +1,7 @@
 package game;
 
 import game.model.entity.Asteroid;
+import game.model.entity.Asteroid.Size;
 import game.model.entity.Bullet;
 import game.model.entity.Entity;
 import game.model.entity.Spaceship;
@@ -139,20 +140,22 @@ public class Game {
 		else if(currentTime>=nextWave){
 			int asteroids=MIN_ASTEROIDS_PER_WAVE+(int)Math.round(Math.random()*(MAX_ASTEROIDS_PER_WAVE-MIN_ASTEROIDS_PER_WAVE));
 			for(int i=0;i<asteroids && ASTEROIDS_CAP>this.asteroids.size();i++){
+				double d = Math.random(); 
+				Size s; if(d<1/4d) s=Size.SMALL; else if(d>3/4d)s=Size.BIG; else s=Size.NORMAL;
 				if((int)Math.floor(Math.random()*2) == 1){
 					if((int)Math.floor(Math.random()*2) == 1){
-						this.asteroids.add(new Asteroid((int)(Math.random()*this.width),this.height));
+						this.asteroids.add(new Asteroid((int)(Math.random()*this.width),this.height,s));
 					}
 					else{
-						this.asteroids.add(new Asteroid((int)(Math.random()*this.width),0));
+						this.asteroids.add(new Asteroid((int)(Math.random()*this.width),0,s));
 					}
 				}
 				else{
 					if((int)Math.floor(Math.random()*2) == 1){
-						this.asteroids.add(new Asteroid(this.width,(int)(Math.random()*this.height)));
+						this.asteroids.add(new Asteroid(this.width,(int)(Math.random()*this.height),s));
 					}
 					else{
-						this.asteroids.add(new Asteroid(0,(int)(Math.random()*this.height)));
+						this.asteroids.add(new Asteroid(0,(int)(Math.random()*this.height),s));
 					}
 				}
 			}

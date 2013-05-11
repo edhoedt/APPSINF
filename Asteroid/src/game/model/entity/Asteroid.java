@@ -28,23 +28,35 @@ public class Asteroid extends Entity{
 	//TODO
 	public Asteroid(int x, int y, Size size) {
 		super(x,y);
+		float speed=0;
 		this.size=size;
+		this.setColor(0f, 1f, 0f);
 		switch(this.size){
-			case SMALL:hp=1;
-			case NORMAL:hp=1;
-			case BIG:hp=1;
+			case SMALL:
+				hp=1;
+				this.setCollisionBox(new Polygon(ASTEROID_SMALL_X, ASTEROID_SMALL_Y));
+				speed=.15f;
+			break;
+			case NORMAL:
+				hp=2; 
+				this.setCollisionBox(new Polygon(ASTEROID_NORMAL_X, ASTEROID_NORMAL_Y));
+				speed=.05f;
+			break;
+			case BIG:
+				hp=3;
+				this.setCollisionBox(new Polygon(ASTEROID_BIG_X, ASTEROID_BIG_Y));
+				speed=.01f;
+			break;
 		}
-		//this.setOrientation(getVelocity().getT());
-		this.setCollisionBox(new Polygon(ASTEROID_NORMAL_X, ASTEROID_NORMAL_Y));
-		this.setSpeed((float) (Math.random()*2*Math.PI), (float)(Math.random()/10)*Settings.DIFFICULTY+.1f);
+		this.setSpeed((float) (Math.random()*2*Math.PI), speed);
 		super.SPEED_WEAROFF_RATE=0;
 	}
 
 	//TODO
-	public Asteroid(int x, int y) {
+	/*public Asteroid(int x, int y) {
 		this(x, y, Size.NORMAL);
 		this.setCollisionBox(new Polygon(ASTEROID_NORMAL_X, ASTEROID_NORMAL_Y));
-	}
+	}*/
 
 	public Size getSize(){
 		return this.size;
@@ -63,6 +75,7 @@ public class Asteroid extends Entity{
 	public void onCollision(Entity otherEntity) {
 		if(!(otherEntity instanceof Asteroid)){
 			hp--;
+			this.setColor(0, this.getColor()[1]-.3f, 0);
 			if(hp<=0)
 				this.destroy();
 		}else{
