@@ -70,7 +70,6 @@ public class Asteroid extends Entity{
 			currentSound.play();
 		}catch(Exception e){e.printStackTrace();}
 	}
-
 	@Override
 	public void onCollision(Entity otherEntity) {
 		if(!(otherEntity instanceof Asteroid)){

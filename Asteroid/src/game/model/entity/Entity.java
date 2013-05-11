@@ -3,6 +3,7 @@ package game.model.entity;
 import game.Settings;
 import game.util.Polygon;
 import game.util.Vector2D;
+import game.util.VertexDrawer;
 
 public abstract class Entity {
 	protected float SPEED_WEAROFF_RATE = .0002f;//in units/ms
@@ -50,7 +51,16 @@ public abstract class Entity {
 	}
 	
 	public float[] getColor(){
-		float[] color = {this.colorR,this.colorG,this.colorB};
+		float[] color = {0f,0f,0f};
+		if(this.hasPoped()){
+			color[0]=this.colorR;
+			color[1]=this.colorG;
+			color[2]=this.colorB;
+		}else{
+			color[0]=.54f;
+			color[1]=.54f;
+			color[2]=.54f;
+		}
 		return color;
 	}
 	

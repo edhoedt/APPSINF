@@ -45,6 +45,7 @@ public class Spaceship extends Entity {
 		else
 			return 1;
 	}
+	
 
 	@Override
 	public boolean equals(Object o){

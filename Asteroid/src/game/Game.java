@@ -72,10 +72,8 @@ public class Game {
 					current.destroy();
 			}
 			if(!current.isDestroyed()){
-				if(current.hasPoped()){
-					current.updatePosition(getDelta());
-					current.updateSpeed(getDelta());
-				}
+				current.updatePosition(getDelta());
+				current.updateSpeed(getDelta());
 			}else{
 				spaceships.remove(current);
 				asteroids.remove(current);
