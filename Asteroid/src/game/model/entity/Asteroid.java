@@ -12,6 +12,10 @@ public class Asteroid extends Entity{
 
 	private static int[] ASTEROID_NORMAL_X = {10,17,26,34,27,36,26,14,8,1,5,1,10};
 	private static int[] ASTEROID_NORMAL_Y = {0,5,1,8,13,20,31,28,31,22,16,7,0};
+	private static int[] ASTEROID_SMALL_X = {0,4,9,10,8,3,0,1,0};
+	private static int[] ASTEROID_SMALL_Y = {0,1,2,6,10,12,9,6,0};
+	private static int[] ASTEROID_BIG_X = {7,23,33,42,46,35,33,23,8,0,7};
+	private static int[] ASTEROID_BIG_Y = {4,0,3,12,23,27,36,40,33,11,4};
 	private AudioClip currentSound;
 
 	public static enum Size{
