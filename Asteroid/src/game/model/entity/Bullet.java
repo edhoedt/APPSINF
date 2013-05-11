@@ -1,5 +1,9 @@
 package game.model.entity;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
+import java.net.URL;
+
 import game.util.Polygon;
 import game.util.Vector2D;
 
@@ -10,12 +14,19 @@ public class Bullet extends Entity {
 	public int lifespan= 4000;
 	public static int[] BULLET_X={0,5,5,0,0};
 	public static int[] BULLET_Y={0,0,1,1,0};
+	private AudioClip currentSound;
 	
 	public Bullet(Spaceship thrower) {
 		//super(thrower.getX(), thrower.getY(), new Vector2D(thrower.getOrientation(),BULLET_SPEED)); //TODO faire apparaitre le bullet devant le lanceur et pas SUR le lanceur
 		//super(thrower.getCollisionBox().getXpoint(1), thrower.getCollisionBox().getYpoint(1), Vector2D.getSum(new Vector2D(thrower.getOrientation(),BULLET_SPEED), thrower.getVelocity()));
 		super(thrower.getCollisionBox().getXpoint(1), thrower.getCollisionBox().getYpoint(1), new Vector2D(thrower.getOrientation(),BULLET_SPEED+thrower.getVelocity().getR()));
 
+		URL path = getClass().getResource("laser.wav");
+		try{
+			currentSound = Applet.newAudioClip(path);
+			currentSound.play();
+		}catch(Exception e){e.printStackTrace();}
+		
 		//this.setColor(1.0f, 1.0f, 0.0f);
 		this.setColor(thrower.getColor()[0], thrower.getColor()[1], thrower.getColor()[2]);
 		//this.setOrientation(thrower.getOrientation());

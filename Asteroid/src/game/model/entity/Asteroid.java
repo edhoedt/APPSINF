@@ -1,5 +1,10 @@
 package game.model.entity;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
+import java.net.URL;
+
+import game.Settings;
 import game.util.Polygon;
 import game.util.Vector2D;
 
@@ -7,6 +12,7 @@ public class Asteroid extends Entity{
 
 	private static int[] ASTEROID_NORMAL_X = {10,17,26,34,27,36,26,14,8,1,5,1,10};
 	private static int[] ASTEROID_NORMAL_Y = {0,5,1,8,13,20,31,28,31,22,16,7,0};
+	private AudioClip currentSound;
 
 	public static enum Size{
 		SMALL, BIG, NORMAL;
@@ -42,7 +48,11 @@ public class Asteroid extends Entity{
 
 	@Override
 	public void onDestroy() {
-		//TODO
+		URL path = getClass().getResource("explosion.wav");
+		try{
+			currentSound = Applet.newAudioClip(path);
+			currentSound.play();
+		}catch(Exception e){e.printStackTrace();}
 	}
 
 	@Override
