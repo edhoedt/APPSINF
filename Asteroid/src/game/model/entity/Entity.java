@@ -53,11 +53,11 @@ public abstract class Entity {
 		return color;
 	}
 	
-	public void reset(){
+	public void reset(int x, int y){
 		this.velocity=new Vector2D(0,0);
 		this.momentum=new Vector2D(0,0);
-		this.x=0;
-		this.y=0;
+		this.x=x;
+		this.y=y;
 		this.destroyed=false;
 	}
 
