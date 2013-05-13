@@ -20,7 +20,7 @@ public class Bullet extends Entity {
 		//super(thrower.getX(), thrower.getY(), new Vector2D(thrower.getOrientation(),BULLET_SPEED)); //TODO faire apparaitre le bullet devant le lanceur et pas SUR le lanceur
 		//super(thrower.getCollisionBox().getXpoint(1), thrower.getCollisionBox().getYpoint(1), Vector2D.getSum(new Vector2D(thrower.getOrientation(),BULLET_SPEED), thrower.getVelocity()));
 		super(thrower.getCollisionBox().getXpoint(thrower.firePosition()), thrower.getCollisionBox().getYpoint(thrower.firePosition()), new Vector2D(thrower.getOrientation(),BULLET_SPEED+thrower.getVelocity().getR()));
-
+		thrower.pop();
 		URL path = getClass().getResource("laser.wav");
 		try{
 			currentSound = Applet.newAudioClip(path);

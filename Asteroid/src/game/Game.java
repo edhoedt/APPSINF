@@ -60,6 +60,9 @@ public class Game {
 		lastTime=time;
 		time=currentTime;
 	}
+	public long getTime(){
+		return time;
+	}
 	private long getDelta(){
 		return time-lastTime;
 	}
@@ -87,18 +90,13 @@ public class Game {
 	private void processCollisions(){
 		ArrayList<Entity> entities= this.getEntities();
 		for(int i=0;i<entities.size();i++){
-			boolean collided=false;
 			for(int j=i+1;j<entities.size();j++){
 				if(entities.get(i).collides(entities.get(j))){
-					collided=true;
 					if(entities.get(i).hasPoped() && entities.get(j).hasPoped()){
 						entities.get(i).onCollision(entities.get(j));
 						entities.get(j).onCollision(entities.get(i));
 					}
 				}
-			}
-			if(!collided){
-				entities.get(i).pop();
 			}
 		}
 	}

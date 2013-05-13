@@ -28,6 +28,7 @@ public class Asteroid extends Entity{
 	//TODO
 	public Asteroid(int x, int y, Size size) {
 		super(x,y);
+		this.setGhostTime(2000);
 		float speed=0;
 		this.size=size;
 		this.setColor(0f, 1f, 0f);

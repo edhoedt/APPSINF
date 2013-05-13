@@ -22,6 +22,7 @@ public class Spaceship extends Entity {
 
 	public Spaceship(int x, int y, String playerName, boolean superMode){
 		super(x, y);
+		this.setGhostTime(4000);
 		this.playerName=playerName;
 		lastFired=0;
 		FIRE_COOLDOWN=200+(800*Settings.DIFFICULTY);

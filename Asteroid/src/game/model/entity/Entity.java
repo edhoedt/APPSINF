@@ -20,6 +20,8 @@ public abstract class Entity {
 	private boolean poped=false; //
 	private Polygon collisionBox;
 	private float colorR=.0f, colorG=1.0f, colorB=.0f;
+	private int GHOST_MAXTIME=0;
+	private int GHOST_TIMELEFT=0;
 
 	protected Entity(int x, int y){
 		this.x = x;
@@ -64,12 +66,19 @@ public abstract class Entity {
 		return color;
 	}
 	
+	protected void setGhostTime(int maxTime){
+		this.GHOST_MAXTIME=maxTime;
+		this.GHOST_TIMELEFT=this.GHOST_MAXTIME;
+	}
+	
 	public void reset(int x, int y){
 		this.velocity=new Vector2D(0,0);
 		this.momentum=new Vector2D(0,0);
 		this.x=x;
 		this.y=y;
 		this.destroyed=false;
+		this.GHOST_TIMELEFT=this.GHOST_MAXTIME;
+		this.poped=false;
 	}
 
 	protected Vector2D getMomentum(){return momentum;}
@@ -103,6 +112,10 @@ public abstract class Entity {
 
 	/** moves the entity according to it's current speed vector and the time delta*/
 	public void updatePosition(long delta){
+		this.GHOST_TIMELEFT-=delta;
+		if(this.GHOST_TIMELEFT<0){
+			this.pop();
+		}
 		if(x > Settings.WIDTH+MAX_BOUNDS){
 			x = 0+MAX_BOUNDS+5;
 		}
