@@ -188,7 +188,7 @@ public class GameState extends JFrame{
 				Spaceship player;
 				while(playersIterator.hasNext()){
 					player=playersIterator.next();
-					if(actions.get(player)==Command.GO_FORWARD || actions.get(player)==Command.GO_BACKWARD)
+					if(actions.get(player)==Command.GO_FORWARD)
 						movingShips.add(player);
 					game.executeCommand(actions.get(player), player);
 				}
@@ -303,14 +303,12 @@ public class GameState extends JFrame{
 
 			if(playerName.equals(Settings.PLAYER1)){
 				controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("forwardP1")), Command.GO_FORWARD);
-				//controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("backwardP1")), Command.GO_BACKWARD);
 				controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("turnLeftP1")), Command.TURN_LEFT);
 				controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("turnRightP1")), Command.TURN_RIGHT);
 				controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("fireP1")), Command.FIRE);
 			}
 			else if(playerName.equals(Settings.PLAYER2)){
 				controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("forwardP2")), Command.GO_FORWARD);
-				//controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("backwardP2")), Command.GO_BACKWARD);
 				controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("turnLeftP2")), Command.TURN_LEFT);
 				controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("turnRightP2")), Command.TURN_RIGHT);
 				controls.bind(game.getShip(playerName), KeyToLwjgl.translateKeyCode(prop.getProperty("fireP2")), Command.FIRE);

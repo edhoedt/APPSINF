@@ -107,9 +107,6 @@ public class Game {
 			case GO_FORWARD:
 				entity.increaseMomentum(getDelta());
 				break;
-			case GO_BACKWARD:
-				entity.increaseMomentum(getDelta(), true);
-				break;
 			case RESET_MOMENTUM:
 				//System.out.println("reset");
 				entity.resetMomentum();

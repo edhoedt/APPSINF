@@ -33,29 +33,24 @@ public class Commands extends JFrame implements ActionListener {
 	
 	private JLabel player1;
 	private JLabel player2;
-	private JLabel separator1;
 	private JLabel separator2;
 	private JLabel separator3;
 	private JLabel separator4;
 	private JLabel separator5;
 	
-	private JButton backwardP1;
 	private JButton forwardP1;
 	private JButton turnLeftP1;
 	private JButton turnRightP1;
 	private JButton fireP1;
-	private JTextField backwardTP1;
 	private JTextField forwardTP1;
 	private JTextField turnLeftTP1;
 	private JTextField turnRightTP1;
 	private JTextField fireTP1;
 	
-	private JButton backwardP2;
 	private JButton forwardP2;
 	private JButton turnLeftP2;
 	private JButton turnRightP2;
 	private JButton fireP2;
-	private JTextField backwardTP2;
 	private JTextField forwardTP2;
 	private JTextField turnLeftTP2;
 	private JTextField turnRightTP2;
@@ -71,7 +66,7 @@ public class Commands extends JFrame implements ActionListener {
 		
 		panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		commandsPanel = new JPanel(new GridLayout(5,5));
+		commandsPanel = new JPanel(new GridLayout(4,5));
 		returnPanel = new JPanel(new GridLayout(3,4));
 		playerPanel = new JPanel(new GridLayout(1,3));
 		
@@ -79,8 +74,6 @@ public class Commands extends JFrame implements ActionListener {
 		player1.setHorizontalAlignment( SwingConstants.CENTER );
 		player2 = new JLabel("Player 2");
 		player2.setHorizontalAlignment( SwingConstants.CENTER );
-		separator1 = new JLabel("|");
-		separator1.setHorizontalAlignment( SwingConstants.CENTER );
 		separator2 = new JLabel("|");
 		separator2.setHorizontalAlignment( SwingConstants.CENTER );
 		separator3 = new JLabel("|");
@@ -90,9 +83,6 @@ public class Commands extends JFrame implements ActionListener {
 		separator5 = new JLabel("|");
 		separator5.setHorizontalAlignment( SwingConstants.CENTER );
 		
-		backwardP1 = new JButton("Backward");
-		backwardTP1 = new JTextField();
-		backwardTP1.setEditable(false);
 		forwardP1 = new JButton("Forward");
 		forwardTP1 = new JTextField();
 		forwardTP1.setEditable(false);
@@ -106,9 +96,6 @@ public class Commands extends JFrame implements ActionListener {
 		fireTP1 = new JTextField();
 		fireTP1.setEditable(false);
 		
-		backwardP2 = new JButton("Backward");
-		backwardTP2 = new JTextField();
-		backwardTP2.setEditable(false);
 		forwardP2 = new JButton("Forward");
 		forwardTP2 = new JTextField();
 		forwardTP2.setEditable(false);
@@ -129,11 +116,6 @@ public class Commands extends JFrame implements ActionListener {
 		playerPanel.add(player1);
 		playerPanel.add(new JLabel(""));
 		playerPanel.add(player2);
-		commandsPanel.add(backwardP1);
-		commandsPanel.add(backwardTP1);
-		commandsPanel.add(separator1);
-		commandsPanel.add(backwardP2);
-		commandsPanel.add(backwardTP2);
 		commandsPanel.add(forwardP1);
 		commandsPanel.add(forwardTP1);
 		commandsPanel.add(separator2);
@@ -179,25 +161,11 @@ public class Commands extends JFrame implements ActionListener {
 		returnButton.addActionListener(this);
 		applyButton.addActionListener(this);
 		
-		backwardP1.addKeyListener(new KeyListener() {
-			public void keyPressed(KeyEvent e) {
-				if(KeyEvent.getKeyText(e.getKeyCode()).equals(forwardTP1.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(turnLeftTP1.getText()) ||
-						KeyEvent.getKeyText(e.getKeyCode()).equals(turnRightTP1.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(fireTP1.getText()) ||
-						KeyEvent.getKeyText(e.getKeyCode()).equals(backwardTP2.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(forwardTP2.getText()) ||
-						KeyEvent.getKeyText(e.getKeyCode()).equals(turnLeftTP2.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(turnRightTP2.getText()) ||
-						KeyEvent.getKeyText(e.getKeyCode()).equals(fireTP2.getText()))
-					JOptionPane.showMessageDialog(null, "The key '"+ KeyEvent.getKeyText(e.getKeyCode()) +"' is already used", "Binding Error", JOptionPane.WARNING_MESSAGE);
-				else
-					backwardTP1.setText(KeyEvent.getKeyText(e.getKeyCode()));
-			}
-			public void keyReleased(KeyEvent e) {}
-			public void keyTyped(KeyEvent e) {}
-        });
 		forwardP1.addKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent e) {
-				if(KeyEvent.getKeyText(e.getKeyCode()).equals(backwardTP1.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(turnLeftTP1.getText()) ||
+				if(KeyEvent.getKeyText(e.getKeyCode()).equals(turnLeftTP1.getText()) ||
 						KeyEvent.getKeyText(e.getKeyCode()).equals(turnRightTP1.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(fireTP1.getText()) ||
-						KeyEvent.getKeyText(e.getKeyCode()).equals(backwardTP2.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(forwardTP2.getText()) ||
+						KeyEvent.getKeyText(e.getKeyCode()).equals(forwardTP2.getText()) ||
 						KeyEvent.getKeyText(e.getKeyCode()).equals(turnLeftTP2.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(turnRightTP2.getText()) ||
 						KeyEvent.getKeyText(e.getKeyCode()).equals(fireTP2.getText()))
 					JOptionPane.showMessageDialog(null, "The key '"+ KeyEvent.getKeyText(e.getKeyCode()) +"' is already used", "Binding Error", JOptionPane.WARNING_MESSAGE);
@@ -209,9 +177,9 @@ public class Commands extends JFrame implements ActionListener {
         });
 		turnLeftP1.addKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent e) {
-				if(KeyEvent.getKeyText(e.getKeyCode()).equals(forwardTP1.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(backwardTP1.getText()) ||
+				if(KeyEvent.getKeyText(e.getKeyCode()).equals(forwardTP1.getText()) ||
 						KeyEvent.getKeyText(e.getKeyCode()).equals(turnRightTP1.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(fireTP1.getText()) ||
-						KeyEvent.getKeyText(e.getKeyCode()).equals(backwardTP2.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(forwardTP2.getText()) ||
+						KeyEvent.getKeyText(e.getKeyCode()).equals(forwardTP2.getText()) ||
 						KeyEvent.getKeyText(e.getKeyCode()).equals(turnLeftTP2.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(turnRightTP2.getText()) ||
 						KeyEvent.getKeyText(e.getKeyCode()).equals(fireTP2.getText()))
 					JOptionPane.showMessageDialog(null, "The key '"+ KeyEvent.getKeyText(e.getKeyCode()) +"' is already used", "Binding Error", JOptionPane.WARNING_MESSAGE);
@@ -224,8 +192,8 @@ public class Commands extends JFrame implements ActionListener {
 		turnRightP1.addKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent e) {
 				if(KeyEvent.getKeyText(e.getKeyCode()).equals(forwardTP1.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(turnLeftTP1.getText()) ||
-						KeyEvent.getKeyText(e.getKeyCode()).equals(backwardTP1.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(fireTP1.getText()) ||
-						KeyEvent.getKeyText(e.getKeyCode()).equals(backwardTP2.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(forwardTP2.getText()) ||
+						KeyEvent.getKeyText(e.getKeyCode()).equals(fireTP1.getText()) ||
+						KeyEvent.getKeyText(e.getKeyCode()).equals(forwardTP2.getText()) ||
 						KeyEvent.getKeyText(e.getKeyCode()).equals(turnLeftTP2.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(turnRightTP2.getText()) ||
 						KeyEvent.getKeyText(e.getKeyCode()).equals(fireTP2.getText()))
 					JOptionPane.showMessageDialog(null, "The key '"+ KeyEvent.getKeyText(e.getKeyCode()) +"' is already used", "Binding Error", JOptionPane.WARNING_MESSAGE);
@@ -238,8 +206,8 @@ public class Commands extends JFrame implements ActionListener {
 		fireP1.addKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent e) {
 				if(KeyEvent.getKeyText(e.getKeyCode()).equals(forwardTP1.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(turnLeftTP1.getText()) ||
-						KeyEvent.getKeyText(e.getKeyCode()).equals(turnRightTP1.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(backwardTP1.getText()) ||
-						KeyEvent.getKeyText(e.getKeyCode()).equals(backwardTP2.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(forwardTP2.getText()) ||
+						KeyEvent.getKeyText(e.getKeyCode()).equals(turnRightTP1.getText()) ||
+						KeyEvent.getKeyText(e.getKeyCode()).equals(forwardTP2.getText()) ||
 						KeyEvent.getKeyText(e.getKeyCode()).equals(turnLeftTP2.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(turnRightTP2.getText()) ||
 						KeyEvent.getKeyText(e.getKeyCode()).equals(fireTP2.getText()))
 					JOptionPane.showMessageDialog(null, "The key '"+ KeyEvent.getKeyText(e.getKeyCode()) +"' is already used", "Binding Error", JOptionPane.WARNING_MESSAGE);
@@ -249,25 +217,10 @@ public class Commands extends JFrame implements ActionListener {
 			public void keyReleased(KeyEvent e) {}
 			public void keyTyped(KeyEvent e) {}
         });
-		backwardP2.addKeyListener(new KeyListener() {
-			public void keyPressed(KeyEvent e) {
-				if(KeyEvent.getKeyText(e.getKeyCode()).equals(forwardTP1.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(turnLeftTP1.getText()) ||
-						KeyEvent.getKeyText(e.getKeyCode()).equals(turnRightTP1.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(fireTP1.getText()) ||
-						KeyEvent.getKeyText(e.getKeyCode()).equals(backwardTP1.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(forwardTP2.getText()) ||
-						KeyEvent.getKeyText(e.getKeyCode()).equals(turnLeftTP2.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(turnRightTP2.getText()) ||
-						KeyEvent.getKeyText(e.getKeyCode()).equals(fireTP2.getText()))
-					JOptionPane.showMessageDialog(null, "The key '"+ KeyEvent.getKeyText(e.getKeyCode()) +"' is already used", "Binding Error", JOptionPane.WARNING_MESSAGE);
-				else
-				backwardTP2.setText(KeyEvent.getKeyText(e.getKeyCode()));
-			}
-			public void keyReleased(KeyEvent e) {}
-			public void keyTyped(KeyEvent e) {}
-        });
 		forwardP2.addKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent e) {
 				if(KeyEvent.getKeyText(e.getKeyCode()).equals(forwardTP1.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(turnLeftTP1.getText()) ||
 						KeyEvent.getKeyText(e.getKeyCode()).equals(turnRightTP1.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(fireTP1.getText()) ||
-						KeyEvent.getKeyText(e.getKeyCode()).equals(backwardTP2.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(backwardTP1.getText()) ||
 						KeyEvent.getKeyText(e.getKeyCode()).equals(turnLeftTP2.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(turnRightTP2.getText()) ||
 						KeyEvent.getKeyText(e.getKeyCode()).equals(fireTP2.getText()))
 					JOptionPane.showMessageDialog(null, "The key '"+ KeyEvent.getKeyText(e.getKeyCode()) +"' is already used", "Binding Error", JOptionPane.WARNING_MESSAGE);
@@ -281,8 +234,8 @@ public class Commands extends JFrame implements ActionListener {
 			public void keyPressed(KeyEvent e) {
 				if(KeyEvent.getKeyText(e.getKeyCode()).equals(forwardTP1.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(turnLeftTP1.getText()) ||
 						KeyEvent.getKeyText(e.getKeyCode()).equals(turnRightTP1.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(fireTP1.getText()) ||
-						KeyEvent.getKeyText(e.getKeyCode()).equals(backwardTP2.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(forwardTP2.getText()) ||
-						KeyEvent.getKeyText(e.getKeyCode()).equals(backwardTP1.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(turnRightTP2.getText()) ||
+						KeyEvent.getKeyText(e.getKeyCode()).equals(forwardTP2.getText()) ||
+						KeyEvent.getKeyText(e.getKeyCode()).equals(turnRightTP2.getText()) ||
 						KeyEvent.getKeyText(e.getKeyCode()).equals(fireTP2.getText()))
 					JOptionPane.showMessageDialog(null, "The key '"+ KeyEvent.getKeyText(e.getKeyCode()) +"' is already used", "Binding Error", JOptionPane.WARNING_MESSAGE);
 				else
@@ -295,8 +248,8 @@ public class Commands extends JFrame implements ActionListener {
 			public void keyPressed(KeyEvent e) {
 				if(KeyEvent.getKeyText(e.getKeyCode()).equals(forwardTP1.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(turnLeftTP1.getText()) ||
 						KeyEvent.getKeyText(e.getKeyCode()).equals(turnRightTP1.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(fireTP1.getText()) ||
-						KeyEvent.getKeyText(e.getKeyCode()).equals(backwardTP2.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(forwardTP2.getText()) ||
-						KeyEvent.getKeyText(e.getKeyCode()).equals(turnLeftTP2.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(backwardTP1.getText()) ||
+						KeyEvent.getKeyText(e.getKeyCode()).equals(forwardTP2.getText()) ||
+						KeyEvent.getKeyText(e.getKeyCode()).equals(turnLeftTP2.getText()) ||
 						KeyEvent.getKeyText(e.getKeyCode()).equals(fireTP2.getText()))
 					JOptionPane.showMessageDialog(null, "The key '"+ KeyEvent.getKeyText(e.getKeyCode()) +"' is already used", "Binding Error", JOptionPane.WARNING_MESSAGE);
 				else
@@ -309,9 +262,8 @@ public class Commands extends JFrame implements ActionListener {
 			public void keyPressed(KeyEvent e) {
 				if(KeyEvent.getKeyText(e.getKeyCode()).equals(forwardTP1.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(turnLeftTP1.getText()) ||
 						KeyEvent.getKeyText(e.getKeyCode()).equals(turnRightTP1.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(fireTP1.getText()) ||
-						KeyEvent.getKeyText(e.getKeyCode()).equals(backwardTP2.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(forwardTP2.getText()) ||
-						KeyEvent.getKeyText(e.getKeyCode()).equals(turnLeftTP2.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(turnRightTP2.getText()) ||
-						KeyEvent.getKeyText(e.getKeyCode()).equals(backwardTP1.getText()))
+						KeyEvent.getKeyText(e.getKeyCode()).equals(forwardTP2.getText()) ||
+						KeyEvent.getKeyText(e.getKeyCode()).equals(turnLeftTP2.getText()) || KeyEvent.getKeyText(e.getKeyCode()).equals(turnRightTP2.getText()))
 					JOptionPane.showMessageDialog(null, "The key '"+ KeyEvent.getKeyText(e.getKeyCode()) +"' is already used", "Binding Error", JOptionPane.WARNING_MESSAGE);
 				else
 				fireTP2.setText(KeyEvent.getKeyText(e.getKeyCode()));
@@ -359,13 +311,11 @@ public class Commands extends JFrame implements ActionListener {
     		prop.load(new FileInputStream("config/controls.properties"));
  
             //get the property value and print it out
-    		backwardTP1.setText(prop.getProperty("backwardP1"));
     		forwardTP1.setText(prop.getProperty("forwardP1"));
     		turnLeftTP1.setText(prop.getProperty("turnLeftP1"));
     		turnRightTP1.setText(prop.getProperty("turnRightP1"));
     		fireTP1.setText(prop.getProperty("fireP1"));
     		
-    		backwardTP2.setText(prop.getProperty("backwardP2"));
     		forwardTP2.setText(prop.getProperty("forwardP2"));
     		turnLeftTP2.setText(prop.getProperty("turnLeftP2"));
     		turnRightTP2.setText(prop.getProperty("turnRightP2"));
@@ -384,13 +334,11 @@ public class Commands extends JFrame implements ActionListener {
 			 
 	    	try {
 	    		//set the properties value
-	    		prop.setProperty("backwardP1", backwardTP1.getText());
 	    		prop.setProperty("forwardP1", forwardTP1.getText());
 	    		prop.setProperty("turnLeftP1", turnLeftTP1.getText());
 	    		prop.setProperty("turnRightP1", turnRightTP1.getText());
 	    		prop.setProperty("fireP1", fireTP1.getText());
 	    		
-	    		prop.setProperty("backwardP2", backwardTP2.getText());
 	    		prop.setProperty("forwardP2", forwardTP2.getText());
 	    		prop.setProperty("turnLeftP2", turnLeftTP2.getText());
 	    		prop.setProperty("turnRightP2", turnRightTP2.getText());
