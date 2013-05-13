@@ -3,7 +3,6 @@ package game.model.entity;
 import game.Settings;
 import game.util.Polygon;
 import game.util.Vector2D;
-import game.util.VertexDrawer;
 
 public abstract class Entity {
 	protected float SPEED_WEAROFF_RATE = .0002f;//in units/ms
@@ -119,13 +118,13 @@ public abstract class Entity {
 		if(x > Settings.WIDTH+MAX_BOUNDS){
 			x = 0+MAX_BOUNDS+5;
 		}
-		else if(x < 0-MAX_BOUNDS){
+		else if(x < 1){
 			x = Settings.WIDTH-MAX_BOUNDS-5;
 		}
 		if(y > Settings.HEIGHT+MAX_BOUNDS){
 			y = 0+MAX_BOUNDS+5;
 		}
-		else if(y < 0-MAX_BOUNDS){
+		else if(y < 1){
 			y = Settings.HEIGHT-MAX_BOUNDS-5;
 		}
 		x+=delta*getVelocity().getX();
