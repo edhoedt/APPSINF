@@ -4,6 +4,7 @@ import java.applet.Applet;
 import java.applet.AudioClip;
 import java.net.URL;
 
+import game.Settings;
 import game.util.Polygon;
 import game.util.Vector2D;
 
@@ -56,9 +57,9 @@ public class Bullet extends Entity {
 	public void onCollision(Entity otherEntity) {
 		if(!(otherEntity instanceof Bullet) && !(otherEntity instanceof Spaceship) && !this.thrower.equals(otherEntity)){
 			if(otherEntity instanceof Asteroid){
-				this.thrower.score(1);
+				this.thrower.score((100/Settings.TIMEOUT)*(1+Settings.DIFFICULTY));
 			}else if(otherEntity instanceof Spaceship){
-				this.thrower.score(10);
+				this.thrower.score((1000/Settings.TIMEOUT)*(1+Settings.DIFFICULTY));
 			}
 			this.destroy();
 		}

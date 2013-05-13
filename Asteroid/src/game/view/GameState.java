@@ -142,9 +142,9 @@ public class GameState extends JFrame{
 			timeLabel.setText("Time "+(((this.getTime() - startTime)/60000))+":"+(((this.getTime() - startTime)/1000)%60));
 
 			// Update des noms des players
-			scoreP1.setText("Score "+Settings.PLAYER1+" : "+((float)game.getShip(Settings.PLAYER1).getScore())/Settings.TIMEOUT);
+			scoreP1.setText("Score "+Settings.PLAYER1+" : "+(game.getShip(Settings.PLAYER1).getScore()));
 			if(game.getShip(Settings.PLAYER2) != null)
-				scoreP2.setText("Score "+Settings.PLAYER2+" : "+((float)game.getShip(Settings.PLAYER2).getScore())/Settings.TIMEOUT);
+				scoreP2.setText("Score "+Settings.PLAYER2+" : "+(game.getShip(Settings.PLAYER2).getScore()));
 
 			VertexDrawer.clear();
 			for(Entity e : this.game.getEntities()){
@@ -235,7 +235,7 @@ public class GameState extends JFrame{
     			if(game.getShip(Settings.PLAYER2)==null){
     				if((float)game.getShip(Settings.PLAYER1).getScore() > scoresSingle[j-1] && !joueur1Ok){
     					prop2.setProperty("single"+j+"Name", Settings.PLAYER1);
-    					prop2.setProperty("single"+j+"Score", ""+((float)game.getShip(Settings.PLAYER1).getScore())/Settings.TIMEOUT);
+    					prop2.setProperty("single"+j+"Score", ""+((float)game.getShip(Settings.PLAYER1).getScore()));
     					joueur1Ok = true;
     				}
     				if(joueur1Ok && (j+1)<11){
@@ -248,7 +248,7 @@ public class GameState extends JFrame{
     			else{
     				if((float)game.getShip(Settings.PLAYER1).getScore() > scoresMulti[j-1] && !joueur1Ok){
     					prop2.setProperty("multi"+j+"Name", Settings.PLAYER1);
-    					prop2.setProperty("multi"+j+"Score", ""+((float)game.getShip(Settings.PLAYER1).getScore())/Settings.TIMEOUT);
+    					prop2.setProperty("multi"+j+"Score", ""+((float)game.getShip(Settings.PLAYER1).getScore()));
     					joueur1Ok = true;
     				}
     				if(joueur1Ok && (j+1)<11){
@@ -273,7 +273,7 @@ public class GameState extends JFrame{
     			if(game.getShip(Settings.PLAYER2)!=null){
     				if((float)game.getShip(Settings.PLAYER2).getScore() > scoresMulti[j-1] && !joueur2Ok){
     					prop2.setProperty("multi"+j+"Name", Settings.PLAYER2);
-    					prop2.setProperty("multi"+j+"Score", ""+((float)game.getShip(Settings.PLAYER2).getScore())/Settings.TIMEOUT);
+    					prop2.setProperty("multi"+j+"Score", ""+((float)game.getShip(Settings.PLAYER2).getScore()));
     					joueur2Ok = true;
     				}
     				if(joueur2Ok && (j+1)<11){

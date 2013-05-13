@@ -10,7 +10,7 @@ import game.util.Vector2D;
 
 public class Spaceship extends Entity {
 	private String playerName;
-	private int score=0;
+	private float score = 0;
 	private long lastFired;
 	private int  FIRE_COOLDOWN;//in ms
 	private int[] SPACESHIP_X = {0*2,2*2,1*2,3*2,6*2,9*2,6*2,5*2,7*2,9*2,11*2,12*2,15*2,17*2,16*2,17*2,16*2,17*2,15*2,12*2,11*2,9*2,7*2,5*2,6*2,9*2,6*2,3*2,1*2,2*2,0*2};
@@ -57,11 +57,11 @@ public class Spaceship extends Entity {
 		return playerName;
 	}
 	
-	public int getScore(){
+	public float getScore(){
 		return score;
 	}
 	
-	public void score(int points){
+	public void score(float points){
 		score+=points;
 	}
 
@@ -89,8 +89,8 @@ public class Spaceship extends Entity {
 		}
 		else{
 			//this.destroy();
-			if(score >= 10)
-				this.score(-10);
+			if(score >= (1000/Settings.TIMEOUT)*(1+Settings.DIFFICULTY))
+				this.score(-((1000/Settings.TIMEOUT)*(1+Settings.DIFFICULTY)));
 			else
 				score = 0;
 			lastFired=0;
