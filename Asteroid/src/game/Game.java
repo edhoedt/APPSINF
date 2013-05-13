@@ -13,7 +13,7 @@ public class Game {
 	private static final int MIN_TIME_BETWEEN_WAVES=5000;
 	private static final int MAX_ASTEROIDS_PER_WAVE = 3+Settings.DIFFICULTY;
 	private static final int MIN_ASTEROIDS_PER_WAVE = 1;
-	private static final int ASTEROIDS_CAP=10*(Settings.DIFFICULTY+1);
+	private static int ASTEROIDS_CAP=5*(Settings.DIFFICULTY+1);
 	private long time=0;
 	private long lastTime=0;
 	private ArrayList<Spaceship> spaceships;
@@ -148,6 +148,7 @@ public class Game {
 		}else if(id.equals(Settings.PLAYER2)){
 			player =new Spaceship(Settings.WIDTH-100,Settings.HEIGHT-100,id,Settings.SUPERMODE);
 			player.setColor(.2f, 1.0f, 1.0f);
+			ASTEROIDS_CAP = ASTEROIDS_CAP*2;
 		}
 		if(player!=null)
 			this.spaceships.add(player);

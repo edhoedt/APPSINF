@@ -3,7 +3,6 @@ package game.model.entity;
 import game.Settings;
 import game.util.Polygon;
 import game.util.Vector2D;
-import game.util.VertexDrawer;
 
 public abstract class Entity {
 	protected float SPEED_WEAROFF_RATE = .0002f;//in units/ms
@@ -12,8 +11,8 @@ public abstract class Entity {
 	protected float ANGULAR_VELOCITY = .005f - 0.001f*Settings.DIFFICULTY; //in rad/ms
 	protected boolean destroyed = false; 
 	private int MAX_BOUNDS = 15;
-	private int x; //position on X-axis
-	private int y; //position on Y-axis
+	private double x; //position on X-axis
+	private double y; //position on Y-axis
 	private Vector2D momentum = new Vector2D(0,0); //vector representing momentum (always the same orientation as the entity)
 	private Vector2D velocity = new Vector2D(0,0); //vector representing velocity
 	private boolean backward=false;
@@ -95,8 +94,8 @@ public abstract class Entity {
 		}
 		return momentumDirection;
 	}		
-	public int getX(){return x;}
-	public int getY(){return y;}
+	public int getX(){return (int) (x+.5d);}
+	public int getY(){return (int) (y+.5d);}
 	public void destroy(){
 		destroyed=true; 
 		this.onDestroy();
@@ -119,18 +118,18 @@ public abstract class Entity {
 		if(x > Settings.WIDTH+MAX_BOUNDS){
 			x = 0+MAX_BOUNDS+5;
 		}
-		else if(x < 0-MAX_BOUNDS){
+		else if(x < 1){
 			x = Settings.WIDTH-MAX_BOUNDS-5;
 		}
 		if(y > Settings.HEIGHT+MAX_BOUNDS){
 			y = 0+MAX_BOUNDS+5;
 		}
-		else if(y < 0-MAX_BOUNDS){
+		else if(y < 1){
 			y = Settings.HEIGHT-MAX_BOUNDS-5;
 		}
 		x+=delta*getVelocity().getX();
 		y+=delta*getVelocity().getY();
-		this.collisionBox.moveTo(x, y);
+		this.collisionBox.moveTo(this.getX(), this.getY());
 	}
 
 	/** updates the speed according to acceleration, velocity decay and time delta*/
