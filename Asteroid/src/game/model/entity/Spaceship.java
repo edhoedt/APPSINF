@@ -89,8 +89,8 @@ public class Spaceship extends Entity {
 		}
 		else{
 			//this.destroy();
-			if(score >= (1000/Settings.TIMEOUT)*(1+Settings.DIFFICULTY))
-				this.score(-((1000/Settings.TIMEOUT)*(1+Settings.DIFFICULTY)));
+			if(score >= (100/Settings.TIMEOUT)*(1+Settings.DIFFICULTY))
+				this.score(-((100/Settings.TIMEOUT)*(1+Settings.DIFFICULTY)));
 			else
 				score = 0;
 			lastFired=0;
