@@ -37,6 +37,7 @@ import javax.swing.SpinnerNumberModel;
  */
 public class MenuView extends JFrame implements ActionListener {
 	
+	// DECLARATION DES VARIABLES
 	private GameState view;
 	
 	private Image background;
@@ -55,11 +56,15 @@ public class MenuView extends JFrame implements ActionListener {
 	private CoolButton optionsButton;
 	private CoolButton exit;
 	
+	/*
+	 * Constructeur
+	 */
 	public MenuView(){
 		super("Asteroids");
 		
-		ConfigMaker.getProperties();
+		ConfigMaker.getProperties(); // Remplit la classe Settings
 		
+		// MISE EN PLACE DU BACKGROUND
 		background = Toolkit.getDefaultToolkit().getImage("res/background.jpg");
 		try
 		{
@@ -70,6 +75,7 @@ public class MenuView extends JFrame implements ActionListener {
 		catch(Exception e){e.printStackTrace();}
 		this.setContentPane(new ContentPane(background));
 		
+		// MISE EN PLACE DE LA MUSIQUE
         URL path = getClass().getResource("Eight_Bit_Robot_Dance.wav");
 		try{
 			currentSound = Applet.newAudioClip(path);
@@ -81,20 +87,24 @@ public class MenuView extends JFrame implements ActionListener {
 		this.setVisible(true); // Visible car première fenêtre à être affichée atm
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		// INITIALISATION DES AUTRES VUES
 		commandsView = new Commands();
 		options = new Options(this, commandsView);
 		
+		// PANELS
 		panel = new JPanel(new GridLayout(10,1));
 		panel.setOpaque(false);
 		exitOptions = new JPanel(new GridLayout(1,3));
 		exitOptions.setOpaque(false);
+		
+		// BOUTONS VERTS
 		singleplayer = new CoolButton("SINGLEPLAYER");
 		multiplayer = new CoolButton("MULTIPLAYER");
 		scores = new CoolButton("SCORES");
 		optionsButton = new CoolButton("OPTIONS");
 		exit = new CoolButton("EXIT");
 		
-		
+		// AJOUT DES COMPOSANTS
 		this.add(panel);
 		panel.add(new JLabel(""));
 		panel.add(new JLabel(""));
@@ -109,20 +119,30 @@ public class MenuView extends JFrame implements ActionListener {
 		exitOptions.add(optionsButton);
 		panel.add(new JLabel(""));
 		panel.add(exitOptions);
+		
+		// AJOUT DES LISTENERS
 		singleplayer.addActionListener(this);
 		multiplayer.addActionListener(this);
 		scores.addActionListener(this);
 		exit.addActionListener(this);
 		optionsButton.addActionListener(this);
+		
 		pack();
+		
+		// PROPRIETES DE LA FENETRE
 		this.setResizable(false);
-		this.setSize(800, 600);
-		singleplayer.setPreferredSize(new Dimension(100, 50));
+		this.setSize(800, 600); // Taille de l'image de fond
+		singleplayer.setPreferredSize(new Dimension(100, 50)); // Taille des boutons s'accorde car pack
 		this.setLocationRelativeTo(null);
+		
+		// INITIALISATION DE VUE DU JEU
 		view = new GameState(this);
 		view.init();
 	}
 	
+	/*
+	 * Joue la musique en fonction de la classe Settings
+	 */
 	public void setVolume(boolean volume){
 		Settings.VOLUME = volume;
 		if(volume){
@@ -133,29 +153,46 @@ public class MenuView extends JFrame implements ActionListener {
 		}
 	}
 
+	/*
+	 * Lie les actions aux listeners
+	 */
 	public void actionPerformed(ActionEvent e) {
 		JButton b = (JButton)e.getSource();
 		
+		// QUITTE L'APPLICATION
 		if(b == exit){ 
 			this.dispose();
 			System.exit(0);
 		}
+		
+		// MENU DES OPTIONS
 		if(b == optionsButton){
 			options.setLocationRelativeTo(null);
 			options.setVisible(true);
 		}
+		
+		// LANCE LE JEU EN SOLO
 		if(b == singleplayer){
 			beforeStart(false);
 		}
+		
+		// LANCE LE JEU EN MULTIJOUEUR
 		if(b == multiplayer){
 			beforeStart(true);
 		}
+		
+		// AFFICHE LES SCORES
 		if(b == scores){
 			showScores();
 		}
 	}
 	
+	/*
+	 * Méthode d'affichage des scores dans un JOptionPane
+	 */
 	public void showScores() {
+		
+		// COMPOSANTS DE LA FENETRE
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		JPanel headerPanel = new JPanel(new GridLayout(2,3));
@@ -166,6 +203,8 @@ public class MenuView extends JFrame implements ActionListener {
 		headerPanel.add(new JLabel(""));
 		headerPanel.add(new JLabel(""));
 		headerPanel.add(new JLabel(""));
+		
+		// CHARGEMENT DES SCORES A PARTIR DU FICHIER
 		Properties prop = new Properties();
 		 
     	try {
@@ -184,13 +223,18 @@ public class MenuView extends JFrame implements ActionListener {
     	} catch (IOException ex) {
     		ex.printStackTrace();
         }
+    	
     	mainPanel.add(headerPanel);
     	mainPanel.add(scorePanel);
 		JOptionPane.showMessageDialog(null, mainPanel,"Scores", JOptionPane.PLAIN_MESSAGE);
-		
 	}
 
+	/*
+	 * Lance un message au joueur pour lui demander les options d'avant-partie
+	 */
 	private void beforeStart(boolean isMultiplayer){
+		
+		// COMPOSANTS DE LA FENETRE
 		SpinnerNumberModel sModel = new SpinnerNumberModel(5, 1, 20, 1);
 		JSpinner spinner = new JSpinner(sModel);
 		JPanel panelOptions = new JPanel(new GridLayout(3,2));
@@ -216,11 +260,14 @@ public class MenuView extends JFrame implements ActionListener {
 		panelOptions.add(difficulty);
 		panelOptions.add(new JLabel(" SuperMode"));
 		panelOptions.add(superMode);
+		
+		// RECUPERATION DES OPTIONS
 		int option = JOptionPane.showOptionDialog(null, panelOptions, " Enter game options ", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
 		if (option == JOptionPane.CANCEL_OPTION)
 		{
 		    // user hit cancel -> simply return
-		} else if (option == JOptionPane.OK_OPTION)
+		}
+		else if (option == JOptionPane.OK_OPTION)
 		{
 			Settings.TIMEOUT = (long)(Integer)spinner.getValue();
 			Settings.DIFFICULTY = difficulty.getValue();
