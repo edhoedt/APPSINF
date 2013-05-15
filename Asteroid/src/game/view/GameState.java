@@ -288,6 +288,10 @@ public class GameState extends JFrame{
 						prop2.setProperty("single"+j+"Score", ""+((float)game.getShip(Settings.PLAYER1).getScore()));
 						joueur1Ok = true;
 					}
+					else if((float)game.getShip(Settings.PLAYER1).getScore() <= scoresSingle[j-1] && !joueur1Ok){
+						prop2.setProperty("single"+(j)+"Name", nomsSingle[j-1]);
+						prop2.setProperty("single"+(j)+"Score", ""+scoresSingle[j-1]);
+					}
 					if(joueur1Ok && (j+1)<11){
 						prop2.setProperty("single"+(j+1)+"Name", nomsSingle[j-1]);
 						prop2.setProperty("single"+(j+1)+"Score", ""+scoresSingle[j-1]);
@@ -300,6 +304,10 @@ public class GameState extends JFrame{
 						prop2.setProperty("multi"+j+"Name", Settings.PLAYER1);
 						prop2.setProperty("multi"+j+"Score", ""+((float)game.getShip(Settings.PLAYER1).getScore()));
 						joueur1Ok = true;
+					}
+					else if((float)game.getShip(Settings.PLAYER1).getScore() <= scoresMulti[j-1] && !joueur1Ok){
+						prop2.setProperty("multi"+(j)+"Name", nomsMulti[j-1]);
+						prop2.setProperty("multi"+(j)+"Score", ""+scoresMulti[j-1]);
 					}
 					if(joueur1Ok && (j+1)<11){
 						prop2.setProperty("multi"+(j+1)+"Name", nomsMulti[j-1]);
@@ -325,6 +333,10 @@ public class GameState extends JFrame{
 						prop2.setProperty("multi"+j+"Name", Settings.PLAYER2);
 						prop2.setProperty("multi"+j+"Score", ""+((float)game.getShip(Settings.PLAYER2).getScore()));
 						joueur2Ok = true;
+					}
+					else if((float)game.getShip(Settings.PLAYER2).getScore() <= scoresMulti[j-1] && !joueur2Ok){
+						prop2.setProperty("multi"+(j)+"Name", nomsMulti[j-1]);
+						prop2.setProperty("multi"+(j)+"Score", ""+scoresMulti[j-1]);
 					}
 					if(joueur2Ok && (j+1)<11){
 						prop2.setProperty("multi"+(j+1)+"Name", nomsMulti[j-1]);
