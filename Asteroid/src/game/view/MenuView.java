@@ -237,6 +237,7 @@ public class MenuView extends JFrame implements ActionListener {
 		// COMPOSANTS DE LA FENETRE
 		SpinnerNumberModel sModel = new SpinnerNumberModel(5, 1, 20, 1);
 		JSpinner spinner = new JSpinner(sModel);
+		((JSpinner.DefaultEditor) spinner.getEditor()).getTextField().setEditable(false);
 		JPanel panelOptions = new JPanel(new GridLayout(3,2));
 		JSlider difficulty = new JSlider();
 		difficulty.setMaximum(3);
