@@ -4,6 +4,9 @@ import java.awt.event.KeyEvent;
 
 import org.lwjgl.input.Keyboard;
 
+/*
+ * Transforme les event key de lwjgl en key event awt
+ */
 public class KeyToLwjgl {
 	public static int translateKeyCode (String keyCode) {
 		if (keyCode.equals(KeyEvent.getKeyText(java.awt.event.KeyEvent.VK_ADD))) return Keyboard.KEY_ADD;

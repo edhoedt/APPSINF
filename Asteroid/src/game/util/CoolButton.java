@@ -12,6 +12,9 @@ import javax.swing.JButton;
  */
 public class CoolButton extends JButton implements MouseListener {
 	
+	/*
+	 * Constructeur
+	 */
 	public CoolButton(String text) { 
 		 
 		super(text);
@@ -41,6 +44,9 @@ public class CoolButton extends JButton implements MouseListener {
 		 
 	}
 
+	/*
+	 * Lorsque le clic n'est plus sur le bouton il redevient normal
+	 */
 	public void mouseExited(MouseEvent e) { 
 		 
 		if(e.getSource()==this) { this.setContentAreaFilled(false); }
