@@ -4,6 +4,10 @@ package game.util;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
 
+/*
+ * gère les polygones représentant les entités
+ */
+
 public class Polygon {
 
 	//private final int[] defaultXpoints;
@@ -46,6 +50,7 @@ public class Polygon {
 		return new Point(centerX/getNpoints(),centerY/getNpoints());
 	}
 	
+	//remet le polygone à l'origine & angle 0
 	public void reset(){
 		this.xpoints=originalXPoints.clone();
 		this.ypoints=originalYPoints.clone();
@@ -56,6 +61,7 @@ public class Polygon {
 		currentPoints = getOriginalPoints();
 	}
 
+	//renvoie les points du polygone d'origine
 	private Point[] getOriginalPoints() {
 		Point[] originalPoints = new Point[getNpoints()];
 		for(int i = 0 ; i<originalPoints.length ; i++){
@@ -64,6 +70,7 @@ public class Polygon {
 		return originalPoints;
 	}
 
+	//vérifie les collisions entre le polygone courant et other
 	public boolean intersects(Polygon other){
 		int tw = this.getWidth();
 		int th = this.getHeight();
@@ -87,6 +94,7 @@ public class Polygon {
 				(th < ty || th > oy));
 	}
 
+	//déplace le polygone en (x,y)
 	public void moveTo(int x, int y){
 		for(int i=0;i<getNpoints();i++){
 			     xpoints[i]+=x-centerX;
@@ -98,17 +106,19 @@ public class Polygon {
 		yLocation = y;
 	}
 
+	//renoie l'angle du polygone
 	public double getAngleP(){
 		return angleP;
 	}
 
+	//fais tourner le polygone de angle (rad) - angle absolu
 	public void rotate(float angle){
 		rotatePointMatrix(getOriginalPoints(),(double)angle,currentPoints);
 		updatePolygon(currentPoints);
 	}
-
+	
+	//fais tourner origpoints de angle autour de l'origine
 	public void rotatePointMatrix(Point[] origPoints, double angle, Point[] storeTo){
-
         /* We ge the original points of the polygon we wish to rotate
          *  and rotate them with affine transform to the given angle. 
          *  After the opeariont is complete the points are stored to the 
@@ -121,8 +131,8 @@ public class Polygon {
 
     }
 
+	//met à jour le polygone
 	public void updatePolygon(Point[] polyPoints){
-
         for(int  i=0; i < polyPoints.length; i++){
         	setXpoint(i,polyPoints[i].x+xLocation);
         	setYpoint(i,polyPoints[i].y+yLocation);
@@ -130,6 +140,7 @@ public class Polygon {
 
     }
 
+	//renvoie la hauteur du rectangle de la hitbox
 	public int getHeight(){
 		int min=Integer.MAX_VALUE;
 		int max=Integer.MIN_VALUE;
@@ -144,6 +155,7 @@ public class Polygon {
 		return max-min;
 	}
 
+	//renvoie la largeur du rectangle de la hitbox
 	public int getWidth(){
 		int min=Integer.MAX_VALUE;
 		int max=Integer.MIN_VALUE;
@@ -158,6 +170,7 @@ public class Polygon {
 		return max-min;
 	}
 
+	//renvoie l'abscisse du coin inférieur gauche de la hitbox
 	public int getLowestX(){
 		int lo=Integer.MAX_VALUE;
 		for(int i=0;i<getNpoints();i++){
@@ -166,6 +179,7 @@ public class Polygon {
 		}
 		return lo;
 	}
+	//renvoie l'ordonnée du coin inférieur gauche de la hitbox
 	public int getLowestY(){
 		int lo=Integer.MAX_VALUE;
 		for(int i=0;i<getNpoints();i++){

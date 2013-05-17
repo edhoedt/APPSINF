@@ -7,21 +7,31 @@ import game.model.entity.Entity;
 import game.model.entity.Spaceship;
 
 import java.util.ArrayList;
+/*
+ * Contrôleur.
+ * Se charge de garder une trace en mémoire de toutes les entités.
+ * Contient la boucle de jeu 
+ */
 
 public class Game {
+	//game constants & hardcoded params
 	private static final int MAX_TIME_BETWEEN_WAVES=10000;//in ms
 	private static final int MIN_TIME_BETWEEN_WAVES=5000;
 	private static final int MAX_ASTEROIDS_PER_WAVE = 3+Settings.DIFFICULTY;
 	private static final int MIN_ASTEROIDS_PER_WAVE = 1;
 	private static int ASTEROIDS_CAP=5*(Settings.DIFFICULTY+1);
-	private long time=0;
-	private long lastTime=0;
+	
+	private long time=0;//currentloop time
+	private long lastTime=0;// last loop time
+	//liste des entités
 	private ArrayList<Spaceship> spaceships;
 	private ArrayList<Asteroid> asteroids;
 	private ArrayList<Bullet> bullets;
+	private long nextWave=-1; //timestamp de la prochaine vague d 'asteroides
+	
+	//taille de la carte
 	private final int height;
 	private final int width;
-	private long nextWave=-1;
 
 	public Game(int width, int height){
 		this.spaceships=new ArrayList<Spaceship>();
@@ -31,12 +41,15 @@ public class Game {
 		this.width=width;
 	}
 	
+	
+	//détruit toutes les entités pour recommencer une partie
 	public void clear(){
 		this.spaceships=new ArrayList<Spaceship>();
 		this.asteroids=new ArrayList<Asteroid>();
 		this.bullets=new ArrayList<Bullet>();
 	}
 
+	//retrouve un vaisseau à partir du nom du propriétaire
 	public Spaceship getShip(String playerName){
 		for(int i=0; i<spaceships.size();i++){
 			if(spaceships.get(i).getPlayerName()==playerName)
@@ -44,10 +57,13 @@ public class Game {
 		}
 		return null;
 	}
+	
+	//retourne la liste complète des vaisseaux
 	public ArrayList<Spaceship> getShips(){
 		return spaceships;
 	}
 
+	//retourne la liste complète des entités
 	public ArrayList<Entity> getEntities(){
 		ArrayList<Entity> entities=new ArrayList<Entity>();
 		entities.addAll(spaceships);
@@ -56,17 +72,28 @@ public class Game {
 		return entities;
 	}
 
+	//met à jour le delta depuis la dernière boucle de jeu
 	public void updateTime(long currentTime){
 		lastTime=time;
 		time=currentTime;
 	}
+	//retourne le temps actuel
 	public long getTime(){
 		return time;
 	}
+	//retourne le delta depuis la dernière boucle de jeu
 	private long getDelta(){
 		return time-lastTime;
 	}
 
+	/*
+	 *Boucle de jeu
+	 * -suppression des bullets hors map 
+	 * -suppression des entités précedement détruites
+	 * -update des positions
+	 * -update des vitesses
+	 * -vague d'astéroide  
+	 */
 	public void gameLoop(){
 		for(int i=0;i<getEntities().size();i++){
 			Entity current = getEntities().get(i);
@@ -87,6 +114,7 @@ public class Game {
 		asteroidsWave(time);
 	}
 
+	//vérification des collisions & appel de onCollision le cas échéant
 	private void processCollisions(){
 		ArrayList<Entity> entities= this.getEntities();
 		for(int i=0;i<entities.size();i++){
@@ -101,7 +129,7 @@ public class Game {
 		}
 	}
 	
-
+	//executes the command com on entity entity
 	public void executeCommand(Command com, Entity entity){
 		switch(com){
 			case GO_FORWARD:
@@ -127,6 +155,7 @@ public class Game {
 		}
 	}
 
+	//si currentTime>temps de la prochaine vague -> nouveau temps + générer une vague
 	public void asteroidsWave(long currentTime){
 		if(nextWave==-1)
 			nextWave=(long)(currentTime+MIN_TIME_BETWEEN_WAVES+Math.random()*(MAX_TIME_BETWEEN_WAVES-MIN_TIME_BETWEEN_WAVES));
@@ -140,6 +169,8 @@ public class Game {
 			nextWave=(long)(currentTime+MIN_TIME_BETWEEN_WAVES+Math.random()*(MAX_TIME_BETWEEN_WAVES-MIN_TIME_BETWEEN_WAVES));
 		}
 	}
+	
+	//ajouter un spaceship à la partie (id est le nom du joueur propriétaire)
 	public void addPlayer(String id){
 		Spaceship player=null;
 		if(id.equals(Settings.PLAYER1)){

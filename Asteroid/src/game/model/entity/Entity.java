@@ -4,6 +4,10 @@ import game.Settings;
 import game.util.Polygon;
 import game.util.Vector2D;
 
+/*
+ * classe abstraite pour fabriquer des entités
+ */
+
 public abstract class Entity {
 	protected float SPEED_WEAROFF_RATE = .0002f;//in units/ms
 	//protected float MOMENTUM_INCREASE_RATE = .0005f;//in units/ms^2
@@ -15,8 +19,8 @@ public abstract class Entity {
 	private double y; //position on Y-axis
 	private Vector2D momentum = new Vector2D(0,0); //vector representing momentum (always the same orientation as the entity)
 	private Vector2D velocity = new Vector2D(0,0); //vector representing velocity
-	private boolean backward=false;
-	private boolean poped=false; //
+	private boolean backward=false;//unused
+	private boolean poped=false; //flag pour désactiver les collisions (ghost mode)
 	private Polygon collisionBox;
 	private float colorR=.0f, colorG=1.0f, colorB=.0f;
 	private int GHOST_MAXTIME=0;
@@ -38,19 +42,24 @@ public abstract class Entity {
 		this.momentum=momentum;
 	}
 	
+	//flags the entity to enable collisions
 	public void pop(){
 		this.poped=true;
 	}
+	//false if collisions are disabled for this entity
 	public boolean hasPoped(){
 		return this.poped;
 	}
 	
+	//colors the entity
 	public void setColor(float r, float g, float b){
 		this.colorR=r;
 		this.colorG=g;
 		this.colorB=b;
 	}
 	
+	//si collisions désactivées -> flot[3] (gris)
+	//sinon, couleur normale
 	public float[] getColor(){
 		float[] color = {0f,0f,0f};
 		if(this.hasPoped()){
@@ -65,11 +74,13 @@ public abstract class Entity {
 		return color;
 	}
 	
+	//max time for the ghost mode (aka no collisions-mode)
 	protected void setGhostTime(int maxTime){
 		this.GHOST_MAXTIME=maxTime;
 		this.GHOST_TIMELEFT=this.GHOST_MAXTIME;
 	}
 	
+	//respawns the entity, resets ghost mode, resets speed&momentum, resets polygon
 	public void reset(int x, int y){
 		this.velocity=new Vector2D(0,0);
 		this.momentum=new Vector2D(0,0);
@@ -109,7 +120,7 @@ public abstract class Entity {
 		this.collisionBox=box;
 	}
 
-	/** moves the entity according to it's current speed vector and the time delta*/
+	/* moves the entity according to it's current speed vector and the time delta*/
 	public void updatePosition(long delta){
 		this.GHOST_TIMELEFT-=delta;
 		if(this.GHOST_TIMELEFT<0){
@@ -132,7 +143,7 @@ public abstract class Entity {
 		this.collisionBox.moveTo(this.getX(), this.getY());
 	}
 
-	/** updates the speed according to acceleration, velocity decay and time delta*/
+	/* updates the speed according to acceleration, velocity decay and time delta*/
 	public void updateSpeed(long delta){
 		//decreases velocity
 		if(delta*SPEED_WEAROFF_RATE<=velocity.getR())
@@ -144,6 +155,7 @@ public abstract class Entity {
 		this.resetMomentum();
 	}
 
+	//implémentation actuelle: accélération instantanée, les paramètres étaient utiles lorsqu'on avait une accélération variable
 	public void increaseMomentum(long delta, boolean backward){
 		/*if(!backward)
 			momentum.lengthen(MOMENTUM_INCREASE_RATE*delta);
@@ -159,16 +171,14 @@ public abstract class Entity {
 		}
 		this.backward=backward;
 	}
-
 	public void increaseMomentum(long delta){
 		this.increaseMomentum(delta, false);
 	}
-
 	public void resetMomentum(){
 		momentum.setR(0);
 	}
 
-	/**adds to the orientation of the entity according to time delta and fixed rate - keeps it in [0,2Pi[*/
+	/*adds to the orientation of the entity according to time delta and fixed rate - keeps it in [0,2Pi[*/
 	public void rotate(long delta, boolean counterClockwise){
 		float angle=delta*this.ANGULAR_VELOCITY;
 		if(counterClockwise){
@@ -200,14 +210,19 @@ public abstract class Entity {
 		//collisionBox.setOrientation(angle);
 	}*/
 
+	//set la longueur du vecteur vitesse
 	public void setSpeed(float speed){
 		this.velocity.setR(speed);
 	}
+	//set la longueur & l'angle (rad) du vecteur vitesse
 	public void setSpeed(float angle, float speed){
 		this.velocity.setT(angle);
 		this.setSpeed(speed);
 	}
 
+	//action à faire lors de la destruction
 	public abstract void onDestroy();
+	
+	//action à faire lors d'une collision avec otherEntity
 	public abstract void onCollision(Entity otherEntity);
 }

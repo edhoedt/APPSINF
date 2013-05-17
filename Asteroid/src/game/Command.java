@@ -1,7 +1,7 @@
 package game;
 
 /*
- * Enumération des différents contrôles du joueur
+ * Enumération des différentes actions disponibles pour le joueur
  */
 public enum Command {
 	GO_FORWARD,

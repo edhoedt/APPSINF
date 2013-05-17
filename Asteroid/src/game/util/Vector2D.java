@@ -1,5 +1,11 @@
 package game.util;
 
+/*
+ * vecteur en coord. polaires 
+ * R=longueur positive
+ * T=angle [0, 2PI[
+ */
+
 public class Vector2D {
 	private float theta=0; //[0,2Pi[
 	private float r=0;//[0,->
@@ -12,6 +18,7 @@ public class Vector2D {
 		this.setT(theta);
 	}
 	
+	//sets theta, s'assure que theta € [0,2PI[
 	public void setT(float theta){
 		while(theta<0){
 			theta+=2*Math.PI;
@@ -21,13 +28,16 @@ public class Vector2D {
 		}
 		this.theta=theta;
 	}
+	//sets R, s'assure que R €[0->
 	public void setR(float radius){
 		if(radius<0)
 			this.setT(this.getT()+(float)Math.PI);
 		this.r=Math.abs(radius);
 	}
 	
+	//retorune l'angle
 	public float getT(){return theta;}
+	//retourne la longueur du vecteur
 	public float getR(){return r;}
 	
 	/**cartesian operations*/
@@ -63,7 +73,7 @@ public class Vector2D {
 	public void lengthen(float length){
 		this.setR(this.getR()+length);
 	}
-	
+	/*rotates this of theta rad (relative angle)*/
 	public void rotate(float theta){
 		this.setT(this.getT()+theta);
 	}
